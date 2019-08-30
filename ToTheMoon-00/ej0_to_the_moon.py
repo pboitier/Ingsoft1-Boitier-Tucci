@@ -60,4 +60,8 @@ brazo = BrazoExcavador(sueloDePiedra, pasosSueloDePiedra)
 brazo.agregarSuelo(sueloDePolvo, pasosSueloDePolvo)
 brazo.tomarMuestra(sueloDePiedra)
 
+#Adicion del tercer tipo de suelo
+sueloIntermedio = Suelo(0.5,0.5)
+pasosSueloIntermedio = [Paso(Direccion.AGUJAS_DEL_RELOJ, 150, 5), Paso(Direccion.CONTRA_AGUJAS_DEL_RELOJ, 150, 10)]
+brazo.agregarSuelo(sueloIntermedio, pasosSueloIntermedio)
 
