@@ -12,7 +12,7 @@ TestCase subclass: #OOStackTest
 	stack elements!
 
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:30'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:45:53'!
 test01StackShouldBeEmptyWhenCreated
 
 	| stack |
@@ -21,7 +21,7 @@ test01StackShouldBeEmptyWhenCreated
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PB 9/19/2019 07:41:51'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:46:04'!
 test02PushAddElementsToTheStack
 
 	| stack |
@@ -32,7 +32,7 @@ test02PushAddElementsToTheStack
 	
 	self deny: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:31'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:46:15'!
 test03PopRemovesElementsFromTheStack
 
 	| stack |
@@ -43,7 +43,7 @@ test03PopRemovesElementsFromTheStack
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/8/2012 08:20'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:46:25'!
 test04PopReturnsLastPushedObject
 
 	| stack pushedObject |
@@ -54,7 +54,7 @@ test04PopReturnsLastPushedObject
 	
 	self assert: stack pop = pushedObject! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:33'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:46:45'!
 test05StackBehavesLIFO
 
 	| stack firstPushedObject secondPushedObject |
@@ -71,9 +71,8 @@ test05StackBehavesLIFO
 	self assert: stack isEmpty 
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:35'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 12:11:30'!
 test06TopReturnsLastPushedObject
-
 	| stack pushedObject |
 	
 	stack := OOStack new.
@@ -84,22 +83,20 @@ test06TopReturnsLastPushedObject
 	self assert: stack top = pushedObject.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:36'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:47:02'!
 test07TopDoesNotRemoveObjectFromStack
 
 	| stack pushedObject |
-	
 	stack := OOStack new.
 	pushedObject := 'Something'.
 	
 	stack push: pushedObject.
-	
 	self assert: stack size = 1.
 	stack top.
 	self assert: stack size = 1.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HAW 4/14/2017 22:48:26'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:47:26'!
 test08CanNotPopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
@@ -113,11 +110,10 @@ test08CanNotPopWhenThereAreNoObjectsInTheStack
 		
 ! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PB 9/17/2019 17:57:10'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:47:42'!
 test09CanNotPopWhenThereAreNoObjectsInTheStackAndTheStackHadObjects
 
-	| stack  |
-	
+	| stack  |	
 	stack := OOStack new.
 	stack push: 'Something'.
 	stack pop.
@@ -130,7 +126,7 @@ test09CanNotPopWhenThereAreNoObjectsInTheStackAndTheStackHadObjects
 		
 ! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HAW 4/14/2017 22:48:44'!
+!OOStackTest methodsFor: 'test' stamp: 'st 9/19/2019 11:47:53'!
 test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
@@ -152,8 +148,8 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:42:59'!
-test01ShouldFindSentenceIfThereIsAMatch
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 11:50:21'!
+test01ShouldOnlyConsiderPrefixes
 
 	| stack sentenceFinder expectedTestResult |
 	
@@ -173,7 +169,7 @@ test01ShouldFindSentenceIfThereIsAMatch
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:42:04'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 11:50:53'!
 test02ShouldNotFindSentencesIfNoneMatchesPrefix
 
 	| stack sentenceFinder expectedTestResult |
@@ -190,7 +186,7 @@ test02ShouldNotFindSentencesIfNoneMatchesPrefix
 	
 	self assert: (sentenceFinder find: 'test' in: stack) = expectedTestResult.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:41:06'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 11:51:12'!
 test03ShouldReturnAllMatchesInOrder
 
 	| stack sentenceFinder expectedTestResult|
@@ -211,8 +207,8 @@ test03ShouldReturnAllMatchesInOrder
 	self assert: (sentenceFinder find: 'test' in: stack)  = expectedTestResult.
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:44:23'!
-test04ShouldReturnAllSentencesAppearances
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 12:55:19'!
+test04ShouldReturnAllSentencesAppearancesEvenDuplicates
 
 	| stack sentenceFinder expectedTestResult|
 	
@@ -234,7 +230,7 @@ test04ShouldReturnAllSentencesAppearances
 	self assert: (sentenceFinder find: 'test' in: stack)  = expectedTestResult.
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:44:37'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 11:52:17'!
 test05MatchingShouldBeCaseSensitive
 
 	| stack sentenceFinder expectedTestResult |
@@ -255,7 +251,7 @@ test05MatchingShouldBeCaseSensitive
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 09:00:31'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:00:34'!
 test06SearchingShouldNotAlterStackWithSentences
 
 	| stack sentenceFinder anotherStack |
@@ -278,10 +274,10 @@ test06SearchingShouldNotAlterStackWithSentences
 		
 	sentenceFinder find: 'test' in: stack.
 		
-	self assert: (SentenceFinderByPrefixTest checkEqualityBetween: stack and: anotherStack).
+	self assert: (self checkEqualityBetween: stack and: anotherStack).
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:53:17'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:09:14'!
 test07CanNotLookForEmptyStringInStackWithSentences
 
 	| stack sentenceFinder |
@@ -290,14 +286,11 @@ test07CanNotLookForEmptyStringInStackWithSentences
 	stack := OOStack new.
 	stack push: 'testing'.
 
-	self
-		should: [ sentenceFinder find: '' in: stack ]
-		raise: Error - MessageNotUnderstood 
-		withExceptionDo: [ :anError |
-			self assert: anError messageText = SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace ]
+
+	self checkThatCertainAction: [ sentenceFinder find: '' in: stack ] raisesTheFollowingErrorMessage: SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace.
 		! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:53:30'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:08:49'!
 test08CanNotLookForWhiteSpaceInStackWithSentences
 
 	| stack sentenceFinder |
@@ -306,14 +299,11 @@ test08CanNotLookForWhiteSpaceInStackWithSentences
 	stack := OOStack new.
 	stack push: 'testing'.
 
-	self
-		should: [ sentenceFinder find: '       ' in: stack ]
-		raise: Error - MessageNotUnderstood 
-		withExceptionDo: [ :anError |
-			self assert: anError messageText = SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace ]
+	self checkThatCertainAction: [ sentenceFinder find: '       ' in: stack ] raisesTheFollowingErrorMessage: SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace.
+
 		! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:53:43'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:08:31'!
 test09CanNotLookForSomethingOtherThanAStringInStackWithSentences
 
 	| stack sentenceFinder |
@@ -322,14 +312,10 @@ test09CanNotLookForSomethingOtherThanAStringInStackWithSentences
 	stack := OOStack new.
 	stack push: 'testing'.
 
-	self
-		should: [ sentenceFinder find: 4 in: stack ]
-		raise: Error - MessageNotUnderstood 
-		withExceptionDo: [ :anError |
-			self assert: anError messageText = SentenceFinderByPrefix sentenceOnlyOfTypeString ]
-		! !
+	self checkThatCertainAction: [ sentenceFinder find: 4 in: stack ] raisesTheFollowingErrorMessage: SentenceFinderByPrefix sentenceOnlyOfTypeString.
+! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:52:10'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:08:08'!
 test10CanNotLookForEmptyStringInEmptyStack
 
 	| stack sentenceFinder |
@@ -337,14 +323,12 @@ test10CanNotLookForEmptyStringInEmptyStack
 	sentenceFinder := SentenceFinderByPrefix new.
 	stack := OOStack new.
 
-	self
-		should: [ sentenceFinder find: '' in: stack ]
-		raise: Error - MessageNotUnderstood 
-		withExceptionDo: [ :anError |
-			self assert: anError messageText = SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace ]
+	self checkThatCertainAction: [ sentenceFinder find: '' in: stack ] raisesTheFollowingErrorMessage: SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace.
+
+
 		! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:52:26'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:07:50'!
 test11CanNotLookForWhiteSpaceInEmptyStack
 
 	| stack sentenceFinder |
@@ -352,29 +336,22 @@ test11CanNotLookForWhiteSpaceInEmptyStack
 	sentenceFinder := SentenceFinderByPrefix new.
 	stack := OOStack new.
 
-	self
-		should: [ sentenceFinder find: '       ' in: stack ]
-		raise: Error - MessageNotUnderstood 
-		withExceptionDo: [ :anError |
-			self assert: anError messageText = SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace ]
-		! !
+	self checkThatCertainAction: [ sentenceFinder find: '       ' in: stack ] raisesTheFollowingErrorMessage: SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace.
+! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:52:55'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:07:31'!
 test12CanNotLookForSomethingOtherThanAStringInEmptyStack
 
 	| stack sentenceFinder |
 	
 	sentenceFinder := SentenceFinderByPrefix new.
 	stack := OOStack new.
+	
+	self checkThatCertainAction: [ sentenceFinder find: 4 in: stack ] raisesTheFollowingErrorMessage: SentenceFinderByPrefix sentenceOnlyOfTypeString.
 
-	self
-		should: [ sentenceFinder find: 4 in: stack ]
-		raise: Error - MessageNotUnderstood 
-		withExceptionDo: [ :anError |
-			self assert: anError messageText = SentenceFinderByPrefix sentenceOnlyOfTypeString ]
 		! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'PB 9/19/2019 08:59:55'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:00:04'!
 test13SearchingShouldNotAlterEmptyStack
 
 	| stack sentenceFinder anotherStack |
@@ -386,15 +363,23 @@ test13SearchingShouldNotAlterEmptyStack
 		
 	sentenceFinder find: 'test' in: stack.
 		
-	self assert: (SentenceFinderByPrefixTest checkEqualityBetween: stack and: anotherStack).! !
+	self assert: (self checkEqualityBetween: stack and: anotherStack).! !
 
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'st 9/19/2019 13:22:20'!
+test14TheGivenStackShouldOnlyContainStrings
 
-!classDefinition: 'SentenceFinderByPrefixTest class' category: #'Stack-Exercise'!
-SentenceFinderByPrefixTest class
-	instanceVariableNames: ''!
+	| stack sentenceFinder |
+	
+	sentenceFinder := SentenceFinderByPrefix new.
+	stack := OOStack new.
+	stack push: 'testing'.
+	stack push: 0.
+	
+	self checkThatCertainAction: [ sentenceFinder find: 'testing' in: stack ] raisesTheFollowingErrorMessage: SentenceFinderByPrefix stackElementsShouldOnlyBeStrings.
+! !
 
-!SentenceFinderByPrefixTest class methodsFor: 'testHelpers' stamp: 'st 9/19/2019 00:08:54'!
+
+!SentenceFinderByPrefixTest methodsFor: 'assertions' stamp: 'st 9/19/2019 13:27:32'!
 checkEqualityBetween: aOOStack and: anotherOOStack
 
 	(aOOStack size = anotherOOStack size) ifFalse: [^ false].
@@ -406,6 +391,14 @@ checkEqualityBetween: aOOStack and: anotherOOStack
 
 	^ true.! !
 
+!SentenceFinderByPrefixTest methodsFor: 'assertions' stamp: 'st 9/19/2019 13:07:05'!
+checkThatCertainAction: aClosureToRun raisesTheFollowingErrorMessage: anErrorMessageToCheck
+
+	self should: aClosureToRun
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = anErrorMessageToCheck ]! !
+
 
 !classDefinition: #OOStack category: #'Stack-Exercise'!
 Object subclass: #OOStack
@@ -414,45 +407,51 @@ Object subclass: #OOStack
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 20:22:08'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 11:44:18'!
 initialize
+
 	topOfStack  := StackBase new.
 	size := 0.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:20:09'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 11:44:23'!
 isEmpty
 
 	^topOfStack isBase.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 00:03:20'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:12:15'!
 pop
+
 	|poppedStackElement|
+	
 	self top.
+	
 	poppedStackElement := topOfStack.
+	
 	topOfStack := poppedStackElement elementBelow.
 	size := size - 1.
-	^ poppedStackElement elementValue.
 	
+	^ poppedStackElement elementValue.
 	
 ! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 20:21:28'!
-push: elementValue
+!OOStack methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:13:11'!
+push: anElementToPush
 
 	|stackElementToPush|
 	
 	stackElementToPush := StackNonBaseElement new.
-	stackElementToPush initialize: elementValue over: topOfStack.
+	stackElementToPush initialize: anElementToPush over: topOfStack.
 	topOfStack := stackElementToPush.
 	size := size + 1.
 ! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 20:30:40'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:11:52'!
 size
+
 	^size
 	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:22:57'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 11:45:11'!
 top
 	
 	^topOfStack elementValue! !
@@ -463,7 +462,7 @@ top
 OOStack class
 	instanceVariableNames: ''!
 
-!OOStack class methodsFor: 'error descriptions' stamp: 'HernanWilkinson 5/7/2012 11:51'!
+!OOStack class methodsFor: 'error descriptions' stamp: 'st 9/19/2019 11:45:26'!
 stackEmptyErrorDescription
 	
 	^ 'Stack is empty'! !
@@ -476,45 +475,65 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'st 9/18/2019 23:35:27'!
-find: aSentence in: aStackOfSentences
-	
-	| stackToRebuild  foundSentences actualSentence |
-	
-	foundSentences := OrderedCollection new.
-	stackToRebuild := OOStack new.
-	
-	self validateSentence: aSentence.
-		
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:38:20'!
+executeAClosure: aClosureToRun forEverySentenceIn: aStackOfSentences andStoreEachSentenceIn: anotherStackOfSentences
+
 	[aStackOfSentences isEmpty] whileFalse: 
-	[
-		actualSentence := aStackOfSentences pop.
-		stackToRebuild push: actualSentence.
-		(actualSentence beginsWith: aSentence) ifTrue:
-		[foundSentences add: actualSentence].
-	].
+	[		
+		aClosureToRun value.		
+		anotherStackOfSentences push: aStackOfSentences pop.		
+	].! !
 
-	[stackToRebuild isEmpty] whileFalse:
-	[
-		actualSentence := stackToRebuild pop.
-		aStackOfSentences push: actualSentence.
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 13:22:53'!
+find: aSentencePrefix in: aStackOfSentencesToLookInto
+	
+	| foundSentences |
+	
+	self validateSentencePrefix: aSentencePrefix.
+	self validateStackOfSentenceState: aStackOfSentencesToLookInto.
 		
-	].
-
+	foundSentences := OrderedCollection new.
+	
+	self performAnActionForEverySentence: [(aStackOfSentencesToLookInto top beginsWith: aSentencePrefix) ifTrue: [foundSentences add: aStackOfSentencesToLookInto top]]                inAStackOfSentencesWhilePreservingTheStackState: aStackOfSentencesToLookInto.
 	
 	^ foundSentences.
 
 	! !
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'st 9/18/2019 15:56:15'!
-validateSentence: aSentence
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 13:16:53'!
+performAnActionForEverySentence: aClosureToRun inAStackOfSentencesWhilePreservingTheStackState: aStackOfSentencesToLookInto
 
-	(aSentence isKindOf: String) ifFalse:
+	| stackToRebuild |
+	
+	stackToRebuild := OOStack new.	
+
+	self executeAClosure: aClosureToRun
+	forEverySentenceIn: aStackOfSentencesToLookInto
+	andStoreEachSentenceIn: stackToRebuild.
+	
+	self executeAClosure: [] forEverySentenceIn: stackToRebuild andStoreEachSentenceIn: aStackOfSentencesToLookInto.! !
+
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:17:47'!
+validateSentencePrefix: aSentencePrefixToValidate
+
+	(aSentencePrefixToValidate isKindOf: String) ifFalse:
 		[^Error signal: SentenceFinderByPrefix sentenceOnlyOfTypeString].
-		
-	(aSentence allSatisfy: [:a | a = $ ]) ifTrue:
+	
+	(aSentencePrefixToValidate allSatisfy: [:a | a = $ ]) ifTrue:
 		[^Error signal: SentenceFinderByPrefix sentenceCanNotBeEmptyOrWhiteSpace].		
 	! !
+
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 13:26:30'!
+validateStackOfSentenceState: aStackToValidate
+
+
+
+	self performAnActionForEverySentence: 
+	[
+		(aStackToValidate top isKindOf: String) ifFalse: [^Error signal: SentenceFinderByPrefix stackElementsShouldOnlyBeStrings].
+	]
+	 inAStackOfSentencesWhilePreservingTheStackState: aStackToValidate.
+! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -522,15 +541,20 @@ validateSentence: aSentence
 SentenceFinderByPrefix class
 	instanceVariableNames: ''!
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'st 9/18/2019 15:56:02'!
+!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:03:31'!
 sentenceCanNotBeEmptyOrWhiteSpace
 	
 	^ 'SentenceFinderByPrefix does not support empty or whitespace strings'.! !
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'st 9/18/2019 15:40:22'!
+!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:03:27'!
 sentenceOnlyOfTypeString
 	
 	^ 'SentenceFinderByPrefix only supports Strings'.! !
+
+!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:58:06'!
+stackElementsShouldOnlyBeStrings
+	
+	^ 'SentenceFinderByPrefix supports stacks that only have strings'.! !
 
 
 !classDefinition: #StackElement category: #'Stack-Exercise'!
@@ -540,20 +564,22 @@ Object subclass: #StackElement
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!StackElement methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 20:13:24'!
+!StackElement methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:02:36'!
 elementBelow
 	^elementBelow! !
 
-!StackElement methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:24:26'!
+!StackElement methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:02:38'!
 elementValue
 	self subclassResponsibility! !
 
-!StackElement methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:37:18'!
+!StackElement methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:20:59'!
 initialize: value over: element
+
 	elementValue := value.
+	
 	elementBelow := element! !
 
-!StackElement methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:16:39'!
+!StackElement methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:02:49'!
 isBase
 	self subclassResponsibility! !
 
@@ -565,12 +591,14 @@ StackElement subclass: #StackBase
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!StackBase methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:31:04'!
+!StackBase methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:03:08'!
 elementValue
+
 	^Error signal: OOStack stackEmptyErrorDescription.! !
 
-!StackBase methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:16:58'!
+!StackBase methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:03:04'!
 isBase
+
 	^true! !
 
 
@@ -581,10 +609,12 @@ StackElement subclass: #StackNonBaseElement
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!StackNonBaseElement methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:33:31'!
+!StackNonBaseElement methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:03:15'!
 elementValue
+
 	^elementValue! !
 
-!StackNonBaseElement methodsFor: 'as yet unclassified' stamp: 'PB 9/17/2019 19:17:10'!
+!StackNonBaseElement methodsFor: 'as yet unclassified' stamp: 'st 9/19/2019 12:03:19'!
 isBase
+
 	^false! !
