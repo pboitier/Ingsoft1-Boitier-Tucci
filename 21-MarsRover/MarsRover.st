@@ -5,8 +5,8 @@ Object subclass: #MarsRover
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:46:40'!
-avanzarMarsRover
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:18:24'!
+avanzar
 
 	facingAt = $N ifTrue: [position := position + (0@1)].
 	facingAt = $O ifTrue: [position := position + (1@0)].
@@ -71,24 +71,24 @@ processActionSequences: anActionSequence
 
 	^actionSequenceToReturn.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:49:43'!
-retrocederMarsRover
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:19:54'!
+retroceder
 
 	facingAt = $O ifTrue: [position := position + (-1@0)].
 	facingAt = $N ifTrue: [position := position + (0@-1)].
 	facingAt = $S ifTrue: [position := position + (0@1)].
 	facingAt = $E ifTrue: [position := position + (1@0)].! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:01'!
-rotarMarsRoverADerecha
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:20:27'!
+rotarADerecha
 
 	facingAt = $N ifTrue: [^facingAt := $O.].
 	facingAt = $O ifTrue: [^facingAt := $S].
 	facingAt = $S ifTrue: [^facingAt := $E].
 	facingAt = $E ifTrue: [^facingAt := $N.].! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:25'!
-rotarMarsRoverAIzquierda
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:20:40'!
+rotarAIzquierda
 
 	facingAt = $N ifTrue: [^facingAt := $E.].
 	facingAt = $O ifTrue: [^facingAt := $N].
@@ -132,10 +132,10 @@ MarsRoverAction subclass: #MoveBackwards
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MoveBackwards methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:05:14'!
+!MoveBackwards methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:19:54'!
 performAction: aMarsRover
 
-	^ aMarsRover retrocederMarsRover.! !
+	^ aMarsRover retroceder.! !
 
 
 !classDefinition: #MoveForward category: #MarsRover!
@@ -145,10 +145,10 @@ MarsRoverAction subclass: #MoveForward
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MoveForward methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 21:24:33'!
+!MoveForward methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:19:23'!
 performAction: aMarsRover
 
-	^aMarsRover avanzarMarsRover.! !
+	^aMarsRover avanzar.! !
 
 
 !classDefinition: #RotateLeft category: #MarsRover!
@@ -158,10 +158,10 @@ MarsRoverAction subclass: #RotateLeft
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!RotateLeft methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:44'!
+!RotateLeft methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:20:40'!
 performAction: aMarsRover
 
-	^aMarsRover rotarMarsRoverAIzquierda! !
+	^aMarsRover rotarAIzquierda! !
 
 
 !classDefinition: #RotateRight category: #MarsRover!
@@ -171,7 +171,7 @@ MarsRoverAction subclass: #RotateRight
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!RotateRight methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:52'!
+!RotateRight methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:20:27'!
 performAction: aMarsRover
 
-	^aMarsRover rotarMarsRoverADerecha.! !
+	^aMarsRover rotarADerecha.! !
