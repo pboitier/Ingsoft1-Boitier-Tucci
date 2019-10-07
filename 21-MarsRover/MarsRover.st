@@ -79,26 +79,21 @@ retrocederMarsRover
 	facingAt = $S ifTrue: [position := position + (0@1)].
 	facingAt = $E ifTrue: [position := position + (1@0)].! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:53:32'!
-rotarMarsRover: anActionSequence
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:01'!
+rotarMarsRoverADerecha
 
-	anActionSequence = $r ifTrue: 
-	[
-		facingAt = $N ifTrue: [^facingAt := $O.].
-		facingAt = $O ifTrue: [^facingAt := $S].
-		facingAt = $S ifTrue: [^facingAt := $E].
-		facingAt = $E ifTrue: [^facingAt := $N.].
-			
-	] ifFalse:
-	[
-		facingAt = $N ifTrue: [^facingAt := $E.].
-		facingAt = $O ifTrue: [^facingAt := $N].
-		facingAt = $S ifTrue: [^facingAt := $O].
-		facingAt = $E ifTrue: [^facingAt := $S.].		
-	]
-	
-	
-	! !
+	facingAt = $N ifTrue: [^facingAt := $O.].
+	facingAt = $O ifTrue: [^facingAt := $S].
+	facingAt = $S ifTrue: [^facingAt := $E].
+	facingAt = $E ifTrue: [^facingAt := $N.].! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:25'!
+rotarMarsRoverAIzquierda
+
+	facingAt = $N ifTrue: [^facingAt := $E.].
+	facingAt = $O ifTrue: [^facingAt := $N].
+	facingAt = $S ifTrue: [^facingAt := $O].
+	facingAt = $E ifTrue: [^facingAt := $S.].! !
 
 !MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 21:07:05'!
 validateAction: anAction
@@ -163,10 +158,10 @@ MarsRoverAction subclass: #RotateLeft
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!RotateLeft methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:10:19'!
+!RotateLeft methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:44'!
 performAction: aMarsRover
 
-	^aMarsRover rotarMarsRover: $i! !
+	^aMarsRover rotarMarsRoverAIzquierda! !
 
 
 !classDefinition: #RotateRight category: #MarsRover!
@@ -176,7 +171,7 @@ MarsRoverAction subclass: #RotateRight
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!RotateRight methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:09:48'!
+!RotateRight methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:16:52'!
 performAction: aMarsRover
 
-	^aMarsRover rotarMarsRover: $r.! !
+	^aMarsRover rotarMarsRoverADerecha.! !
