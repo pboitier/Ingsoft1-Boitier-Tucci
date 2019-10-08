@@ -5,330 +5,342 @@ TestCase subclass: #MarsRoverTest
 	poolDictionaries: ''
 	category: 'MarsRover-Tests'!
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:30:32'!
+!MarsRoverTest methodsFor: 'assert' stamp: 'ST 10/7/2019 13:58:49'!
+marsRover: aMarsRover isAtPosition: aPosition facing: aCardinalPoint
+
+	self assert: aPosition equals: aMarsRover position.
+	self assert: (aMarsRover facing isKindOf: aCardinalPoint). ! !
+
+
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 13:58:49'!
 test01MarsRoverNoSeMueveConStringVacio
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: ''.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $N equals: marsRover facingAt. ! !
+	
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingNorth.
+	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:59:04'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 13:59:04'!
 test02AvanzaPosicionEnEjeXConFMirandoAlNorte
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'f'.
 	
-	self assert: 0@1 equals: marsRover position.
-	self assert: $N equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@1 facing: FacingNorth.
+	
 	
 	
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:54:36'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 13:59:16'!
 test03RetrocedePosicionEnEjeXConBMirandoAlNorte
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'b'.
 	
-	self assert: 0@-1 equals: marsRover position.
-	self assert: $N equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@-1 facing: FacingNorth.
+	
 	
 	
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:59:16'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 13:59:29'!
 test04AvanzaPosicionEnEjeYConFMirandoAlOeste
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $O.
+	marsRover initializeAt: 0@0 facing: FacingWest new.
 	
 	marsRover mover: 'f'.
 	
-	self assert: 1@0 equals: marsRover position.
-	self assert: $O equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 1@0 facing: FacingWest.
+	
 	
 	
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:59:25'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 13:59:41'!
 test05RetrocedePosicionEnEjeXConFMirandoAlSur
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $S.
+	marsRover initializeAt: 0@0 facing: FacingSouth new.
 	
 	marsRover mover: 'f'.
 	
-	self assert: 0@-1 equals: marsRover position.
-	self assert: $S equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@-1 facing: FacingSouth.
+	
 	
 	
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:59:41'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 13:59:55'!
 test06RetrocedePosicionEnEjeYConFMirandoAlEste
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $E.
+	marsRover initializeAt: 0@0 facing: FacingEast new.
 	
 	marsRover mover: 'f'.
 	
-	self assert: -1@0 equals: marsRover position.
-	self assert: $E equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: -1@0 facing: FacingEast.
+	
 	
 	
 ! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:52:54'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:00:08'!
 test07RetrocedePosicionEnEjeXConBMirandoAlOeste
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $O.
+	marsRover initializeAt: 0@0 facing: FacingWest new.
 	
 	marsRover mover: 'b'.
 	
-	self assert: -1@0 equals: marsRover position.
-	self assert: $O equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: -1@0 facing: FacingWest.
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:57:53'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:00:19'!
 test08AvanzaPosicionEnEjeXConBMirandoAlEste
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $E.
+	marsRover initializeAt: 0@0 facing: FacingEast new.
 	
 	marsRover mover: 'b'.
 	
-	self assert: 1@0 equals: marsRover position.
-	self assert: $E equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 1@0 facing: FacingEast.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:11:00'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:00:33'!
 test09AvanzaPosicionEnEjeYConBMirandoAlSur
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $S.
+	marsRover initializeAt: 0@0 facing: FacingSouth new.
 	
 	marsRover mover: 'b'.
 	
-	self assert: 0@1 equals: marsRover position.
-	self assert: $S equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@1 facing: FacingSouth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:11:07'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:00:44'!
 test10MirandoAlNorteRotaAOesteAlRecibirUnaR
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'r'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $O equals: marsRover facingAt.
+	
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingWest.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:13:11'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:00:57'!
 test11MirandoAlOesteRotaASurAlRecibirUnaR
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $O.
+	marsRover initializeAt: 0@0 facing: FacingWest new.
 	
 	marsRover mover: 'r'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $S equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingSouth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:15:50'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:01:09'!
 test12MirandoAlSurRotaAlEsteAlRecibirUnaR
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $S.
+	marsRover initializeAt: 0@0 facing: FacingSouth new.
 	
 	marsRover mover: 'r'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $E equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingEast.
+	
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:18:54'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:01:22'!
 test13MirandoAlEsteRotaAlNorteAlRecibirUnaR
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $E.
+	marsRover initializeAt: 0@0 facing: FacingEast new.
 	
 	marsRover mover: 'r'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $N equals: marsRover facingAt.
+	
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingNorth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:20:04'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:01:33'!
 test14MirandoAlNorteRotaAlEsteAlRecibirUnaI
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'i'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $E equals: marsRover facingAt.
+	
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingEast.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:22:53'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:01:41'!
 test15MirandoAlOesteRotaAlNorteAlRecibirUnaI
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $O.
+	marsRover initializeAt: 0@0 facing: FacingWest new.
 	
 	marsRover mover: 'i'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $N equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingNorth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:23:17'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:02:03'!
 test16MirandoAlSurRotaAlOesteAlRecibirUnaI
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $S.
+	marsRover initializeAt: 0@0 facing: FacingSouth new.
 	
 	marsRover mover: 'i'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $O equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingWest.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:23:38'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:02:13'!
 test17MirandoAlEsteRotaAlSurAlRecibirUnaI
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $E.
+	marsRover initializeAt: 0@0 facing: FacingEast new.
 	
 	marsRover mover: 'i'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $S equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingSouth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:25:34'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:02:22'!
 test18AvanzaMultiplesPosicionesAlRecibirMasDeUnaF
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'fff'.
 	
-	self assert: 0@3 equals: marsRover position.
-	self assert: $N equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@3 facing: FacingNorth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:48:56'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:02:32'!
 test19RetrocedeMultiplesPosicionesAlRecibirMasDeUnaB
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'bbb'.
 	
-	self assert: 0@-3 equals: marsRover position.
-	self assert: $N equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@-3 facing: FacingNorth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:52:18'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:02:47'!
 test20RotarMultiplesVecesAlRecibirMasDeUnaR
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'rrr'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $E equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingEast.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:53:07'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:02:57'!
 test21RotarMultiplesVecesAlRecibirMasDeUnaI
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'iii'.
 	
-	self assert: 0@0 equals: marsRover position.
-	self assert: $O equals: marsRover facingAt.
+	self marsRover: marsRover isAtPosition: 0@0 facing: FacingWest.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 20:55:44'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 14:03:09'!
 test22FuncionaCorrectamenteAlRecibirCadenasCompuestas
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	marsRover mover: 'ffr brr   ib'.
 	
-	self assert: -1@3 equals: marsRover position.
-	self assert: $S equals: marsRover facingAt.
+	
+	self marsRover: marsRover isAtPosition: -1@3 facing: FacingSouth.
+	
 	! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 21:12:17'!
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/7/2019 13:43:41'!
 test23LanzaErrorAlRecibirAccionesInvalidas
 
 	| marsRover |
 
 	marsRover := MarsRover new.
-	marsRover initializeAt: 0@0 facingAt: $N.
+	marsRover initializeAt: 0@0 facing: FacingNorth new.
 	
 	self
 		should: [ marsRover mover: 'fbfx' ]

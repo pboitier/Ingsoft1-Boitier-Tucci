@@ -1,29 +1,45 @@
 !classDefinition: #MarsRover category: #MarsRover!
 Object subclass: #MarsRover
-	instanceVariableNames: 'position facingAt'
+	instanceVariableNames: 'position facing'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:18:24'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
 avanzar
 
-	facingAt = $N ifTrue: [position := position + (0@1)].
-	facingAt = $O ifTrue: [position := position + (1@0)].
-	facingAt = $S ifTrue: [position := position + (0@-1)].
-	facingAt = $E ifTrue: [position := position + (-1@0)].
-	! !
+	facing avanzar: self.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:32:46'!
-facingAt
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:29:50'!
+avanzarEste
+
+	position := position + (-1@0)! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:28:55'!
+avanzarNorte
+
+	position := position + (0@1)! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:29:13'!
+avanzarOeste
+
+	position := position + (1@0)! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:29:45'!
+avanzarSur
+
+	position := position + (0@-1)! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:43:31'!
+facing
 	
-	^facingAt! !
+	^facing! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 19:26:43'!
-initializeAt: aPosition facingAt: aCardinalPoint
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:43:41'!
+initializeAt: aPosition facing: aCardinalPoint
 
 	position := aPosition.
-	facingAt := aCardinalPoint.! !
+	facing := aCardinalPoint.! !
 
 !MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:04:33'!
 mover: anActionSequence
@@ -71,29 +87,91 @@ processActionSequences: anActionSequence
 
 	^actionSequenceToReturn.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:19:54'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
 retroceder
 
-	facingAt = $O ifTrue: [position := position + (-1@0)].
-	facingAt = $N ifTrue: [position := position + (0@-1)].
-	facingAt = $S ifTrue: [position := position + (0@1)].
-	facingAt = $E ifTrue: [position := position + (1@0)].! !
+	facing retroceder: self.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:20:27'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:45:15'!
+retrocederEste
+
+	position := position + (1@0)! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:44:35'!
+retrocederNorte
+
+	position := position + (0@-1)
+	! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:44:18'!
+retrocederOeste
+
+	position := position + (-1@0)
+! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:44:54'!
+retrocederSur
+.
+	position := position + (0@1)
+	! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
 rotarADerecha
 
-	facingAt = $N ifTrue: [^facingAt := $O.].
-	facingAt = $O ifTrue: [^facingAt := $S].
-	facingAt = $S ifTrue: [^facingAt := $E].
-	facingAt = $E ifTrue: [^facingAt := $N.].! !
+	^facing rotarDerecha: self.
+! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:20:40'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
+rotarADerechaEste
+
+	^facing _ FacingNorth new.! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:52:03'!
+rotarADerechaNorte
+
+	^facing _ FacingWest new.
+	! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
+rotarADerechaOeste
+
+	^facing _ FacingSouth new.
+! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
+rotarADerechaSur
+
+	
+	^facing _ FacingEast new.
+	! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
 rotarAIzquierda
 
-	facingAt = $N ifTrue: [^facingAt := $E.].
-	facingAt = $O ifTrue: [^facingAt := $N].
-	facingAt = $S ifTrue: [^facingAt := $O].
-	facingAt = $E ifTrue: [^facingAt := $S.].! !
+	^facing rotarIzquierda: self.! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
+rotarAIzquierdaEste
+
+	^facing _ FacingSouth new.! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
+rotarAIzquierdaNorte
+
+	^facing _ FacingEast new.
+	! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
+rotarAIzquierdaOeste
+
+	^facing _ FacingNorth new.
+	! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
+rotarAIzquierdaSur
+
+	^facing _ FacingWest new.
+	! !
 
 !MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 21:07:05'!
 validateAction: anAction
@@ -175,3 +253,145 @@ MarsRoverAction subclass: #RotateRight
 performAction: aMarsRover
 
 	^aMarsRover rotarADerecha.! !
+
+
+!classDefinition: #MarsRoverState category: #MarsRover!
+Object subclass: #MarsRoverState
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!MarsRoverState methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:27:50'!
+avanzar: aMarsRover
+
+	self subclassResponsibility! !
+
+!MarsRoverState methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:45:45'!
+retroceder: aMarsRover
+
+	self subclassResponsibility! !
+
+!MarsRoverState methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:53:25'!
+rotarDerecha: aMarsRover
+
+	self subclassResponsibility.! !
+
+!MarsRoverState methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:56:06'!
+rotarIzquierda: aMarsRover
+
+	self subclassResponsibility.! !
+
+
+!classDefinition: #FacingEast category: #MarsRover!
+MarsRoverState subclass: #FacingEast
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!FacingEast methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:46:25'!
+avanzar: aMarsRover
+
+	^ aMarsRover avanzarEste.! !
+
+!FacingEast methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:47:33'!
+retroceder: aMarsRover
+
+	^ aMarsRover retrocederEste.! !
+
+!FacingEast methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:53:30'!
+rotarDerecha: aMarsRover
+
+	^ aMarsRover rotarADerechaEste.! !
+
+!FacingEast methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:56:31'!
+rotarIzquierda: aMarsRover
+
+	^ aMarsRover rotarAIzquierdaEste.! !
+
+
+!classDefinition: #FacingNorth category: #MarsRover!
+MarsRoverState subclass: #FacingNorth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!FacingNorth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:28:23'!
+avanzar: aMarsRover
+
+	^aMarsRover avanzarNorte.
+	
+	! !
+
+!FacingNorth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:47:46'!
+retroceder: aMarsRover
+
+	^ aMarsRover retrocederNorte.! !
+
+!FacingNorth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:53:40'!
+rotarDerecha: aMarsRover
+
+	^ aMarsRover rotarADerechaNorte.! !
+
+!FacingNorth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:56:43'!
+rotarIzquierda: aMarsRover
+
+	^ aMarsRover rotarAIzquierdaNorte.! !
+
+
+!classDefinition: #FacingSouth category: #MarsRover!
+MarsRoverState subclass: #FacingSouth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!FacingSouth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:46:46'!
+avanzar: aMarsRover
+
+	^ aMarsRover avanzarSur.! !
+
+!FacingSouth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:47:54'!
+retroceder: aMarsRover
+
+	^ aMarsRover retrocederSur.! !
+
+!FacingSouth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:53:50'!
+rotarDerecha: aMarsRover
+
+	^ aMarsRover rotarADerechaSur.! !
+
+!FacingSouth methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:56:51'!
+rotarIzquierda: aMarsRover
+
+	^ aMarsRover rotarAIzquierdaSur.! !
+
+
+!classDefinition: #FacingWest category: #MarsRover!
+MarsRoverState subclass: #FacingWest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!FacingWest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:47:08'!
+avanzar: aMarsRover
+
+	^ aMarsRover avanzarOeste.! !
+
+!FacingWest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:48:01'!
+retroceder: aMarsRover
+
+	^ aMarsRover retrocederOeste.! !
+
+!FacingWest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:54:04'!
+rotarDerecha: aMarsRover
+
+	^ aMarsRover rotarADerechaOeste.! !
+
+!FacingWest methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:57:01'!
+rotarIzquierda: aMarsRover
+
+	^ aMarsRover rotarAIzquierdaOeste.! !
