@@ -15,12 +15,12 @@ retroceder: aMarsRover
 
 	self subclassResponsibility! !
 
-!CardinalDirection methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:04'!
+!CardinalDirection methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:06:52'!
 rotarDerecha
 
 	self subclassResponsibility.! !
 
-!CardinalDirection methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:35'!
+!CardinalDirection methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:10:59'!
 rotarIzquierda
 
 	self subclassResponsibility.! !
@@ -43,12 +43,12 @@ retroceder: aMarsRover
 
 	^ aMarsRover retrocederEste.! !
 
-!East methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:04'!
+!East methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:08:37'!
 rotarDerecha
 
 	^ South new.! !
 
-!East methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:35'!
+!East methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:11:36'!
 rotarIzquierda
 
 	^ North new.! !
@@ -73,12 +73,12 @@ retroceder: aMarsRover
 
 	^ aMarsRover retrocederNorte.! !
 
-!North methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:04'!
+!North methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:08:53'!
 rotarDerecha
 
 	^ East new.! !
 
-!North methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:35'!
+!North methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:11:54'!
 rotarIzquierda
 
 	^ West new.! !
@@ -101,15 +101,15 @@ retroceder: aMarsRover
 
 	^ aMarsRover retrocederSur.! !
 
-!South methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:04'!
+!South methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:09:36'!
 rotarDerecha
 
-	^ East new.! !
+	^ West new.! !
 
-!South methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:35'!
+!South methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:12:21'!
 rotarIzquierda
 
-	^ West new.! !
+	^ East new.! !
 
 
 !classDefinition: #West category: #MarsRover!
@@ -129,28 +129,28 @@ retroceder: aMarsRover
 
 	^ aMarsRover retrocederOeste.! !
 
-!West methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:04'!
+!West methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:09:58'!
 rotarDerecha
 
 	^ North new.! !
 
-!West methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:35'!
+!West methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:12:38'!
 rotarIzquierda
 
-	^ South new.! !
+	^South new.! !
 
 
 !classDefinition: #MarsRover category: #MarsRover!
 Object subclass: #MarsRover
-	instanceVariableNames: 'position direction'
+	instanceVariableNames: 'position facing'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
 avanzar
 
-	direction avanzar: self.! !
+	facing avanzar: self.! !
 
 !MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:29:50'!
 avanzarEste
@@ -172,16 +172,16 @@ avanzarSur
 
 	position := position + (0@-1)! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:43:31'!
 facing
 	
-	^direction! !
+	^facing! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:55'!
-initializeAt: aPosition facing: aCardinalDirection
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:43:41'!
+initializeAt: aPosition facing: aCardinalPoint
 
 	position := aPosition.
-	direction := aCardinalDirection.! !
+	facing := aCardinalPoint.! !
 
 !MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:04:33'!
 mover: anActionSequence
@@ -229,91 +229,40 @@ processActionSequences: anActionSequence
 
 	^actionSequenceToReturn.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/7/2019 13:42:12'!
 retroceder
 
-	direction retroceder: self.! !
+	facing retroceder: self.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:45:15'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:28:48'!
 retrocederEste
 
-	position := position + (1@0)! !
+	position := position - (1@0)! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:44:35'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:15:51'!
 retrocederNorte
 
-	position := position + (0@-1)
-	! !
+	position := position - (0@1)! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:44:18'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:15:58'!
 retrocederOeste
 
-	position := position + (-1@0)
-! !
+	position := position - (1@0)! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 22:44:54'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:16:08'!
 retrocederSur
-.
-	position := position + (0@1)
-	! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:38:51'!
+	position := position - (0@-1)! !
+
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:18:29'!
 rotarADerecha
 
-	direction := direction rotarDerecha.
-! !
+	facing := facing rotarDerecha.! !
 
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarADerechaEste
-
-	^direction _ North new.! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarADerechaNorte
-
-	^direction _ West new.
-	! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarADerechaOeste
-
-	^direction _ South new.
-! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarADerechaSur
-
-	
-	^direction _ East new.
-	! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:37:10'!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 21:18:40'!
 rotarAIzquierda
 
-	direction := direction rotarIzquierda.! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarAIzquierdaEste
-
-	^direction _ South new.! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarAIzquierdaNorte
-
-	^direction _ East new.
-	! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarAIzquierdaOeste
-
-	^direction _ North new.
-	! !
-
-!MarsRover methodsFor: 'as yet unclassified' stamp: 'PB 10/8/2019 20:30:10'!
-rotarAIzquierdaSur
-
-	^direction _ West new.
-	! !
+	facing := facing rotarIzquierda.! !
 
 !MarsRover methodsFor: 'as yet unclassified' stamp: 'ST 10/6/2019 21:07:05'!
 validateAction: anAction

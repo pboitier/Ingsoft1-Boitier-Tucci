@@ -12,7 +12,7 @@ marsRover: aMarsRover isAtPosition: aPosition facing: aCardinalPoint
 	self assert: (aMarsRover facing isKindOf: aCardinalPoint). ! !
 
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:01'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
 test01MarsRoverNoSeMueveConStringVacio
 
 	| marsRover |
@@ -26,7 +26,7 @@ test01MarsRoverNoSeMueveConStringVacio
 	self marsRover: marsRover isAtPosition: 0@0 facing: North.
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:01'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
 test02AvanzaPosicionEnEjeXConFMirandoAlNorte
 
 	| marsRover |
@@ -42,7 +42,7 @@ test02AvanzaPosicionEnEjeXConFMirandoAlNorte
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:01'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
 test03RetrocedePosicionEnEjeXConBMirandoAlNorte
 
 	| marsRover |
@@ -58,7 +58,7 @@ test03RetrocedePosicionEnEjeXConBMirandoAlNorte
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:11'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:16'!
 test04AvanzaPosicionEnEjeYConFMirandoAlOeste
 
 	| marsRover |
@@ -74,7 +74,7 @@ test04AvanzaPosicionEnEjeYConFMirandoAlOeste
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:25'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:25'!
 test05RetrocedePosicionEnEjeXConFMirandoAlSur
 
 	| marsRover |
@@ -90,7 +90,7 @@ test05RetrocedePosicionEnEjeXConFMirandoAlSur
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:20:47'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:03:45'!
 test06RetrocedePosicionEnEjeYConFMirandoAlEste
 
 	| marsRover |
@@ -106,7 +106,7 @@ test06RetrocedePosicionEnEjeYConFMirandoAlEste
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:11'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:16'!
 test07RetrocedePosicionEnEjeXConBMirandoAlOeste
 
 	| marsRover |
@@ -119,7 +119,7 @@ test07RetrocedePosicionEnEjeXConBMirandoAlOeste
 	self marsRover: marsRover isAtPosition: -1@0 facing: West.
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:20:47'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:29:23'!
 test08AvanzaPosicionEnEjeXConBMirandoAlEste
 
 	| marsRover |
@@ -129,11 +129,11 @@ test08AvanzaPosicionEnEjeXConBMirandoAlEste
 	
 	marsRover mover: 'b'.
 	
-	self marsRover: marsRover isAtPosition: 1@0 facing: East.
+	self marsRover: marsRover isAtPosition: -1@0 facing: East.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:25'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:25'!
 test09AvanzaPosicionEnEjeYConBMirandoAlSur
 
 	| marsRover |
@@ -147,7 +147,7 @@ test09AvanzaPosicionEnEjeYConBMirandoAlSur
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:40:22'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:17:04'!
 test10MirandoAlNorteRotaAEsteAlRecibirUnaR
 
 	| marsRover |
@@ -162,7 +162,7 @@ test10MirandoAlNorteRotaAEsteAlRecibirUnaR
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:41:08'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:19:36'!
 test11MirandoAlOesteRotaANorteAlRecibirUnaR
 
 	| marsRover |
@@ -176,8 +176,8 @@ test11MirandoAlOesteRotaANorteAlRecibirUnaR
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:25'!
-test12MirandoAlSurRotaAlEsteAlRecibirUnaR
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:20:00'!
+test12MirandoAlSurRotaAlOesteAlRecibirUnaR
 
 	| marsRover |
 
@@ -186,12 +186,12 @@ test12MirandoAlSurRotaAlEsteAlRecibirUnaR
 	
 	marsRover mover: 'r'.
 	
-	self marsRover: marsRover isAtPosition: 0@0 facing: East.
+	self marsRover: marsRover isAtPosition: 0@0 facing: West.
 	
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:41:49'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:20:27'!
 test13MirandoAlEsteRotaAlSurAlRecibirUnaR
 
 	| marsRover |
@@ -206,7 +206,7 @@ test13MirandoAlEsteRotaAlSurAlRecibirUnaR
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:42:16'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:20:57'!
 test14MirandoAlNorteRotaAlOesteAlRecibirUnaI
 
 	| marsRover |
@@ -221,7 +221,7 @@ test14MirandoAlNorteRotaAlOesteAlRecibirUnaI
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:42:49'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:21:22'!
 test15MirandoAlOesteRotaAlSurAlRecibirUnaI
 
 	| marsRover |
@@ -235,8 +235,8 @@ test15MirandoAlOesteRotaAlSurAlRecibirUnaI
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:25'!
-test16MirandoAlSurRotaAlOesteAlRecibirUnaI
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:22:18'!
+test16MirandoAlSurRotaAlEsteAlRecibirUnaI
 
 	| marsRover |
 
@@ -245,11 +245,11 @@ test16MirandoAlSurRotaAlOesteAlRecibirUnaI
 	
 	marsRover mover: 'i'.
 	
-	self marsRover: marsRover isAtPosition: 0@0 facing: West.
+	self marsRover: marsRover isAtPosition: 0@0 facing: East.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:43:53'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:22:51'!
 test17MirandoAlEsteRotaAlNorteAlRecibirUnaI
 
 	| marsRover |
@@ -263,7 +263,7 @@ test17MirandoAlEsteRotaAlNorteAlRecibirUnaI
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:01'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
 test18AvanzaMultiplesPosicionesAlRecibirMasDeUnaF
 
 	| marsRover |
@@ -277,7 +277,7 @@ test18AvanzaMultiplesPosicionesAlRecibirMasDeUnaF
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:01'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
 test19RetrocedeMultiplesPosicionesAlRecibirMasDeUnaB
 
 	| marsRover |
@@ -291,7 +291,7 @@ test19RetrocedeMultiplesPosicionesAlRecibirMasDeUnaB
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:01'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:23:49'!
 test20RotarMultiplesVecesAlRecibirMasDeUnaR
 
 	| marsRover |
@@ -301,11 +301,11 @@ test20RotarMultiplesVecesAlRecibirMasDeUnaR
 	
 	marsRover mover: 'rrr'.
 	
-	self marsRover: marsRover isAtPosition: 0@0 facing: East.
+	self marsRover: marsRover isAtPosition: 0@0 facing: West.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:11'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:24:05'!
 test21RotarMultiplesVecesAlRecibirMasDeUnaI
 
 	| marsRover |
@@ -315,11 +315,11 @@ test21RotarMultiplesVecesAlRecibirMasDeUnaI
 	
 	marsRover mover: 'iii'.
 	
-	self marsRover: marsRover isAtPosition: 0@0 facing: West.
+	self marsRover: marsRover isAtPosition: 0@0 facing: East.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:25'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:25'!
 test22FuncionaCorrectamenteAlRecibirCadenasCompuestas
 
 	| marsRover |
@@ -334,7 +334,7 @@ test22FuncionaCorrectamenteAlRecibirCadenasCompuestas
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 20:21:01'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
 test23LanzaErrorAlRecibirAccionesInvalidas
 
 	| marsRover |
