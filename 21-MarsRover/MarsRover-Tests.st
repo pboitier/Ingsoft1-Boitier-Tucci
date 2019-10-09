@@ -58,7 +58,7 @@ test03RetrocedePosicionEnEjeXConBMirandoAlNorte
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:16'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:40:20'!
 test04AvanzaPosicionEnEjeYConFMirandoAlOeste
 
 	| marsRover |
@@ -68,7 +68,7 @@ test04AvanzaPosicionEnEjeYConFMirandoAlOeste
 	
 	marsRover mover: 'f'.
 	
-	self marsRover: marsRover isAtPosition: 1@0 facing: West.
+	self marsRover: marsRover isAtPosition: (-1@0) facing: West.
 	
 	
 	
@@ -90,7 +90,7 @@ test05RetrocedePosicionEnEjeXConFMirandoAlSur
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:03:45'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:40:34'!
 test06RetrocedePosicionEnEjeYConFMirandoAlEste
 
 	| marsRover |
@@ -100,13 +100,13 @@ test06RetrocedePosicionEnEjeYConFMirandoAlEste
 	
 	marsRover mover: 'f'.
 	
-	self marsRover: marsRover isAtPosition: -1@0 facing: East.
+	self marsRover: marsRover isAtPosition: 1@0 facing: East.
 	
 	
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:16'!
+!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 22:07:05'!
 test07RetrocedePosicionEnEjeXConBMirandoAlOeste
 
 	| marsRover |
@@ -116,7 +116,7 @@ test07RetrocedePosicionEnEjeXConBMirandoAlOeste
 	
 	marsRover mover: 'b'.
 	
-	self marsRover: marsRover isAtPosition: -1@0 facing: West.
+	self marsRover: marsRover isAtPosition: 1@0 facing: West.
 	! !
 
 !MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:29:23'!
