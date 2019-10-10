@@ -12,29 +12,29 @@ marsRover: aMarsRover isAtPosition: aPosition facing: aCardinalPoint
 	self assert: (aMarsRover facing isKindOf: aCardinalPoint). ! !
 
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
-test01MarsRoverNoSeMueveConStringVacio
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:16:45'!
+test01MarsRoverDoesNotMoveWithEmptyCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: ''.
+	marsRover move: ''.
 	
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: North.
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
-test02AvanzaPosicionEnEjeXConFMirandoAlNorte
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:18:25'!
+test02MovesForwardOnXAxisFacingNorthWithForwardCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'f'.
+	marsRover move: 'f'.
 	
 	self marsRover: marsRover isAtPosition: 0@1 facing: North.
 	
@@ -42,15 +42,15 @@ test02AvanzaPosicionEnEjeXConFMirandoAlNorte
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
-test03RetrocedePosicionEnEjeXConBMirandoAlNorte
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:19:09'!
+test03MovesBackwardsOnXAxisFacingNorthWithBackwardsCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'b'.
+	marsRover move: 'b'.
 	
 	self marsRover: marsRover isAtPosition: 0@-1 facing: North.
 	
@@ -58,15 +58,15 @@ test03RetrocedePosicionEnEjeXConBMirandoAlNorte
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:40:20'!
-test04AvanzaPosicionEnEjeYConFMirandoAlOeste
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:21:59'!
+test04MovesForwardOnYAxisFacingWestWithForwardCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: West new.
 	
-	marsRover mover: 'f'.
+	marsRover move: 'f'.
 	
 	self marsRover: marsRover isAtPosition: (-1@0) facing: West.
 	
@@ -74,15 +74,15 @@ test04AvanzaPosicionEnEjeYConFMirandoAlOeste
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:25'!
-test05RetrocedePosicionEnEjeXConFMirandoAlSur
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:22:43'!
+test05MovesBackwardsOnXAxisFacingSouthWithForwardCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: South new.
 	
-	marsRover mover: 'f'.
+	marsRover move: 'f'.
 	
 	self marsRover: marsRover isAtPosition: 0@-1 facing: South.
 	
@@ -90,15 +90,15 @@ test05RetrocedePosicionEnEjeXConFMirandoAlSur
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:40:34'!
-test06RetrocedePosicionEnEjeYConFMirandoAlEste
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:25:37'!
+test06MovesBackwardsOnYAxisFacingEastWithForwardCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: East new.
 	
-	marsRover mover: 'f'.
+	marsRover move: 'f'.
 	
 	self marsRover: marsRover isAtPosition: 1@0 facing: East.
 	
@@ -106,236 +106,236 @@ test06RetrocedePosicionEnEjeYConFMirandoAlEste
 	
 ! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 22:07:05'!
-test07RetrocedePosicionEnEjeXConBMirandoAlOeste
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:26:20'!
+test07MovesBackwardsOnXAxisFacingWestWithBackwardsCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: West new.
 	
-	marsRover mover: 'b'.
+	marsRover move: 'b'.
 	
 	self marsRover: marsRover isAtPosition: 1@0 facing: West.
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:29:23'!
-test08AvanzaPosicionEnEjeXConBMirandoAlEste
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:29:01'!
+test08MovesForwardOnXAxisFacingEastWithBackwardsCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: East new.
 	
-	marsRover mover: 'b'.
+	marsRover move: 'b'.
 	
 	self marsRover: marsRover isAtPosition: -1@0 facing: East.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:25'!
-test09AvanzaPosicionEnEjeYConBMirandoAlSur
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:29:37'!
+test09MovesForwardOnYAxisFacingSouthWithBackwardsCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: South new.
 	
-	marsRover mover: 'b'.
+	marsRover move: 'b'.
 	
 	self marsRover: marsRover isAtPosition: 0@1 facing: South.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:17:04'!
-test10MirandoAlNorteRotaAEsteAlRecibirUnaR
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:30:18'!
+test10FacingNorthRotatesEastWithRotateRightCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'r'.
+	marsRover move: 'r'.
 	
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: East.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:19:36'!
-test11MirandoAlOesteRotaANorteAlRecibirUnaR
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:30:54'!
+test11FacingWestRotatesNorthWithRotateRigthCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: West new.
 	
-	marsRover mover: 'r'.
+	marsRover move: 'r'.
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: North.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:20:00'!
-test12MirandoAlSurRotaAlOesteAlRecibirUnaR
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:31:32'!
+test12FacingSouthRotatesWestWithRotateRightCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: South new.
 	
-	marsRover mover: 'r'.
+	marsRover move: 'r'.
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: West.
 	
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:20:27'!
-test13MirandoAlEsteRotaAlSurAlRecibirUnaR
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:31:53'!
+test13FacingEastRotatesSouthWithRotateRightCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: East new.
 	
-	marsRover mover: 'r'.
+	marsRover move: 'r'.
 	
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: South.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:20:57'!
-test14MirandoAlNorteRotaAlOesteAlRecibirUnaI
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:32:13'!
+test14FacingNorthRotatesWestWithRotateLeftCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'i'.
+	marsRover move: 'i'.
 	
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: West.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:21:22'!
-test15MirandoAlOesteRotaAlSurAlRecibirUnaI
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:32:50'!
+test15FacingWestRotatesSouthWithRotateLeftCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: West new.
 	
-	marsRover mover: 'i'.
+	marsRover move: 'i'.
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: South.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:22:18'!
-test16MirandoAlSurRotaAlEsteAlRecibirUnaI
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:33:16'!
+test16FacingSouthRotatesEastWithRotatelLeftCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: South new.
 	
-	marsRover mover: 'i'.
+	marsRover move: 'i'.
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: East.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:22:51'!
-test17MirandoAlEsteRotaAlNorteAlRecibirUnaI
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:33:37'!
+test17FacingEastRotatesNorthWithRotateLeftCommand
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: East new.
 	
-	marsRover mover: 'i'.
+	marsRover move: 'i'.
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: North.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
-test18AvanzaMultiplesPosicionesAlRecibirMasDeUnaF
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:34:54'!
+test18MovesForwardMultiplePositionsWithMultipleForwardCommands
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'fff'.
+	marsRover move: 'fff'.
 	
 	self marsRover: marsRover isAtPosition: 0@3 facing: North.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
-test19RetrocedeMultiplesPosicionesAlRecibirMasDeUnaB
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:34:41'!
+test19MovesBackwardsMultiplePositionsWithMultipleBackwardsCommands
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'bbb'.
+	marsRover move: 'bbb'.
 	
 	self marsRover: marsRover isAtPosition: 0@-3 facing: North.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:23:49'!
-test20RotarMultiplesVecesAlRecibirMasDeUnaR
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:35:59'!
+test20RotatesRightMultipleTimesWithMultipleRotateRightCommands
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'rrr'.
+	marsRover move: 'rrr'.
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: West.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:24:05'!
-test21RotarMultiplesVecesAlRecibirMasDeUnaI
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:35:45'!
+test21RotatesLeftMultipleTimesWithMultipleRotateLeftCommands
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'iii'.
+	marsRover move: 'iii'.
 	
 	self marsRover: marsRover isAtPosition: 0@0 facing: East.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:25'!
-test22FuncionaCorrectamenteAlRecibirCadenasCompuestas
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:36:30'!
+test22WorksCorrectlyWithMultipleDifferentCommands
 
 	| marsRover |
 
 	marsRover := MarsRover new.
 	marsRover initializeAt: 0@0 facing: North new.
 	
-	marsRover mover: 'ffr brr   ib'.
+	marsRover move: 'ffr brr   ib'.
 	
 	
 	self marsRover: marsRover isAtPosition: -1@3 facing: South.
 	
 	! !
 
-!MarsRoverTest methodsFor: 'test' stamp: 'PB 10/8/2019 21:04:07'!
-test23LanzaErrorAlRecibirAccionesInvalidas
+!MarsRoverTest methodsFor: 'test' stamp: 'ST 10/9/2019 11:36:54'!
+test23ThrowsErrorWithInvalidCommands
 
 	| marsRover |
 
@@ -343,7 +343,7 @@ test23LanzaErrorAlRecibirAccionesInvalidas
 	marsRover initializeAt: 0@0 facing: North new.
 	
 	self
-		should: [ marsRover mover: 'fbfx' ]
+		should: [ marsRover move: 'fbfx' ]
 		raise: Error - MessageNotUnderstood 
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = MarsRover invalidActionErrorDescription]
