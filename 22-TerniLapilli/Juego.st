@@ -5,6 +5,11 @@ Object subclass: #TerniLapilli
 	poolDictionaries: ''
 	category: 'Juego'!
 
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:18:47'!
+boardAt: aPosition 
+
+	^(board at: aPosition x) at: aPosition y. ! !
+
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:12:46'!
 boardAt: aPosition put: anElement
 
@@ -47,17 +52,22 @@ isXInPosition: aPosition
 
 	! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:02:50'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:46:59'!
 numberOfXAndOPlayed
 	
-	|number|
+	^(self numberOfXorOPlayedBy: #X) + (self numberOfXorOPlayedBy: #O).	
+! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:45:42'!
+numberOfXorOPlayedBy: aPlayer
+
+ 	|number|
 	
 	number := 0.
 	board do: [:row |
-		number := number + (row occurrencesOf: #X).
-		number := number + (row occurrencesOf: #O).	
+		number := number + (row occurrencesOf: aPlayer).	
 	].
-	^number.! !
+	^number! !
 
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:11:59'!
 putOAt: aPosition
@@ -73,12 +83,15 @@ putXAt: aPosition
 	currentPlayer _ #O.
 	self boardAt: aPosition put: #X. ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:07:00'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:51:11'!
 validatePlay: aPlayer at: aPosition
 	
+	|interval|
+	interval := Interval from: 1 to: 3.
+	((interval includes: aPosition x) and: (interval includes: aPosition y)) ifFalse: [^Error signal: self class cantPlaceXOrOOutOfBoundsError].
 	(currentPlayer = aPlayer) ifFalse: [^Error signal: self class onePlayerCannotPlayTwiceInARowError ].
-	(((board at: aPosition x) at: aPosition y) ~= #E) ifTrue:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpot ].
-! !
+	((self boardAt: aPosition) ~= #E) ifTrue:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpot ].
+	((self numberOfXorOPlayedBy: aPlayer) = 3) ifTrue: [^Error signal: self class cantPlaceMoreThan3XOrOError]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -86,10 +99,20 @@ validatePlay: aPlayer at: aPosition
 TerniLapilli class
 	instanceVariableNames: ''!
 
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:39:53'!
+cantPlaceMoreThan3XOrOError
+
+	^ 'cant place more than 3 X Or O'.! !
+
 !TerniLapilli class methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 19:12:33'!
 cantPlaceXOrOInAnOccupiedSpot
 
 	^ 'You cannot place an X or an O in an occupied spot'.! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:17:58'!
+cantPlaceXOrOOutOfBoundsError
+
+	^ 'cant place X Or O Out Of Bounds'.! !
 
 !TerniLapilli class methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 19:03:47'!
 onePlayerCannotPlayTwiceInARowError

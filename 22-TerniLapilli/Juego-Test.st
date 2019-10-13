@@ -67,3 +67,50 @@ test05YouCantPlaceXOrOInAnOccupiedSpot
 		raise: Error - MessageNotUnderstood 
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = TerniLapilli cantPlaceXOrOInAnOccupiedSpot ]! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:30:25'!
+test06YouCantPlaceXOrOOutOfBounds
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 0@0.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceXOrOOutOfBoundsError ]! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:39:17'!
+test07YouCantPlaceMoreThan3XOrO
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 1@1.
+				  game putOAt: 1@2.
+				  game putXAt: 1@3.
+				  game putOAt: 2@1.
+				  game putXAt: 2@2.
+				  game putOAt: 2@3.
+				  game putXAt: 3@1.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceMoreThan3XOrOError. ]! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:55:50'!
+test08MoveXFromOnePositionToAnother
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	
+	! !
