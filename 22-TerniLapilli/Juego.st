@@ -35,6 +35,11 @@ initialize
 	(board at: 3) at: 3 put: #E.
 	! !
 
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:39:46'!
+isOInPosition: aPosition
+
+	^((board at: aPosition x) at: aPosition y) = #O.! !
+
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 18:44:46'!
 isPlayingO
 
@@ -51,6 +56,22 @@ isXInPosition: aPosition
 	^((board at: aPosition x) at: aPosition y) = #X.
 
 	! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:49:28'!
+moveOFrom: originalPosition to: newPosition 
+	
+	self validateMove: #O from: originalPosition to: newPosition.
+		
+	self boardAt: originalPosition put: #E.
+	self boardAt: newPosition put: #O.! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:49:49'!
+moveXFrom: originalPosition to: newPosition 
+	
+	self validateMove: #X from: originalPosition to: newPosition.
+		
+	self boardAt: originalPosition put: #E.
+	self boardAt: newPosition put: #X.! !
 
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:46:59'!
 numberOfXAndOPlayed
@@ -69,28 +90,43 @@ numberOfXorOPlayedBy: aPlayer
 	].
 	^number! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:11:59'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:46:17'!
 putOAt: aPosition
 
-	self validatePlay: #O at: aPosition.
+	self validatePut: #O at: aPosition.
 	currentPlayer _ #X.
 	self boardAt: aPosition put: #O. ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:11:55'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:46:17'!
 putXAt: aPosition
 
-	self validatePlay: #X at: aPosition.
+	self validatePut: #X at: aPosition.
 	currentPlayer _ #O.
 	self boardAt: aPosition put: #X. ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:51:11'!
-validatePlay: aPlayer at: aPosition
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:55:34'!
+validateMove: aPlayer from: originalPosition to: newPosition
+	
+	|interval|
+	interval := Interval from: 1 to: 3.
+	((interval includes: newPosition x) and: (interval includes: newPosition y)) ifFalse: [^Error signal: self class cantMoveOutOfBoundsError].	
+	((self numberOfXorOPlayedBy: aPlayer) < 3) ifTrue: [Error signal: self class cantMoveWithLessThan3XOrOOnBoardError].
+	((self boardAt: originalPosition) = #E) ifTrue: [Error signal: self class cantMoveAnEmptySpaceError].
+	((self boardAt: newPosition) ~= #E) ifTrue: [Error signal: self class cantMoveToAnOcuppiedSpaceError].
+	((self boardAt: originalPosition) = aPlayer) ifFalse: [Error signal: self class canOnlyMoveYourPiecesError]. 
+	(currentPlayer = aPlayer) ifFalse: [Error signal: self class canOnlyMoveOnYourTurnError].
+	
+	
+	! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:46:17'!
+validatePut: aPlayer at: aPosition
 	
 	|interval|
 	interval := Interval from: 1 to: 3.
 	((interval includes: aPosition x) and: (interval includes: aPosition y)) ifFalse: [^Error signal: self class cantPlaceXOrOOutOfBoundsError].
 	(currentPlayer = aPlayer) ifFalse: [^Error signal: self class onePlayerCannotPlayTwiceInARowError ].
-	((self boardAt: aPosition) ~= #E) ifTrue:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpot ].
+	((self boardAt: aPosition) ~= #E) ifTrue:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpotError ].
 	((self numberOfXorOPlayedBy: aPlayer) = 3) ifTrue: [^Error signal: self class cantPlaceMoreThan3XOrOError]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -99,13 +135,43 @@ validatePlay: aPlayer at: aPosition
 TerniLapilli class
 	instanceVariableNames: ''!
 
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:39:11'!
+canOnlyMoveOnYourTurnError
+
+	^ 'You can only move on your turn'.! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:43:37'!
+canOnlyMoveYourPiecesError
+
+	^ 'You can only move your pieces'.! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:14:22'!
+cantMoveAnEmptySpaceError
+
+	^ 'You cant move an empty space'.! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:45:57'!
+cantMoveOutOfBoundsError
+
+	^ 'You cant move a piece out of bounds'.! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:18:58'!
+cantMoveToAnOcuppiedSpaceError
+
+	^ 'You cant move to an occupied space'.! !
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:28:44'!
+cantMoveWithLessThan3XOrOOnBoardError
+
+	^ 'You cant move with less than 3 X or O place on the board'.! !
+
 !TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 16:39:53'!
 cantPlaceMoreThan3XOrOError
 
 	^ 'cant place more than 3 X Or O'.! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 19:12:33'!
-cantPlaceXOrOInAnOccupiedSpot
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:19:08'!
+cantPlaceXOrOInAnOccupiedSpotError
 
 	^ 'You cannot place an X or an O in an occupied spot'.! !
 
