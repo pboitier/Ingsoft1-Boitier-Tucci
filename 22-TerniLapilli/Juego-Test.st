@@ -264,3 +264,75 @@ test14YouCantMoveOutOfBounds
 		
 	self assert: true equals: (game isOInPosition: 2@3).	
 	! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:34:51'!
+test15YouCantMoveToNonNeighbourSpots
+
+	self assert: false equals: true.
+	"| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 1@1 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@3)."	
+	! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 15:21:58'!
+test16YouWinIfYouHave3XOrOinARow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 2@1.
+	game putXAt: 1@2.
+	game putOAt: 2@2.
+	game putXAt: 1@3.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 15:46:15'!
+test17YouWinIfYouHave3XOrOinAColumn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@2.
+	game putXAt: 3@1.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:16:54'!
+test18YouWinIfYouHave3XOrOinADiagonal
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	game putXAt: 3@3.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
