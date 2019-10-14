@@ -265,11 +265,33 @@ test14YouCantMoveOutOfBounds
 	self assert: true equals: (game isOInPosition: 2@3).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:34:51'!
-test15YouCantMoveToNonNeighbourSpots
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:51:17'!
+test15YouCantMoveToNonNeighbourSpotsInSameRow
 
-	self assert: false equals: true.
-	"| game |
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 3@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 1@1 to: 1@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 1@3).	
+! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:58:06'!
+test16YouCantMoveToNonNeighbourSpotsInSameColumns
+
+	| game |
 	
 	game _ TerniLapilli new.
 	game putXAt: 1@1.
@@ -286,11 +308,33 @@ test15YouCantMoveToNonNeighbourSpots
 			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
 		
 		
-	self assert: false equals: (game isXInPosition: 3@3)."	
-	! !
+	self assert: false equals: (game isXInPosition: 3@3).	
+! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 15:21:58'!
-test16YouWinIfYouHave3XOrOinARow
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 17:20:48'!
+test17YouCantMoveInADiagonalInSpotsWhereItIsNotAllowed
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 1@3.
+	self
+		should: [ game moveXFrom: 2@3 to: 3@2.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@2).	
+! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 17:21:01'!
+test18YouWinIfYouHave3XOrOinARow
 
 	| game |
 	
@@ -305,8 +349,8 @@ test16YouWinIfYouHave3XOrOinARow
 	self assert: true equals: (game playerXWon).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 15:46:15'!
-test17YouWinIfYouHave3XOrOinAColumn
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 17:21:11'!
+test19YouWinIfYouHave3XOrOinAColumn
 
 	| game |
 	
@@ -321,8 +365,8 @@ test17YouWinIfYouHave3XOrOinAColumn
 	self assert: true equals: (game playerXWon).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:16:54'!
-test18YouWinIfYouHave3XOrOinADiagonal
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 17:21:18'!
+test20YouWinIfYouHave3XOrOinADiagonal
 
 	| game |
 	

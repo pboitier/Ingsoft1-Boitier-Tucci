@@ -171,10 +171,10 @@ putXAt: aPosition
 	self boardAt: aPosition put: #X. 
 	self checkIfPlayerWon: #X.! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:27:03'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 17:20:25'!
 validateMove: aPlayer from: originalPosition to: newPosition
 	
-	|interval|
+	|interval nonDiagonalMovementSpots|
 	interval := Interval from: 1 to: 3.
 	((interval includes: newPosition x) and: (interval includes: newPosition y)) ifFalse: [^Error signal: self class cantMoveOutOfBoundsError].	
 	((self numberOfXorOPlayedBy: aPlayer) < 3) ifTrue: [Error signal: self class cantMoveWithLessThan3XOrOOnBoardError].
@@ -182,7 +182,13 @@ validateMove: aPlayer from: originalPosition to: newPosition
 	((self boardAt: newPosition) ~= #E) ifTrue: [Error signal: self class cantMoveToAnOcuppiedSpaceError].
 	((self boardAt: originalPosition) = aPlayer) ifFalse: [Error signal: self class canOnlyMoveYourPiecesError]. 
 	(currentPlayer = aPlayer) ifFalse: [Error signal: self class canOnlyMoveOnYourTurnError].
+	(((originalPosition y) - (newPosition y)) abs) < 2 ifFalse: [Error signal: self class cantMoveToNonNeighbourSpotsError].
+	(((originalPosition x) - (newPosition x)) abs) < 2 ifFalse: [Error signal: self class cantMoveToNonNeighbourSpotsError].
 	
+	nonDiagonalMovementSpots := {1@2. 2@1. 2@3. 3@2.}.
+	((nonDiagonalMovementSpots includes: originalPosition) and: 
+	(((originalPosition x) ~= (newPosition x)) and: ((originalPosition y) ~= (newPosition y))))
+	ifTrue: [Error signal: self class cantMoveToNonNeighbourSpotsError].
 	
 	! !
 
