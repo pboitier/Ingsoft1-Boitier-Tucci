@@ -27,6 +27,11 @@ checkIfPlayerWon: aPlayer
 
 	playerWon ifTrue: [playerWhoWon := aPlayer.]! !
 
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:20:53'!
+currentPlayer
+
+	^currentPlayer. ! !
+
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 19:22:16'!
 initialize
 
@@ -166,21 +171,36 @@ playerXWon
 	^playerWhoWon = #X.
 ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 15:24:25'!
-putOAt: aPosition
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:26:09'!
+putOAt2: aPosition
 
 	self validatePut: #O at: aPosition.
 	currentPlayer _ #X.
 	self boardAt: aPosition put: #O.
 	self checkIfPlayerWon: #O. ! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 15:24:21'!
-putXAt: aPosition
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:26:27'!
+putOAt: aPosition
+
+	self state putOAt: aPosition.! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:59:58'!
+putXAt2: aPosition
 
 	self validatePut: #X at: aPosition.
 	currentPlayer _ #O.
 	self boardAt: aPosition put: #X. 
 	self checkIfPlayerWon: #X.! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:04:12'!
+putXAt: aPosition
+
+	self state putXAt: aPosition.! !
+
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:57:56'!
+state
+	
+	^TerniLapilliState stateFor: self.! !
 
 !TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:32:47'!
 validateMove: aPlayer from: originalPosition to: newPosition
@@ -205,17 +225,13 @@ validateMove: aPlayer from: originalPosition to: newPosition
 	
 	! !
 
-!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:32:58'!
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:07:54'!
 validatePut: aPlayer at: aPosition
 	
 	|interval|
 	interval := Interval from: 1 to: 3.
 	((interval includes: aPosition x) and: (interval includes: aPosition y)) ifFalse: [^Error signal: self class cantPlaceXOrOOutOfBoundsError].
-	(currentPlayer = aPlayer) ifFalse: [^Error signal: self class onePlayerCannotPlayTwiceInARowError ].
-	((self boardAt: aPosition) ~= #E) ifTrue:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpotError ].
-	((self numberOfXorOPlayedBy: aPlayer) = 3) ifTrue: [^Error signal: self class cantPlaceMoreThan3XOrOError].
-	
-	self isOver ifTrue: [Error signal: self class cantPlayAfterEitherPlayerHasWon].! !
+	((self boardAt: aPosition) ~= #E) ifTrue:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpotError ].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -302,6 +318,16 @@ isOver
 	^ self subclassResponsibility.
 ! !
 
+!TerniLapilliState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:26:38'!
+putOAt: aPosition
+
+	self subclassResponsibility.! !
+
+!TerniLapilliState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:46:32'!
+putXAt: aPosition
+
+	self subclassResponsibility.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'TerniLapilliState class' category: #Juego!
@@ -337,6 +363,32 @@ isOver
 	^ false.
 ! !
 
+!TerniLapilliMoveOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:27:39'!
+putOAt: aPosition
+
+	^Error signal: terniLapilli class cantPlaceMoreThan3XOrOError.
+! !
+
+!TerniLapilliMoveOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:53:59'!
+putXAt: aPosition
+
+	^Error signal: terniLapilli class onePlayerCannotPlayTwiceInARowError.
+! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliMoveOState class' category: #Juego!
+TerniLapilliMoveOState class
+	instanceVariableNames: ''!
+
+!TerniLapilliMoveOState class methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:33:12'!
+canHandle: aTerniLapilli
+
+	|numberOfXandOPlayed|
+	
+	numberOfXandOPlayed := aTerniLapilli numberOfXAndOPlayed.
+	^( numberOfXandOPlayed = 6) and: (aTerniLapilli currentPlayer = #O)  and: (aTerniLapilli isOver not).! !
+
 
 !classDefinition: #TerniLapilliMoveXState category: #Juego!
 TerniLapilliState subclass: #TerniLapilliMoveXState
@@ -350,6 +402,30 @@ isOver
 
 	^ false.
 ! !
+
+!TerniLapilliMoveXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:28:29'!
+putOAt: aPosition
+
+	^Error signal: terniLapilli class onePlayerCannotPlayTwiceInARowError.! !
+
+!TerniLapilliMoveXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:52:50'!
+putXAt: aPosition
+
+	^Error signal: terniLapilli class cantPlaceMoreThan3XOrOError.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliMoveXState class' category: #Juego!
+TerniLapilliMoveXState class
+	instanceVariableNames: ''!
+
+!TerniLapilliMoveXState class methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:32:58'!
+canHandle: aTerniLapilli
+
+	|numberOfXandOPlayed|
+	
+	numberOfXandOPlayed := aTerniLapilli numberOfXAndOPlayed.
+	^( numberOfXandOPlayed = 6) and: (aTerniLapilli currentPlayer = #X) and: aTerniLapilli isOver not.! !
 
 
 !classDefinition: #TerniLapilliPutOState category: #Juego!
@@ -365,6 +441,31 @@ isOver
 	^ false.
 ! !
 
+!TerniLapilliPutOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:29:05'!
+putOAt: aPosition
+	
+	^terniLapilli putOAt2: aPosition.! !
+
+!TerniLapilliPutOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:50:57'!
+putXAt: aPosition
+	
+	^Error signal: terniLapilli class onePlayerCannotPlayTwiceInARowError.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliPutOState class' category: #Juego!
+TerniLapilliPutOState class
+	instanceVariableNames: ''!
+
+!TerniLapilliPutOState class methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:34:54'!
+canHandle: aTerniLapilli
+
+	|numberOfXandOPlayed|
+	
+	numberOfXandOPlayed := aTerniLapilli numberOfXAndOPlayed.
+	^( numberOfXandOPlayed < 6) and: (aTerniLapilli currentPlayer = #O) 
+	and: (aTerniLapilli isOver not).! !
+
 
 !classDefinition: #TerniLapilliPutXState category: #Juego!
 TerniLapilliState subclass: #TerniLapilliPutXState
@@ -378,6 +479,31 @@ isOver
 
 	^ false.
 ! !
+
+!TerniLapilliPutXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:30:35'!
+putOAt: aPosition
+	
+	^terniLapilli class onePlayerCannotPlayTwiceInARowError.! !
+
+!TerniLapilliPutXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:06:06'!
+putXAt: aPosition
+	
+	^terniLapilli putXAt2: aPosition.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliPutXState class' category: #Juego!
+TerniLapilliPutXState class
+	instanceVariableNames: ''!
+
+!TerniLapilliPutXState class methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:35:05'!
+canHandle: aTerniLapilli
+
+	|numberOfXandOPlayed|
+	
+	numberOfXandOPlayed := aTerniLapilli numberOfXAndOPlayed.
+	^( numberOfXandOPlayed < 6) and: (aTerniLapilli currentPlayer = #X)
+	  and: (aTerniLapilli isOver not).! !
 
 
 !classDefinition: #TerniLapilliWonOState category: #Juego!
@@ -393,6 +519,27 @@ isOver
 	^ true.
 ! !
 
+!TerniLapilliWonOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:30:46'!
+putOAt: aPosition
+	
+	^Error signal: terniLapilli class cantPlayAfterEitherPlayerHasWon.! !
+
+!TerniLapilliWonOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:54:59'!
+putXAt: aPosition
+	
+	^Error signal: terniLapilli class cantPlayAfterEitherPlayerHasWon.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliWonOState class' category: #Juego!
+TerniLapilliWonOState class
+	instanceVariableNames: ''!
+
+!TerniLapilliWonOState class methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:23:36'!
+canHandle: aTerniLapilli
+
+	^aTerniLapilli playerOWon.! !
+
 
 !classDefinition: #TerniLapilliWonXState category: #Juego!
 TerniLapilliState subclass: #TerniLapilliWonXState
@@ -406,3 +553,24 @@ isOver
 
 	^ true.
 ! !
+
+!TerniLapilliWonXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:30:51'!
+putOAt: aPosition
+	
+	^Error signal: terniLapilli class cantPlayAfterEitherPlayerHasWon.! !
+
+!TerniLapilliWonXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:55:08'!
+putXAt: aPosition
+	
+	^Error signal: terniLapilli class cantPlayAfterEitherPlayerHasWon.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliWonXState class' category: #Juego!
+TerniLapilliWonXState class
+	instanceVariableNames: ''!
+
+!TerniLapilliWonXState class methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:23:48'!
+canHandle: aTerniLapilli
+
+	^aTerniLapilli playerXWon.! !
