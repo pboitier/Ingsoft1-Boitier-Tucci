@@ -500,7 +500,7 @@ test26WhenOMovesTheNextPlayerIsX
 	
 	self assert: true equals: game isPlayingX.! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 19:04:30'!
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/15/2019 21:35:57'!
 test27WhenXMovesTheNextPlayerIsO
 
 	
@@ -512,9 +512,9 @@ test27WhenXMovesTheNextPlayerIsO
 	game putXAt: 2@1.
 	game putOAt: 2@3.
 	game putXAt: 3@2.
-	game putOAt: 3@3.
+	game putOAt: 3@1.
 	
-	game moveXFrom: 3@2 to: 3@1.
+	game moveXFrom: 3@2 to: 3@3.
 	
-	
+
 	self assert: true equals: game isPlayingO.! !
