@@ -40,8 +40,8 @@ test03WhenPlayerXPlaysInAnEmptyBoardItIsCorrectlyModifiedAndNextPlayerIsO
 	self assert: 1 equals: (game numberOfXAndOPlayed).
 	self assert: true equals: game isPlayingO.! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 15:32:46'!
-test04APlayerCannotPlayTwiceInARow
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:13'!
+test04APlayerCantPutPiecesWhenItIsNotItsTurn
 
 	| game |
 	
@@ -51,7 +51,7 @@ test04APlayerCannotPlayTwiceInARow
 		should: [ game putXAt: 1@2. game putXAt: 2@2.]
 		raise: Error - MessageNotUnderstood 
 		withExceptionDo: [ :anError |
-			self assert: anError messageText = TerniLapilli onePlayerCannotPlayTwiceInARowError ].
+			self assert: anError messageText = TerniLapilli onePlayerCanOnlyPlayInItsTurnError ].
 				
 	self assert: false equals: (game isXInPosition: 2@2).! !
 
@@ -333,21 +333,27 @@ test17YouCantMoveInADiagonalInSpotsWhereItIsNotAllowed
 	self assert: false equals: (game isXInPosition: 3@2).	
 ! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:45:39'!
-test18YouWinIfYouPut3XOrOinARow
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:28:44'!
+test18YouCantMoveMoreThanOneSpotDiagonally
 
 	| game |
 	
 	game _ TerniLapilli new.
 	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@3.
 	game putOAt: 2@1.
-	game putXAt: 1@2.
-	game putOAt: 2@2.
-	game putXAt: 1@3.
+	game putXAt: 2@2.
+	game putOAt: 1@3.
+	self
+		should: [ game moveXFrom: 1@1 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
 		
-	self assert: true equals: (game isOver).
-	self assert: true equals: (game playerXWon).	
-	! !
+		
+	self assert: false equals: (game isXInPosition: 3@2).	
+! !
 
 !JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:45:49'!
 test19YouWinIfYouPut3XOrOinAColumn
@@ -365,8 +371,24 @@ test19YouWinIfYouPut3XOrOinAColumn
 	self assert: true equals: (game playerXWon).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:45:57'!
-test20YouWinIfYouPut3XOrOinADiagonal
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:10'!
+test20YouWinIfYouPut3XOrOinARow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 2@1.
+	game putXAt: 1@2.
+	game putOAt: 2@2.
+	game putXAt: 1@3.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:15'!
+test21YouWinIfYouPut3XOrOinADiagonal
 
 	| game |
 	
@@ -381,8 +403,8 @@ test20YouWinIfYouPut3XOrOinADiagonal
 	self assert: true equals: (game playerXWon).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:51:33'!
-test21YouWinIfYouMoveXOrOAndMake3InARow
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:25'!
+test22YouWinIfYouMoveXOrOAndMake3InARow
 
 	| game |
 	
@@ -400,8 +422,8 @@ test21YouWinIfYouMoveXOrOAndMake3InARow
 	self assert: true equals: (game playerXWon).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:49:04'!
-test22YouWinIfYouMoveXOrOAndMake3InAColumn
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:33'!
+test23YouWinIfYouMoveXOrOAndMake3InAColumn
 
 	| game |
 	
@@ -416,8 +438,8 @@ test22YouWinIfYouMoveXOrOAndMake3InAColumn
 	self assert: true equals: (game playerXWon).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:49:13'!
-test23YouWinIfYouMoveXOrOAndMake3InADiagonal
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:41'!
+test24YouWinIfYouMoveXOrOAndMake3InADiagonal
 
 	| game |
 	
@@ -432,8 +454,8 @@ test23YouWinIfYouMoveXOrOAndMake3InADiagonal
 	self assert: true equals: (game playerXWon).	
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:49:31'!
-test24YouCantPutIfAPlayerAlreadyWon
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:07'!
+test25YouCantPutIfAPlayerAlreadyWon
 
 	
 	| game |
@@ -455,8 +477,8 @@ test24YouCantPutIfAPlayerAlreadyWon
 	self assert: false equals: (game isOInPosition: 1@3).
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:55:05'!
-test25YouCantMoveIfAPlayerAlreadyWon
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:15'!
+test26YouCantMoveIfAPlayerAlreadyWon
 
 	
 	| game |
@@ -481,8 +503,8 @@ test25YouCantMoveIfAPlayerAlreadyWon
 	self assert: false equals: (game isOInPosition: 1@3).
 	! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 19:02:06'!
-test26WhenOMovesTheNextPlayerIsX
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:22'!
+test27WhenOMovesTheNextPlayerIsX
 
 	
 	| game |
@@ -500,8 +522,8 @@ test26WhenOMovesTheNextPlayerIsX
 	
 	self assert: true equals: game isPlayingX.! !
 
-!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/15/2019 21:35:57'!
-test27WhenXMovesTheNextPlayerIsO
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:26'!
+test28WhenXMovesTheNextPlayerIsO
 
 	
 	| game |

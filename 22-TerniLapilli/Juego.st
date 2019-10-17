@@ -132,35 +132,50 @@ boardAt: aPosition put: anElement
 	(board at: aPosition x) at: aPosition y put: anElement.
 ! !
 
+!TerniLapilli methodsFor: 'boardAccess' stamp: 'PB 10/16/2019 22:40:52'!
+boardEmptyAt: aPosition
 
-!TerniLapilli methodsFor: 'validations' stamp: 'ST 10/15/2019 20:48:48'!
+	^(self boardAt: aPosition) = #E! !
+
+!TerniLapilli methodsFor: 'boardAccess' stamp: 'PB 10/16/2019 22:32:00'!
+boardPositionValid: aPosition
+	
+	|interval|
+	interval := Interval from: 1 to: 3.
+	^((interval includes: aPosition x) and: (interval includes: aPosition y)).
+	! !
+
+
+!TerniLapilli methodsFor: 'validations' stamp: 'PB 10/16/2019 23:25:49'!
 validateMove: aPlayer from: originalPosition to: newPosition
 	
-	|interval nonDiagonalMovementSpots|
-	interval := Interval from: 1 to: 3.
-	((interval includes: newPosition x) and: (interval includes: newPosition y)) ifFalse: [^Error signal: self class cantMoveOutOfBoundsError].	
-	((self boardAt: originalPosition) = #E) ifTrue: [Error signal: self class cantMoveAnEmptySpaceError].
-	((self boardAt: newPosition) ~= #E) ifTrue: [Error signal: self class cantMoveToAnOcuppiedSpaceError].
-	((self boardAt: originalPosition) = aPlayer) ifFalse: [Error signal: self class canOnlyMoveYourPiecesError]. 
+	(self boardPositionValid: newPosition ) ifFalse: [^Error signal: self class cantMoveOutOfBoundsError].	
+	(self boardEmptyAt: originalPosition) ifTrue: [Error signal: self class cantMoveAnEmptySpaceError].
+	(self boardEmptyAt: newPosition) ifFalse: [Error signal: self class cantMoveToAnOcuppiedSpaceError].
+	((self boardAt: originalPosition) = aPlayer) ifFalse: [Error signal: self class canOnlyMoveYourPiecesError].
+	self validateMoveFrom: originalPosition IsOnlyOneSpotInDistanceFrom: newPosition.
+
+
+	
+	! !
+
+!TerniLapilli methodsFor: 'validations' stamp: 'PB 10/16/2019 23:24:39'!
+validateMoveFrom: originalPosition IsOnlyOneSpotInDistanceFrom: newPosition  
+	
+	|nonDiagonalMovementSpots|
 	(((originalPosition y) - (newPosition y)) abs) < 2 ifFalse: [Error signal: self class cantMoveToNonNeighbourSpotsError].
 	(((originalPosition x) - (newPosition x)) abs) < 2 ifFalse: [Error signal: self class cantMoveToNonNeighbourSpotsError].
 	
 	nonDiagonalMovementSpots := {1@2. 2@1. 2@3. 3@2.}.
 	((nonDiagonalMovementSpots includes: originalPosition) and: 
 	(((originalPosition x) ~= (newPosition x)) and: ((originalPosition y) ~= (newPosition y))))
-	ifTrue: [Error signal: self class cantMoveToNonNeighbourSpotsError].
+	ifTrue: [Error signal: self class cantMoveToNonNeighbourSpotsError].! !
 
-
-	
-	! !
-
-!TerniLapilli methodsFor: 'validations' stamp: 'PB 10/15/2019 20:07:54'!
+!TerniLapilli methodsFor: 'validations' stamp: 'PB 10/16/2019 22:39:17'!
 validatePut: aPlayer at: aPosition
 	
-	|interval|
-	interval := Interval from: 1 to: 3.
-	((interval includes: aPosition x) and: (interval includes: aPosition y)) ifFalse: [^Error signal: self class cantPlaceXOrOOutOfBoundsError].
-	((self boardAt: aPosition) ~= #E) ifTrue:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpotError ].! !
+	(self boardPositionValid: aPosition ) ifFalse: [^Error signal: self class cantPlaceXOrOOutOfBoundsError].
+	(self boardEmptyAt: aPosition) ifFalse:  [^Error signal: self class cantPlaceXOrOInAnOccupiedSpotError ].! !
 
 
 !TerniLapilli methodsFor: 'actions' stamp: 'ST 10/15/2019 20:46:05'!
@@ -298,10 +313,10 @@ cantPlayAfterEitherPlayerHasWon
 
 	^ 'The game has ended, you cant play anymore'.! !
 
-!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 19:03:47'!
-onePlayerCannotPlayTwiceInARowError
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:50'!
+onePlayerCanOnlyPlayInItsTurnError
 
-	^ 'One player cannot play twice in a row'.! !
+	^ 'One player can only play in its turn error'.! !
 
 
 !classDefinition: #TerniLapilliState category: #Juego!
@@ -388,10 +403,10 @@ putOAt: aPosition
 	^Error signal: terniLapilli class cantPlaceMoreThan3XOrOError.
 ! !
 
-!TerniLapilliMoveOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:53:59'!
+!TerniLapilliMoveOState methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:13'!
 putXAt: aPosition
 
-	^Error signal: terniLapilli class onePlayerCannotPlayTwiceInARowError.
+	^Error signal: terniLapilli class onePlayerCanOnlyPlayInItsTurnError.
 ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -437,10 +452,10 @@ playerXWon
 
 	^ false.! !
 
-!TerniLapilliMoveXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:28:29'!
+!TerniLapilliMoveXState methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:13'!
 putOAt: aPosition
 
-	^Error signal: terniLapilli class onePlayerCannotPlayTwiceInARowError.! !
+	^Error signal: terniLapilli class onePlayerCanOnlyPlayInItsTurnError.! !
 
 !TerniLapilliMoveXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:52:50'!
 putXAt: aPosition
@@ -495,10 +510,10 @@ putOAt: aPosition
 	
 	^terniLapilli validPlayerPutOAt: aPosition.! !
 
-!TerniLapilliPutOState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 19:50:57'!
+!TerniLapilliPutOState methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:13'!
 putXAt: aPosition
 	
-	^Error signal: terniLapilli class onePlayerCannotPlayTwiceInARowError.! !
+	^Error signal: terniLapilli class onePlayerCanOnlyPlayInItsTurnError.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -544,10 +559,10 @@ playerXWon
 
 	^ false.! !
 
-!TerniLapilliPutXState methodsFor: 'as yet unclassified' stamp: 'PB 10/15/2019 20:30:35'!
+!TerniLapilliPutXState methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:13'!
 putOAt: aPosition
 	
-	^terniLapilli class onePlayerCannotPlayTwiceInARowError.! !
+	^terniLapilli class onePlayerCanOnlyPlayInItsTurnError.! !
 
 !TerniLapilliPutXState methodsFor: 'as yet unclassified' stamp: 'ST 10/15/2019 21:39:25'!
 putXAt: aPosition
