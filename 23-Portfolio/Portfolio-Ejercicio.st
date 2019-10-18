@@ -124,6 +124,53 @@ test07PortfolioWithPortfolioAndAccountsFindsTransactionToAccounts
 	
 	! !
 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 20:16:45'!
+test08EmptyPortfolioTransactionsAreEmpty
+
+	|portfolio emptyCollection|
+	
+	portfolio := Portfolio new.
+	emptyCollection := OrderedCollection new.
+	
+	self assert: emptyCollection equals: (portfolio transactions).
+	
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 20:53:19'!
+test09PortfolioWithAccountsHasTheSameTransactionsAsAccounts
+
+	|portfolio receptiveAccount1 receptiveAccount2 totalTransactions|
+	
+	receptiveAccount1 := ReceptiveAccount new.
+	Deposit register: 100 on: receptiveAccount1.
+	Deposit register: 200 on: receptiveAccount1.
+	Withdraw register: 100 on: receptiveAccount1.
+	
+	receptiveAccount2 := ReceptiveAccount new.
+	Deposit register: 300 on: receptiveAccount2.
+	Withdraw register: 500 on: receptiveAccount2.
+	Withdraw register: 100 on: receptiveAccount2.
+	
+	portfolio := Portfolio new.
+	portfolio add: receptiveAccount1.
+	portfolio add: receptiveAccount2.
+	
+	totalTransactions := (receptiveAccount1 transactions). 
+	totalTransactions addAll: (receptiveAccount2 transactions).
+	
+	self assert: totalTransactions size equals: ((portfolio transactions) size).
+	self assert: totalTransactions asBag equals: ((portfolio transactions) asBag).
+	
+	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 21:24:30'!
+test10PortfolioWithPortfolioAndAccountsHasTheSameTransactionsAsAccounts
+
+	
+	self assert: false equals: true.
+	
+	! !
+
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
 TestCase subclass: #ReceptiveAccountTest
@@ -350,15 +397,18 @@ hasRegistered: aTransaction
 	items do: [:anItem| (anItem hasRegistered: aTransaction) ifTrue: [hasTransactionRegistered := true.]].
 	^hasTransactionRegistered.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 19:09:03'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 19:55:30'!
 initialize
 
-	items :=  Bag new.! !
+	items :=  OrderedCollection new.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 19:51:56'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 20:13:08'!
 transactions
 
-	^items do:[:anItem| ^anItem transactions ] ! !
+	|transactions|
+	transactions := OrderedCollection new.
+	items do:[:anItem| transactions addAll: (anItem transactions) ]. 
+	^transactions.! !
 
 
 !classDefinition: #ReceptiveAccount category: #'Portfolio-Ejercicio'!
