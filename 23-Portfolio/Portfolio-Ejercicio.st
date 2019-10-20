@@ -269,6 +269,26 @@ test14PortfolioCantAddSubPortfolioWithAccountAlreadyInPortfolio
 	
 	self assert: ((subPortfolio transactions) asBag) equals: (portfolio transactions asBag) ! !
 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 20:03:03'!
+test15CantAddAccountToSubPortfolioOfMultiplePortfoliosIfAccountIsInAnyPortfolio
+
+	|portfolio1 portfolio2 subPortfolio receptiveAccount1|
+	
+	receptiveAccount1 := ReceptiveAccount new.
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	subPortfolio := Portfolio new.
+	portfolio1 add: receptiveAccount1.
+	portfolio1 add: subPortfolio.
+	portfolio2 add: subPortfolio.
+
+	self should: [subPortfolio add: receptiveAccount1.]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [:anError | self assert: anError messageText = subPortfolio class InvalidPortfolio. ].
+	
+	self assert: (subPortfolio hasAccount: receptiveAccount1) equals: false. ! !
+
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
 TestCase subclass: #ReceptiveAccountTest
@@ -469,15 +489,16 @@ for: aValue
 
 !classDefinition: #PortfolioElement category: #'Portfolio-Ejercicio'!
 Object subclass: #PortfolioElement
-	instanceVariableNames: 'parentPortfolioElement'
+	instanceVariableNames: 'parents'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!PortfolioElement methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 18:24:20'!
+!PortfolioElement methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 20:10:39'!
 setPortfolioElementParent: aPortfolioElement
 
-	parentPortfolioElement := aPortfolioElement.! !
+	parents ifNil: [parents := OrderedCollection new.].
+	parents add: aPortfolioElement.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -550,10 +571,11 @@ listOfAllElements
 	items do:[:anItem| allEllements addAll: (anItem listOfAllElements) ]. 
 	^allEllements.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 19:35:03'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 20:15:32'!
 sharesAPortfolioElementWith: anotherPortfolioElement
 
-	parentPortfolioElement ifNotNil: [^parentPortfolioElement sharesAPortfolioElementWith: anotherPortfolioElement.].
+	parents ifNotNil: [parents detect: [:aParent| aParent sharesAPortfolioElementWith: anotherPortfolioElement.]
+		ifNone: [^false]. ^true.].
 	(anotherPortfolioElement listOfAllElements) detect: [:anElement | self hasPortfolioElement: anElement.] ifNone: [^false.].
 	^true.
 ! !
