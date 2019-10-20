@@ -250,12 +250,13 @@ test13CantAddAccountAlreadyInPortfolioToSubPortfolio
 	
 	self assert: (subPortfolio transactions) isEmpty  ! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 18:18:54'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 19:35:32'!
 test14PortfolioCantAddSubPortfolioWithAccountAlreadyInPortfolio
 
-	"|portfolio subPortfolio receptiveAccount1|
+	|portfolio subPortfolio receptiveAccount1|
 	
 	receptiveAccount1 := ReceptiveAccount new.
+	Deposit register: 100 on: receptiveAccount1.
 	portfolio := Portfolio new.
 	portfolio add: receptiveAccount1.
 	
@@ -266,7 +267,7 @@ test14PortfolioCantAddSubPortfolioWithAccountAlreadyInPortfolio
 	raise: Error - MessageNotUnderstood
 	withExceptionDo: [:anError | self assert: anError messageText = subPortfolio class InvalidPortfolio. ].
 	
-	self assert: ((subPortfolio transactions) asBag) equals: (portfolio transactions asBag) "! !
+	self assert: ((subPortfolio transactions) asBag) equals: (portfolio transactions asBag) ! !
 
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
@@ -478,6 +479,17 @@ setPortfolioElementParent: aPortfolioElement
 
 	parentPortfolioElement := aPortfolioElement.! !
 
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'PortfolioElement class' category: #'Portfolio-Ejercicio'!
+PortfolioElement class
+	instanceVariableNames: ''!
+
+!PortfolioElement class methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 19:32:08'!
+invalidPortfolio
+
+	^'invalid portfolio'! !
+
 
 !classDefinition: #Portfolio category: #'Portfolio-Ejercicio'!
 PortfolioElement subclass: #Portfolio
@@ -486,10 +498,10 @@ PortfolioElement subclass: #Portfolio
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 18:34:36'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 19:29:55'!
 add: aPortfolioElement
 
-	(self sharesAPortfolioElementWith: aPortfolioElement) ifTrue: [Error signal: self class InvalidPortfolio].
+	(self sharesAPortfolioElementWith: aPortfolioElement) ifTrue: [^Error signal: self class InvalidPortfolio].
 	items add: aPortfolioElement.
 	aPortfolioElement setPortfolioElementParent: self.! !
 
@@ -509,6 +521,14 @@ hasAccount: anAccount
 	items do: [:anItem| (anItem hasAccount: anAccount) ifTrue: [accountFound := true.]].
 	^accountFound.! !
 
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 18:44:31'!
+hasPortfolioElement: aPortfolioElement
+
+	|portfolioElementFound|
+	portfolioElementFound := self = aPortfolioElement.
+	items do: [:anItem| (anItem hasPortfolioElement: aPortfolioElement) ifTrue: [portfolioElementFound := true.]].
+	^portfolioElementFound.! !
+
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 19:42:37'!
 hasRegistered: aTransaction
 
@@ -522,15 +542,21 @@ initialize
 
 	items :=  OrderedCollection new.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 18:36:59'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 19:06:37'!
+listOfAllElements
+
+	|allEllements|
+	allEllements := OrderedCollection new.
+	items do:[:anItem| allEllements addAll: (anItem listOfAllElements) ]. 
+	^allEllements.! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 19:35:03'!
 sharesAPortfolioElementWith: anotherPortfolioElement
 
 	parentPortfolioElement ifNotNil: [^parentPortfolioElement sharesAPortfolioElementWith: anotherPortfolioElement.].
-	^self hasAccount: anotherPortfolioElement.
-	"|accountFound|
-	accountFound := false.
-	items do: [:anItem| (anItem hasAccount: anAccount) ifTrue: [accountFound := true.]].
-	^accountFound."! !
+	(anotherPortfolioElement listOfAllElements) detect: [:anElement | self hasPortfolioElement: anElement.] ifNone: [^false.].
+	^true.
+! !
 
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 20:13:08'!
 transactions
@@ -546,8 +572,9 @@ transactions
 Portfolio class
 	instanceVariableNames: ''!
 
-!Portfolio class methodsFor: 'nil' stamp: 'PB 10/20/2019 16:54:24'!
-InvalidPortfolio! !
+!Portfolio class methodsFor: 'nil' stamp: 'PB 10/20/2019 19:31:42'!
+InvalidPortfolio
+	^'invalid portfolio'! !
 
 
 !classDefinition: #ReceptiveAccount category: #'Portfolio-Ejercicio'!
@@ -562,6 +589,14 @@ initialize
 
 	transactions := OrderedCollection new.! !
 
+
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'PB 10/20/2019 19:11:23'!
+listOfAllElements 
+
+	|list|
+	list := OrderedCollection new.
+	list add: self.
+	^ list.! !
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
 register: aTransaction
@@ -587,6 +622,11 @@ balance
 hasAccount: anAccount
 
 	^anAccount = self.! !
+
+!ReceptiveAccount methodsFor: 'balance' stamp: 'PB 10/20/2019 18:45:16'!
+hasPortfolioElement: aPortfolioElement
+
+	^aPortfolioElement = self.! !
 
 
 !ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
