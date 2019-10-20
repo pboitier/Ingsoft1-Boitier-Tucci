@@ -289,6 +289,19 @@ test15CantAddAccountToSubPortfolioOfMultiplePortfoliosIfAccountIsInAnyPortfolio
 	
 	self assert: (subPortfolio hasAccount: receptiveAccount1) equals: false. ! !
 
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 20:32:22'!
+test16CantAddPortfolioAsSubPortfolioOfSelf
+
+	|portfolio1|
+	
+	portfolio1 := Portfolio new.
+	
+	self should: [portfolio1 add: portfolio1.]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [:anError | self assert: anError messageText = portfolio1 class InvalidPortfolio. ].
+	
+	self assert: 1 equals: (portfolio1 listOfAllElements size).! !
+
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
 TestCase subclass: #ReceptiveAccountTest
@@ -563,13 +576,14 @@ initialize
 
 	items :=  OrderedCollection new.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 19:06:37'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 20:31:47'!
 listOfAllElements
 
-	|allEllements|
-	allEllements := OrderedCollection new.
-	items do:[:anItem| allEllements addAll: (anItem listOfAllElements) ]. 
-	^allEllements.! !
+	|allElements|
+	allElements := OrderedCollection new.
+	allElements add: self.
+	items do:[:anItem| allElements addAll: (anItem listOfAllElements) ]. 
+	^allElements.! !
 
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 20:15:32'!
 sharesAPortfolioElementWith: anotherPortfolioElement
