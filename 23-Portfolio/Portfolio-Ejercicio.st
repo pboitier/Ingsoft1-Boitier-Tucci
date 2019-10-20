@@ -163,13 +163,56 @@ test09PortfolioWithAccountsHasTheSameTransactionsAsAccounts
 	
 	! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 21:24:30'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 16:44:51'!
 test10PortfolioWithPortfolioAndAccountsHasTheSameTransactionsAsAccounts
 
+	|portfolioWithPortfolio portfolio receptiveAccount1 receptiveAccount2 receptiveAccount3 totalTransactions|
 	
-	self assert: false equals: true.
+	receptiveAccount1 := ReceptiveAccount new.
+	Deposit register: 100 on: receptiveAccount1.
+	Deposit register: 200 on: receptiveAccount1.
+	Withdraw register: 100 on: receptiveAccount1.
+	
+	receptiveAccount2 := ReceptiveAccount new.
+	Deposit register: 300 on: receptiveAccount2.
+	Withdraw register: 500 on: receptiveAccount2.
+	Withdraw register: 100 on: receptiveAccount2.
+	
+	receptiveAccount3 := ReceptiveAccount new.
+	Withdraw register: 100 on: receptiveAccount3.
+	Deposit register: 400 on: receptiveAccount3.
+	
+	portfolio := Portfolio new.
+	portfolio add: receptiveAccount1.
+	portfolio add: receptiveAccount2.
+	
+	portfolioWithPortfolio := Portfolio new.
+	portfolioWithPortfolio add: receptiveAccount3.
+	portfolioWithPortfolio add: portfolio.
+	
+	totalTransactions := (receptiveAccount1 transactions). 
+	totalTransactions addAll: (receptiveAccount2 transactions).
+	totalTransactions addAll: (receptiveAccount3 transactions).
+	
+	self assert: totalTransactions size equals: ((portfolioWithPortfolio transactions) size).
+	self assert: totalTransactions asBag equals: ((portfolioWithPortfolio transactions) asBag).
 	
 	! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 16:54:58'!
+test11PortfolioCantHaveTheSameAccountTwice
+
+	|portfolio receptiveAccount1|
+	
+	receptiveAccount1 := ReceptiveAccount new.
+	portfolio := Portfolio new.
+	portfolio add: receptiveAccount1.
+	
+	self should: [portfolio add: receptiveAccount1.]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [:anError | self assert: anError messageText = portfolio class InvalidPortfolio. ].
+	
+	self assert: ((receptiveAccount1 transactions) asBag) equals: (portfolio transactions asBag) ! !
 
 
 !classDefinition: #ReceptiveAccountTest category: #'Portfolio-Ejercicio'!
@@ -369,16 +412,25 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
+!classDefinition: #PortfolioElement category: #'Portfolio-Ejercicio'!
+Object subclass: #PortfolioElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+
 !classDefinition: #Portfolio category: #'Portfolio-Ejercicio'!
-Object subclass: #Portfolio
+PortfolioElement subclass: #Portfolio
 	instanceVariableNames: 'items'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 19:13:09'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 16:59:07'!
 add: anAccountOrPortfolio
 
+	(items includes: anAccountOrPortfolio) ifTrue: [Error signal: self class InvalidPortfolio].
 	items add: anAccountOrPortfolio.! !
 
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'PB 10/17/2019 19:06:39'!
@@ -410,9 +462,18 @@ transactions
 	items do:[:anItem| transactions addAll: (anItem transactions) ]. 
 	^transactions.! !
 
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Portfolio class' category: #'Portfolio-Ejercicio'!
+Portfolio class
+	instanceVariableNames: ''!
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PB 10/20/2019 16:54:24'!
+InvalidPortfolio! !
+
 
 !classDefinition: #ReceptiveAccount category: #'Portfolio-Ejercicio'!
-Object subclass: #ReceptiveAccount
+PortfolioElement subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions'
 	classVariableNames: ''
 	poolDictionaries: ''
