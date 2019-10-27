@@ -312,7 +312,7 @@ TestCase subclass: #ReportTest
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:19:22'!
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 16:19:22'!
 test01AccountSummaryOfAnAccountWithNoTransactionsIsCorrect
 
 	|receptiveAccount report|
@@ -322,7 +322,7 @@ test01AccountSummaryOfAnAccountWithNoTransactionsIsCorrect
 	
 	self assert:   'balance = 0' equals: report text.! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:19:25'!
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 16:19:25'!
 test02AccountSummaryOfAnAccountWithDepositIsCorrect
 
 	|receptiveAccount1 report|
@@ -333,7 +333,7 @@ test02AccountSummaryOfAnAccountWithDepositIsCorrect
 	
 	self assert: 'Depósito por 200 balance = 200' equals: report text.! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:19:31'!
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 16:19:31'!
 test03AccountSummaryOfAnAccountWithDepositAndWithdrawIsCorrect
 
 	|receptiveAccount1 report|
@@ -345,7 +345,7 @@ test03AccountSummaryOfAnAccountWithDepositAndWithdrawIsCorrect
 	
 	self assert:   'Depósito por 200 Extracción por 100 balance = 100' equals: report text.! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:37:30'!
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 17:37:30'!
 test04AccountSummaryOfAnAccountWithTransfersIsCorrect
 
 	|receptiveAccount1 receptiveAccount2 report1 report2|
@@ -360,7 +360,7 @@ test04AccountSummaryOfAnAccountWithTransfersIsCorrect
 	self assert:   'Entrada por transferencia de 200 balance = 200' equals: report1 text.
 	self assert: 'Salida por transferencia de 200 balance = -200' equals: report2 text.! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:53:28'!
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 18:53:28'!
 test05NetTransferOfAnAccountWithNoTransfersIsCorrect
 
 	|receptiveAccount report|
@@ -370,7 +370,7 @@ test05NetTransferOfAnAccountWithNoTransfersIsCorrect
 	
 	self assert:  'neto de transferencias = 0' equals: report text.! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:53:32'!
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 18:53:32'!
 test06NetTransferOfAnAccountWithTransferDepositIsCorrect
 
 	|receptiveAccount1 receptiveAccount2 report|
@@ -383,7 +383,7 @@ test06NetTransferOfAnAccountWithTransferDepositIsCorrect
 	
 	self assert:  'neto de transferencias = 200' equals: report text.! !
 
-!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:53:37'!
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 18:53:37'!
 test07NetTransferOfAnAccountWithTransferWithdrawIsCorrect
 
 	|receptiveAccount1 receptiveAccount2 report|
@@ -395,6 +395,21 @@ test07NetTransferOfAnAccountWithTransferWithdrawIsCorrect
 	report := NetTransfer of: receptiveAccount2.
 	
 	self assert:  'neto de transferencias = -200' equals: report text.! !
+
+!ReportTest methodsFor: 'test' stamp: 'PB 10/27/2019 19:16:13'!
+test08NetTransferOfAnAccountWithMultipleTransfersIsCorrect
+
+	|receptiveAccount1 receptiveAccount2 report|
+	
+	receptiveAccount1 := ReceptiveAccount new.
+	receptiveAccount2 := ReceptiveAccount new.
+	Deposit register: 300 on: receptiveAccount1.
+	Transfer register: 200 from: receptiveAccount2 to: receptiveAccount1.
+	Transfer register: 100 from: receptiveAccount1 to: receptiveAccount2.
+	Transfer register: 50 from: receptiveAccount1 to: receptiveAccount2.
+	report := NetTransfer of: receptiveAccount2.
+	
+	self assert:  'neto de transferencias = 50' equals: report text.! !
 
 
 !classDefinition: #TransferTest category: #'Portfolio-Solucion'!
@@ -450,6 +465,13 @@ addTransactionsTo: aCollectionOfTransactions
 
 	self subclassResponsibility ! !
 
+!Account methodsFor: 'transactions' stamp: 'PB 10/27/2019 19:07:17'!
+forAllTransactionsInject: initialValue into: aClosure
+
+	^self transactions inject: initialValue
+					   into: aClosure
+	! !
+
 !Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:15'!
 transactions
 
@@ -460,12 +482,6 @@ transactions
 addedTo: aPortfolio
 
 	self subclassResponsibility ! !
-
-
-!Account methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:06:39'!
-forAllTransactionsDo: aClosure
-
-	! !
 
 
 !classDefinition: #Portfolio category: #'Portfolio-Solucion'!
@@ -670,11 +686,6 @@ Object subclass: #AccountTransaction
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!AccountTransaction methodsFor: 'value' stamp: 's 10/21/2019 21:25:22'!
-printTransaction
-
-	self subclassResponsibility.! !
-
 !AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
 value 
 
@@ -686,8 +697,9 @@ affectBalance: aBalance
 
 	self subclassResponsibility ! !
 
-!AccountTransaction methodsFor: 'balance' stamp: 'PB 10/27/2019 16:32:02'!
-selectActionForReport: aReport
+
+!AccountTransaction methodsFor: 'reports' stamp: 'PB 10/27/2019 19:19:32'!
+actionForReport: aReport
 
 	self subclassResponsibility ! !
 
@@ -732,10 +744,11 @@ affectBalance: aBalance
 
 	^aBalance + value ! !
 
-!Deposit methodsFor: 'balance' stamp: 'PB 10/27/2019 16:57:08'!
-selectActionForReport: aReport
 
-	^aReport selectActionForDeposit: self. ! !
+!Deposit methodsFor: 'reports' stamp: 'PB 10/27/2019 19:19:32'!
+actionForReport: aReport
+
+	^aReport actionForDeposit: self. ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -756,27 +769,30 @@ AccountTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:52:29'!
+!TransferDeposit methodsFor: 'reports' stamp: 'PB 10/27/2019 19:19:32'!
+actionForReport: aReport
+
+	^aReport actionForTransferDeposit: self.! !
+
+
+!TransferDeposit methodsFor: 'balance' stamp: 's 10/21/2019 20:52:29'!
 affectBalance: aBalance
 
 	^aBalance + (self value).! !
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:57:13'!
-selectActionForReport: aReport
 
-	^aReport selectActionForTransferDeposit: self.! !
-
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:11:58'!
+!TransferDeposit methodsFor: 'initialization' stamp: 's 10/21/2019 20:11:58'!
 setCounterpart: aCounterpart
 
 	counterpart := aCounterpart.! !
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:28:15'!
+!TransferDeposit methodsFor: 'initialization' stamp: 's 10/21/2019 20:28:15'!
 setTransfer: aTransfer
 
 	transferParent := aTransfer.! !
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:12:52'!
+
+!TransferDeposit methodsFor: 'value' stamp: 's 10/21/2019 20:12:52'!
 value
 
 	^transferParent value.! !
@@ -805,27 +821,30 @@ AccountTransaction subclass: #TransferWithdraw
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:44:33'!
+!TransferWithdraw methodsFor: 'reports' stamp: 'PB 10/27/2019 19:19:32'!
+actionForReport: aReport
+
+	^aReport actionForTransferWithdraw: self.! !
+
+
+!TransferWithdraw methodsFor: 'balance' stamp: 's 10/21/2019 20:44:33'!
 affectBalance: aBalance
 
 	^aBalance - (self value).! !
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:57:17'!
-selectActionForReport: aReport
 
-	^aReport selectActionForTransferWithdraw: self.! !
-
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:12:25'!
+!TransferWithdraw methodsFor: 'initialization' stamp: 's 10/21/2019 20:12:25'!
 setCounterpart: aCounterpart
 
 	counterpart := aCounterpart.! !
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:28:59'!
+!TransferWithdraw methodsFor: 'initialization' stamp: 's 10/21/2019 20:28:59'!
 setTransfer: aTransfer
 
 	transferParent := aTransfer.! !
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:13:03'!
+
+!TransferWithdraw methodsFor: 'value' stamp: 's 10/21/2019 20:13:03'!
 value
 
 	^transferParent value.! !
@@ -866,15 +885,15 @@ value
 	^ value! !
 
 
+!Withdraw methodsFor: 'balance' stamp: 'PB 10/27/2019 19:19:32'!
+actionForReport: aReport
+
+	^aReport actionForWithdraw: self.! !
+
 !Withdraw methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:15'!
 affectBalance: aBalance
 
 	^aBalance - value! !
-
-!Withdraw methodsFor: 'balance' stamp: 'PB 10/27/2019 16:57:22'!
-selectActionForReport: aReport
-
-	^aReport selectActionForWithdraw: self.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -895,33 +914,35 @@ Object subclass: #Report
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:37:42'!
-selectActionForDeposit: aDepositTransaction
-	
-	self subclassResponsibility.! !
-
-!Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:38:01'!
-selectActionForTransferDeposit: aTransferDepositTransaction
-
-	self subclassResponsibility.! !
-
-!Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:38:05'!
-selectActionForTransferWithdraw: aTransferWithdrawTransaction
-
-	self subclassResponsibility.! !
-
-!Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:38:11'!
-selectActionForWithdraw: aWithdrawTransaction
-
-	self subclassResponsibility.! !
-
-!Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:40:50'!
+!Report methodsFor: 'initialization' stamp: 'PB 10/27/2019 16:40:50'!
 setAccount: anAccount.
 
 	account := anAccount.! !
 
-!Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:46:59'!
+
+!Report methodsFor: 'value' stamp: 'PB 10/27/2019 16:46:59'!
 text
+	self subclassResponsibility.! !
+
+
+!Report methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:26'!
+actionForDeposit: aDepositTransaction
+	
+	self subclassResponsibility.! !
+
+!Report methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:36'!
+actionForTransferDeposit: aTransferDepositTransaction
+
+	self subclassResponsibility.! !
+
+!Report methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:51'!
+actionForTransferWithdraw: aTransferWithdrawTransaction
+
+	self subclassResponsibility.! !
+
+!Report methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:18:01'!
+actionForWithdraw: aWithdrawTransaction
+
 	self subclassResponsibility.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -946,14 +967,14 @@ Report subclass: #AccountSummary
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:44:47'!
-selectActionForDeposit: aDeposit
+!AccountSummary methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:26'!
+actionForDeposit: aDeposit
 	
 	^'Depósito por ', (aDeposit value) printString, ' '.
 	! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:44:16'!
-selectActionForTransferDeposit: aTransferDepositTransaction
+!AccountSummary methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:36'!
+actionForTransferDeposit: aTransferDepositTransaction
 
 	^'Entrada por transferencia de ', (aTransferDepositTransaction value) printString, ' '.
 
@@ -961,8 +982,8 @@ selectActionForTransferDeposit: aTransferDepositTransaction
 	
 	! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:45:12'!
-selectActionForTransferWithdraw: aTransferWithdrawTransaction
+!AccountSummary methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:51'!
+actionForTransferWithdraw: aTransferWithdrawTransaction
 
 	^'Salida por transferencia de ', (aTransferWithdrawTransaction value) printString, ' '.
 
@@ -970,8 +991,8 @@ selectActionForTransferWithdraw: aTransferWithdrawTransaction
 	
 	! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:45:29'!
-selectActionForWithdraw: aWithdrawTransaction
+!AccountSummary methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:18:01'!
+actionForWithdraw: aWithdrawTransaction
 
 	^'Extracción por ', (aWithdrawTransaction value) printString, ' '.
 	
@@ -980,15 +1001,13 @@ selectActionForWithdraw: aWithdrawTransaction
 	
 	! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:14:21'!
+
+!AccountSummary methodsFor: 'value' stamp: 'PB 10/27/2019 19:19:32'!
 text
 
 	|text|
 
-	"Pasar a forAllTransactionsDo: de alguna manera"
-	text := account transactions 
-			inject: ''
-			into: [ :textDescription :transaction | textDescription,(transaction selectActionForReport: self)].
+	text := account forAllTransactionsInject: '' into: [ :textDescription :transaction | textDescription,(transaction actionForReport: self)].
 			
 	^text := text,'balance = ',((account balance) printString).
 	! !
@@ -1001,36 +1020,36 @@ Report subclass: #NetTransfer
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:17:34'!
-selectActionForDeposit: aDepositTransaction
-
-	^0.! !
-
-!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:47:32'!
-selectActionForTransferDeposit: aTransferWithdrawTransaction
-
-	^aTransferWithdrawTransaction value.! !
-
-!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 19:01:33'!
-selectActionForTransferWithdraw: aTransferWithdrawTransaction
-
-	^aTransferWithdrawTransaction value negated.! !
-
-!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:17:47'!
-selectActionForWithdraw: aWithdrawTransaction
-
-	^0.! !
-
-!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:21:56'!
+!NetTransfer methodsFor: 'value' stamp: 'PB 10/27/2019 19:19:32'!
 text
 
 	|netTransfer|
-
-	"Pasar a forAllTransactionsDo: de alguna manera"
-	netTransfer := 0.
-	account transactions do: [:transaction |  netTransfer := netTransfer + (transaction selectActionForReport: self)].
+	
+	netTransfer := account forAllTransactionsInject: 0 into: [:totalValue :transaction |  (transaction actionForReport: self)].
+	
 	^'neto de transferencias = ',(netTransfer printString).
 	! !
+
+
+!NetTransfer methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:26'!
+actionForDeposit: aDepositTransaction
+
+	^0.! !
+
+!NetTransfer methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:36'!
+actionForTransferDeposit: aTransferWithdrawTransaction
+
+	^aTransferWithdrawTransaction value.! !
+
+!NetTransfer methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:17:51'!
+actionForTransferWithdraw: aTransferWithdrawTransaction
+
+	^aTransferWithdrawTransaction value negated.! !
+
+!NetTransfer methodsFor: 'actionsForAccounts' stamp: 'PB 10/27/2019 19:18:01'!
+actionForWithdraw: aWithdrawTransaction
+
+	^0.! !
 
 
 !classDefinition: #Transfer category: #'Portfolio-Solucion'!
@@ -1040,12 +1059,13 @@ Object subclass: #Transfer
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!Transfer methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 20:47:47'!
+!Transfer methodsFor: 'initialization' stamp: 's 10/21/2019 20:47:47'!
 setValue: aValue
 
 	value := aValue.! !
 
-!Transfer methodsFor: 'as yet unclassified' stamp: 's 10/21/2019 19:22:10'!
+
+!Transfer methodsFor: 'value' stamp: 's 10/21/2019 19:22:10'!
 value
 
 	^value.! !
