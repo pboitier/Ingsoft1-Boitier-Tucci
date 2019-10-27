@@ -345,6 +345,57 @@ test03AccountSummaryOfAnAccountWithDepositAndWithdrawIsCorrect
 	
 	self assert:   'Depósito por 200 Extracción por 100 balance = 100' equals: report text.! !
 
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:37:30'!
+test04AccountSummaryOfAnAccountWithTransfersIsCorrect
+
+	|receptiveAccount1 receptiveAccount2 report1 report2|
+	
+	receptiveAccount1 := ReceptiveAccount new.
+	receptiveAccount2 := ReceptiveAccount new.
+	
+	Transfer register: 200 from: receptiveAccount2 to: receptiveAccount1.
+	report1 := AccountSummary of: receptiveAccount1.
+	report2 := AccountSummary of: receptiveAccount2.
+	
+	self assert:   'Entrada por transferencia de 200 balance = 200' equals: report1 text.
+	self assert: 'Salida por transferencia de 200 balance = -200' equals: report2 text.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:53:28'!
+test05NetTransferOfAnAccountWithNoTransfersIsCorrect
+
+	|receptiveAccount report|
+	
+	receptiveAccount := ReceptiveAccount new.
+	report := NetTransfer of: receptiveAccount.
+	
+	self assert:  'neto de transferencias = 0' equals: report text.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:53:32'!
+test06NetTransferOfAnAccountWithTransferDepositIsCorrect
+
+	|receptiveAccount1 receptiveAccount2 report|
+	
+	receptiveAccount1 := ReceptiveAccount new.
+	receptiveAccount2 := ReceptiveAccount new.
+	Deposit register: 300 on: receptiveAccount1.
+	Transfer register: 200 from: receptiveAccount2 to: receptiveAccount1.
+	report := NetTransfer of: receptiveAccount1.
+	
+	self assert:  'neto de transferencias = 200' equals: report text.! !
+
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:53:37'!
+test07NetTransferOfAnAccountWithTransferWithdrawIsCorrect
+
+	|receptiveAccount1 receptiveAccount2 report|
+	
+	receptiveAccount1 := ReceptiveAccount new.
+	receptiveAccount2 := ReceptiveAccount new.
+	Deposit register: 300 on: receptiveAccount1.
+	Transfer register: 200 from: receptiveAccount2 to: receptiveAccount1.
+	report := NetTransfer of: receptiveAccount2.
+	
+	self assert:  'neto de transferencias = -200' equals: report text.! !
+
 
 !classDefinition: #TransferTest category: #'Portfolio-Solucion'!
 TestCase subclass: #TransferTest
@@ -409,6 +460,12 @@ transactions
 addedTo: aPortfolio
 
 	self subclassResponsibility ! !
+
+
+!Account methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:06:39'!
+forAllTransactionsDo: aClosure
+
+	! !
 
 
 !classDefinition: #Portfolio category: #'Portfolio-Solucion'!
@@ -838,11 +895,6 @@ Object subclass: #Report
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:46:22'!
-generate
-
-	self subclassResponsibility.! !
-
 !Report methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:37:42'!
 selectActionForDeposit: aDepositTransaction
 	
@@ -878,11 +930,11 @@ text
 Report class
 	instanceVariableNames: ''!
 
-!Report class methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:40:29'!
+!Report class methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:04:56'!
 of: anAccount
 
 	|instance|
-	instance := AccountSummary new.
+	instance := self new.
 	instance setAccount: anAccount. 
 	^instance.! !
 
@@ -928,16 +980,56 @@ selectActionForWithdraw: aWithdrawTransaction
 	
 	! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 16:56:19'!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:14:21'!
 text
 
 	|text|
 
+	"Pasar a forAllTransactionsDo: de alguna manera"
 	text := account transactions 
 			inject: ''
 			into: [ :textDescription :transaction | textDescription,(transaction selectActionForReport: self)].
 			
 	^text := text,'balance = ',((account balance) printString).
+	! !
+
+
+!classDefinition: #NetTransfer category: #'Portfolio-Solucion'!
+Report subclass: #NetTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:17:34'!
+selectActionForDeposit: aDepositTransaction
+
+	^0.! !
+
+!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 17:47:32'!
+selectActionForTransferDeposit: aTransferWithdrawTransaction
+
+	^aTransferWithdrawTransaction value.! !
+
+!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 19:01:33'!
+selectActionForTransferWithdraw: aTransferWithdrawTransaction
+
+	^aTransferWithdrawTransaction value negated.! !
+
+!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:17:47'!
+selectActionForWithdraw: aWithdrawTransaction
+
+	^0.! !
+
+!NetTransfer methodsFor: 'as yet unclassified' stamp: 'PB 10/27/2019 18:21:56'!
+text
+
+	|netTransfer|
+
+	"Pasar a forAllTransactionsDo: de alguna manera"
+	netTransfer := 0.
+	account transactions do: [:transaction |  netTransfer := netTransfer + (transaction selectActionForReport: self)].
+	^'neto de transferencias = ',(netTransfer printString).
 	! !
 
 
