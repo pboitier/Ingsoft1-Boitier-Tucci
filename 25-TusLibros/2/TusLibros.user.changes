@@ -1,0 +1,3483 @@
+
+
+----SNAPSHOT----(31 October 2019 00:16:39) TusLibros.image priorSource: 14383448!
+
+----STARTUP---- (4 November 2019 20:29:02) as /home/stucci/Desktop/linux64/TusLibros.image!
+
+
+!classRemoval: #Cart stamp: 'st 11/4/2019 20:29:13'!
+Object subclass: #Cart
+	instanceVariableNames: 'contents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'st 11/4/2019 20:29:13'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+----End fileIn of /home/stucci/Desktop/linux64/TusLibros-18.st----!
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/4/2019 20:32:48'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'no messages' stamp: 'st 11/4/2019 20:33:04'!
+test01YouCantCheckoutAnEmptyCart! !
+
+----End fileIn of /home/stucci/Desktop/Ingsoft1-Boitier-Tucci/22-TerniLapilli/Juego-Test.st----!
+
+----STARTUP---- (4 November 2019 20:36:30) as /home/stucci/Desktop/linux64/TusLibros.image!
+
+
+!classRemoval: #Cart stamp: 'st 11/4/2019 20:36:39'!
+Object subclass: #Cart
+	instanceVariableNames: 'contents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'st 11/4/2019 20:36:39'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+invalidQuantityErrorMessage
+	
+	^'Invalid number of items'! !
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+invalidItemErrorMessage
+	
+	^'Item is not in catalog'! !
+!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+assertIsValidItem: anItem
+
+	(catalog includes: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+assertIsValidQuantity: aQuantity
+
+	aQuantity strictlyPositive ifFalse: [ self error: self invalidQuantityErrorMessage ]! !
+!Cart methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := OrderedCollection new.! !
+!Cart methodsFor: 'queries' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+occurrencesOf: anItem
+
+	^items occurrencesOf: anItem  ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+includes: anItem
+
+	^items includes: anItem ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+isEmpty
+	
+	^items isEmpty ! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	1 to: aQuantity do: [ :aNumber | items add: anItem ]! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+add: anItem
+
+	^ self add: 1 of: anItem ! !
+
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+Cart class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+Cart class
+	instanceVariableNames: ''!
+!Cart class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+acceptingItemsOf: aCatalog
+
+	^self new initializeAcceptingItemsOf: aCatalog ! !
+
+!classDefinition: #CartTest category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartTest category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test04CanNotAddNonPositiveNumberOfItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 0 of: self itemSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidQuantityErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+test02CanNotAddItemsThatDoNotBelongToStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [ cart add: self itemNotSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+test08CartRemembersTheNumberOfAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: 2 of: self itemSellByTheStore.
+	self assert: (cart occurrencesOf: self itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:08'!
+test01NewCartsAreCreatedEmpty
+
+	self assert: self createCart isEmpty! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test03AfterAddingAnItemTheCartIsNotEmptyAnymore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self deny: cart isEmpty ! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test07CartDoesNotHoldNotAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self deny: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+test05CanNotAddMoreThanOneItemNotSellByTheStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 2 of: self itemNotSellByTheStore  ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test06CartRemembersAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self assert: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+itemNotSellByTheStore
+	
+	^'invalidBook'! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+itemSellByTheStore
+	
+	^ 'validBook'! !
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/4/2019 20:36:39'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'no messages' stamp: 'st 11/4/2019 20:33:04'!
+test01YouCantCheckoutAnEmptyCart! !
+
+!classDefinition: #JuegoTest category: #'Juego-Test' stamp: 'st 11/4/2019 20:36:39'!
+TestCase subclass: #JuegoTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Juego-Test'!
+
+!classDefinition: #JuegoTest category: #'Juego-Test' stamp: 'st 11/4/2019 20:36:39'!
+TestCase subclass: #JuegoTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Juego-Test'!
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 18:50:13'!
+test01FirstPlayerIsXAndBoardIsEmpty
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self assert: 0 equals: game numberOfXAndOPlayed.
+	self assert: true equals: game isPlayingX.
+	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 18:47:39'!
+test02AtCreationBoardIsEmptyAndOCannotPlay
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self assert: 0 equals: game numberOfXAndOPlayed.
+	self assert: false equals: game isPlayingO.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 15:21:34'!
+test03WhenPlayerXPlaysInAnEmptyBoardItIsCorrectlyModifiedAndNextPlayerIsO
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	game putXAt: 1@1.
+	
+	self assert: true equals: (game isXInPosition: 1@1).
+	self assert: 1 equals: (game numberOfXAndOPlayed).
+	self assert: true equals: game isPlayingO.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:13'!
+test04APlayerCantPutPiecesWhenItIsNotItsTurn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 1@2. game putXAt: 2@2.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli onePlayerCanOnlyPlayInItsTurnError ].
+				
+	self assert: false equals: (game isXInPosition: 2@2).! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:34:41'!
+test05YouCantPlaceXOrOInAnOccupiedSpot
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 1@1. game putOAt: 1@1.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceXOrOInAnOccupiedSpotError ].
+		
+		
+	self assert: true equals: (game isXInPosition: 1@1).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:35:35'!
+test06YouCantPlaceXOrOOutOfBounds
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 0@0.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceXOrOOutOfBoundsError ].
+		
+		
+	self assert: 0 equals: game numberOfXAndOPlayed.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:35:57'!
+test07YouCantPlaceMoreThan3XOrO
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 1@1.
+				  game putOAt: 1@2.
+				  game putXAt: 1@3.
+				  game putOAt: 2@1.
+				  game putXAt: 2@2.
+				  game putOAt: 2@3.
+				  game putXAt: 3@1.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceMoreThan3XOrOError. ].
+		
+	self assert: false equals: (game isXInPosition: 3@1).! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:10:09'!
+test08MoveXFromOnePositionToAnother
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	
+	game moveXFrom: 2@2 to: 3@3.
+	
+	self assert: true equals: (game isXInPosition: 3@3).
+	self assert: false equals: (game isXInPosition: 2@2).
+	self assert: 6 equals: (game numberOfXAndOPlayed).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:32:26'!
+test09YouCantMoveAnEmptySpace
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 3@3 to: 3@2.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveAnEmptySpaceError ].
+		
+	self assert: false equals: (game isXInPosition: 3@3).	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:32:48'!
+test10YouCantMoveToAnOccupiedSpace
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@2 to: 2@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToAnOcuppiedSpaceError].
+		
+	self assert: true equals: (game isXInPosition: 2@2).
+	self assert: false equals: (game isXInPosition: 2@3).	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:33:16'!
+test11YouCanOnlyMoveWhenYouHavePlaced3XOrO
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@2 to: 2@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveWithLessThan3XOrOOnBoardError].
+		
+		
+	self assert: true equals: (game isXInPosition: 2@2).
+	self assert: false equals: (game isXInPosition: 2@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:38:21'!
+test12YouCanMoveOnlyOnYourTurn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveOFrom: 2@3 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli canOnlyMoveOnYourTurnError].
+		
+		
+	self assert: true equals: (game isOInPosition: 2@3).
+	self assert: false equals: (game isOInPosition: 3@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:43:22'!
+test13YouCanOnlyMoveYourPieces
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@3 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli canOnlyMoveYourPiecesError].
+		
+		
+	self assert: true equals: (game isOInPosition: 2@3).
+	self assert: false equals: (game isOInPosition: 3@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:45:39'!
+test14YouCantMoveOutOfBounds
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@3 to: 2@4.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveOutOfBoundsError].
+		
+		
+	self assert: true equals: (game isOInPosition: 2@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:35:17'!
+test15YouCantMoveToNonNeighbourSpotsInSameRow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 3@3.
+	game putOAt: 2@1.
+	game putXAt: 3@1.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 1@1 to: 1@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 1@3).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:58:06'!
+test16YouCantMoveToNonNeighbourSpotsInSameColumns
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 1@1 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@3).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 17:20:48'!
+test17YouCantMoveInADiagonalInSpotsWhereItIsNotAllowed
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 1@3.
+	self
+		should: [ game moveXFrom: 2@3 to: 3@2.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@2).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:28:44'!
+test18YouCantMoveMoreThanOneSpotDiagonally
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 1@3.
+	self
+		should: [ game moveXFrom: 1@1 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@2).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:45:49'!
+test19YouWinIfYouPut3XOrOinAColumn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@2.
+	game putXAt: 3@1.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:10'!
+test20YouWinIfYouPut3XOrOinARow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 2@1.
+	game putXAt: 1@2.
+	game putOAt: 2@2.
+	game putXAt: 1@3.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:15'!
+test21YouWinIfYouPut3XOrOinADiagonal
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	game putXAt: 3@3.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:25'!
+test22YouWinIfYouMoveXOrOAndMake3InARow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 2@1.
+	game putXAt: 1@3.
+	game putOAt: 3@1.
+	game putXAt: 2@2.
+	game putOAt: 3@2.
+	
+	game moveXFrom: 2@2 to: 1@2.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:33'!
+test23YouWinIfYouMoveXOrOAndMake3InAColumn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@2.
+	game putXAt: 3@1.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:41'!
+test24YouWinIfYouMoveXOrOAndMake3InADiagonal
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@2.
+	game putXAt: 3@1.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:07'!
+test25YouCantPutIfAPlayerAlreadyWon
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	game putXAt: 3@3.
+		
+	self
+	should: [ game putOAt: 1@3]
+	raise: Error - MessageNotUnderstood 
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = TerniLapilli cantPlayAfterEitherPlayerHasWon].
+	
+	
+	self assert: false equals: (game isOInPosition: 1@3).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:15'!
+test26YouCantMoveIfAPlayerAlreadyWon
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@3.
+	game putXAt: 3@2.
+	game putOAt: 3@3.
+	
+	game moveXFrom: 3@2 to: 3@1.
+		
+	self
+	should: [ game moveOFrom: 1@2 to: 1@3  ]
+	raise: Error - MessageNotUnderstood 
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = TerniLapilli cantPlayAfterEitherPlayerHasWon].
+	
+	self assert: true equals: (game isOInPosition: 1@2).
+	self assert: false equals: (game isOInPosition: 1@3).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:22'!
+test27WhenOMovesTheNextPlayerIsX
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@3.
+	game putXAt: 3@2.
+	game putOAt: 3@3.
+	
+	game moveXFrom: 3@2 to: 2@2.
+	game moveOFrom: 3@3 to: 3@2.
+	
+	self assert: true equals: game isPlayingX.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:26'!
+test28WhenXMovesTheNextPlayerIsO
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@3.
+	game putXAt: 3@2.
+	game putOAt: 3@1.
+	
+	game moveXFrom: 3@2 to: 3@3.
+	
+
+	self assert: true equals: game isPlayingO.! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'st 11/4/2019 20:38:28'!
+Object subclass: #Cashier
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:38:14' prior: 50781348!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart new.
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCart ].
+
+	! !
+!Cashier methodsFor: 'no messages' stamp: 'st 11/4/2019 20:38:53'!
+checkout! !
+
+!methodRemoval: Cashier #checkout stamp: 'st 11/4/2019 20:39:04'!
+checkout!
+!Cashier methodsFor: 'no messages' stamp: 'st 11/4/2019 20:39:08'!
+checkout: aCart! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:39:20'!
+FAILURE!
+!Cashier class methodsFor: 'no messages' stamp: 'st 11/4/2019 20:40:59'!
+cannotCheckoutEmptyCartError
+
+	^'Cannot checkout an empty cart'.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:41:10' prior: 50781785!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart new.
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:41:10'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:42:23' prior: 50781802!
+checkout: aCart
+
+	aCart isEmpty ifTrue: [Error signal: Cashier cannot]! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:42:34' prior: 50781830!
+checkout: aCart
+
+	aCart isEmpty ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError]! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:42:36'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:42:36'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:42:58' prior: 50781836!
+checkout: aCart
+
+	[aCart isEmpty] ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError]! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:42:59'!
+FAILURE!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:42:59'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:43:27' prior: 50781848!
+checkout: aCart
+
+	(aCart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError]! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:43:27'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:43:27'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:43:32'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:43:32'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 20:43:54'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:43:59'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:43:59'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:44:05'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:44:12'!
+ERROR!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:44:41'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:46:51' prior: 50781814!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart createCart: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:47:16' prior: 50781920!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:47:17'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:47:18'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:47:18'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:52:11'!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:54:53' prior: 50781985!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkout: cart).
+
+	! !
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 20:54:55'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:55:21' prior: 50781861!
+checkout: aCart
+
+	(aCart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	
+	^100.! !
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 20:55:28'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 20:55:28'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 20:55:28'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:01:49'!
+test09subtotalOfEmptyCartIsZero
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 0 equals: cart subtotal.! !
+
+!testRun: #CartTest #test09subtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:01:51'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:02:01'!
+subtotal
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:02:15' prior: 50782041!
+subtotal
+	^0.! !
+
+!testRun: #CartTest #test09subtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+
+!testRun: #CartTest #test09subtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:02:17'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:02:37'!
+test09SubtotalOfEmptyCartIsZero
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 0 equals: cart subtotal.! !
+
+!methodRemoval: CartTest #test09subtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:02:37'!
+test09subtotalOfEmptyCartIsZero
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 0 equals: cart subtotal.!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:04:03'!
+test10SubtotalOfOneItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 10 equals: cart subtotal.! !
+!Cart methodsFor: 'initialization' stamp: 'st 11/4/2019 21:05:58' prior: 50781188!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := OrderedCollection new.! !
+
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items priceList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:06:16'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items priceList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:08:45'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'support' stamp: 'st 11/4/2019 21:11:36' prior: 50781326!
+defaultCatalog
+	
+	| catalog |
+
+	catalog _ Dictionary new.
+	catalog add: 'validBook'->100.	
+	
+	^catalog.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:11:37'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:11:37'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:11:37'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:11:37'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:11:37'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:11:37'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:11:37'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:11:37'!
+ERROR!
+
+!testRun: #CartTest #test09SubtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:11:37'!
+PASSED!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:11:37'!
+FAILURE!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:11:54'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:12:26'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:12:35'!
+ERROR!
+!Cart methodsFor: 'assertions' stamp: 'st 11/4/2019 21:13:44' prior: 50781175!
+assertIsValidItem: anItem
+
+	(catalog includesKey: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test09SubtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:13:46'!
+PASSED!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:13:46'!
+FAILURE!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:13:46'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:14:07' prior: 50782091!
+test10SubtotalOfOneItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 100 equals: cart subtotal.! !
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:14:07'!
+FAILURE!
+!Cart methodsFor: 'queries' stamp: 'st 11/4/2019 21:17:58' prior: 50782045!
+subtotal
+
+	^ items inject: 0
+	into: [:item :subtotal | subtotal + catalog at: item].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test09SubtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:18:00'!
+PASSED!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:18:00'!
+FAILURE!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:18:00'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test09SubtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:18:06'!
+PASSED!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:18:06'!
+FAILURE!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:18:06'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:18:56' prior: 50782215!
+test10SubtotalOfOneItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: cart subtotal.! !
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:18:57'!
+ERROR!
+!Cart methodsFor: 'queries' stamp: 'st 11/4/2019 21:19:14' prior: 50782225!
+subtotal
+
+	^ items inject: 0
+	into: [:item :subtotal | subtotal + (catalog at: item)].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test09SubtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:19:14'!
+PASSED!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:19:14'!
+ERROR!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:19:14'!
+ERROR!
+!Cart methodsFor: 'queries' stamp: 'st 11/4/2019 21:19:40' prior: 50782309!
+subtotal
+
+	^ items inject: 0
+	into: [:subtotal :item | subtotal + (catalog at: item)].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test09SubtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:19:41'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:20:41'!
+test11SubtotalOfMoreThanItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: cart subtotal.! !
+
+!testRun: #CartTest #test11SubtotalOfMoreThanItemIsCorrect stamp: 'st 11/4/2019 21:20:45'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:20:57' prior: 50782385!
+test11SubtotalOfMoreThanItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: cart subtotal.! !
+
+!testRun: #CartTest #test11SubtotalOfMoreThanItemIsCorrect stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test09SubtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test10SubtotalOfOneItemIsCorrect stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+
+!testRun: #CartTest #test11SubtotalOfMoreThanItemIsCorrect stamp: 'st 11/4/2019 21:20:57'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:23:14' prior: 50782000!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkout: cart).
+
+	! !
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 21:23:14'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 21:23:14'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 21:23:14'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:24:07'!
+test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: (cashier checkout: cart).
+
+	! !
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 21:24:07'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:24:20' prior: 50782015!
+checkout: aCart
+
+	(aCart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	
+	^ aCart subtotal.! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 21:24:20'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 21:24:20'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 21:24:20'!
+PASSED!
+
+----STARTUP---- (4 November 2019 21:39:22) as /home/stucci/Desktop/linux64/TusLibros.image!
+
+
+!classRemoval: #Cart stamp: 'st 11/4/2019 21:39:31'!
+Object subclass: #Cart
+	instanceVariableNames: 'contents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'st 11/4/2019 21:39:31'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+invalidQuantityErrorMessage
+	
+	^'Invalid number of items'! !
+!Cart methodsFor: 'error messages' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+invalidItemErrorMessage
+	
+	^'Item is not in catalog'! !
+!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+assertIsValidItem: anItem
+
+	(catalog includes: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+assertIsValidQuantity: aQuantity
+
+	aQuantity strictlyPositive ifFalse: [ self error: self invalidQuantityErrorMessage ]! !
+!Cart methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := OrderedCollection new.! !
+!Cart methodsFor: 'queries' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+occurrencesOf: anItem
+
+	^items occurrencesOf: anItem  ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+includes: anItem
+
+	^items includes: anItem ! !
+!Cart methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+isEmpty
+	
+	^items isEmpty ! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:51'!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	1 to: aQuantity do: [ :aNumber | items add: anItem ]! !
+!Cart methodsFor: 'adding' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+add: anItem
+
+	^ self add: 1 of: anItem ! !
+
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+Cart class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+Cart class
+	instanceVariableNames: ''!
+!Cart class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+acceptingItemsOf: aCatalog
+
+	^self new initializeAcceptingItemsOf: aCatalog ! !
+
+!classDefinition: #CartTest category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartTest category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test04CanNotAddNonPositiveNumberOfItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 0 of: self itemSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidQuantityErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+test02CanNotAddItemsThatDoNotBelongToStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [ cart add: self itemNotSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+test08CartRemembersTheNumberOfAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: 2 of: self itemSellByTheStore.
+	self assert: (cart occurrencesOf: self itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:08'!
+test01NewCartsAreCreatedEmpty
+
+	self assert: self createCart isEmpty! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test03AfterAddingAnItemTheCartIsNotEmptyAnymore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self deny: cart isEmpty ! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test07CartDoesNotHoldNotAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self deny: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:45'!
+test05CanNotAddMoreThanOneItemNotSellByTheStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 2 of: self itemNotSellByTheStore  ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+test06CartRemembersAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSellByTheStore.
+	self assert: (cart includes: self itemSellByTheStore)! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:44'!
+itemNotSellByTheStore
+	
+	^'invalidBook'! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:48'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+itemSellByTheStore
+	
+	^ 'validBook'! !
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/4/2019 21:39:32'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'no messages' stamp: 'st 11/4/2019 20:33:04'!
+test01YouCantCheckoutAnEmptyCart! !
+
+!classDefinition: #JuegoTest category: #'Juego-Test' stamp: 'st 11/4/2019 21:39:32'!
+TestCase subclass: #JuegoTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Juego-Test'!
+
+!classDefinition: #JuegoTest category: #'Juego-Test' stamp: 'st 11/4/2019 21:39:32'!
+TestCase subclass: #JuegoTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Juego-Test'!
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 18:50:13'!
+test01FirstPlayerIsXAndBoardIsEmpty
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self assert: 0 equals: game numberOfXAndOPlayed.
+	self assert: true equals: game isPlayingX.
+	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 's 10/10/2019 18:47:39'!
+test02AtCreationBoardIsEmptyAndOCannotPlay
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self assert: 0 equals: game numberOfXAndOPlayed.
+	self assert: false equals: game isPlayingO.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/13/2019 15:21:34'!
+test03WhenPlayerXPlaysInAnEmptyBoardItIsCorrectlyModifiedAndNextPlayerIsO
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	game putXAt: 1@1.
+	
+	self assert: true equals: (game isXInPosition: 1@1).
+	self assert: 1 equals: (game numberOfXAndOPlayed).
+	self assert: true equals: game isPlayingO.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:09:13'!
+test04APlayerCantPutPiecesWhenItIsNotItsTurn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 1@2. game putXAt: 2@2.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli onePlayerCanOnlyPlayInItsTurnError ].
+				
+	self assert: false equals: (game isXInPosition: 2@2).! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:34:41'!
+test05YouCantPlaceXOrOInAnOccupiedSpot
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 1@1. game putOAt: 1@1.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceXOrOInAnOccupiedSpotError ].
+		
+		
+	self assert: true equals: (game isXInPosition: 1@1).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:35:35'!
+test06YouCantPlaceXOrOOutOfBounds
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 0@0.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceXOrOOutOfBoundsError ].
+		
+		
+	self assert: 0 equals: game numberOfXAndOPlayed.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:35:57'!
+test07YouCantPlaceMoreThan3XOrO
+
+	| game |
+	
+	game _ TerniLapilli new.
+	
+	self
+		should: [ game putXAt: 1@1.
+				  game putOAt: 1@2.
+				  game putXAt: 1@3.
+				  game putOAt: 2@1.
+				  game putXAt: 2@2.
+				  game putOAt: 2@3.
+				  game putXAt: 3@1.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantPlaceMoreThan3XOrOError. ].
+		
+	self assert: false equals: (game isXInPosition: 3@1).! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:10:09'!
+test08MoveXFromOnePositionToAnother
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	
+	game moveXFrom: 2@2 to: 3@3.
+	
+	self assert: true equals: (game isXInPosition: 3@3).
+	self assert: false equals: (game isXInPosition: 2@2).
+	self assert: 6 equals: (game numberOfXAndOPlayed).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:32:26'!
+test09YouCantMoveAnEmptySpace
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 3@3 to: 3@2.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveAnEmptySpaceError ].
+		
+	self assert: false equals: (game isXInPosition: 3@3).	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:32:48'!
+test10YouCantMoveToAnOccupiedSpace
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@2 to: 2@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToAnOcuppiedSpaceError].
+		
+	self assert: true equals: (game isXInPosition: 2@2).
+	self assert: false equals: (game isXInPosition: 2@3).	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:33:16'!
+test11YouCanOnlyMoveWhenYouHavePlaced3XOrO
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@2 to: 2@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveWithLessThan3XOrOOnBoardError].
+		
+		
+	self assert: true equals: (game isXInPosition: 2@2).
+	self assert: false equals: (game isXInPosition: 2@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:38:21'!
+test12YouCanMoveOnlyOnYourTurn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveOFrom: 2@3 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli canOnlyMoveOnYourTurnError].
+		
+		
+	self assert: true equals: (game isOInPosition: 2@3).
+	self assert: false equals: (game isOInPosition: 3@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:43:22'!
+test13YouCanOnlyMoveYourPieces
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@3 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli canOnlyMoveYourPiecesError].
+		
+		
+	self assert: true equals: (game isOInPosition: 2@3).
+	self assert: false equals: (game isOInPosition: 3@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/13/2019 17:45:39'!
+test14YouCantMoveOutOfBounds
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 2@3 to: 2@4.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveOutOfBoundsError].
+		
+		
+	self assert: true equals: (game isOInPosition: 2@3).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:35:17'!
+test15YouCantMoveToNonNeighbourSpotsInSameRow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 3@3.
+	game putOAt: 2@1.
+	game putXAt: 3@1.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 1@1 to: 1@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 1@3).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 16:58:06'!
+test16YouCantMoveToNonNeighbourSpotsInSameColumns
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 1@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+		
+	self
+		should: [ game moveXFrom: 1@1 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@3).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/14/2019 17:20:48'!
+test17YouCantMoveInADiagonalInSpotsWhereItIsNotAllowed
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 1@3.
+	self
+		should: [ game moveXFrom: 2@3 to: 3@2.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@2).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:28:44'!
+test18YouCantMoveMoreThanOneSpotDiagonally
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@3.
+	game putOAt: 2@1.
+	game putXAt: 2@2.
+	game putOAt: 1@3.
+	self
+		should: [ game moveXFrom: 1@1 to: 3@3.]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = TerniLapilli cantMoveToNonNeighbourSpotsError].
+		
+		
+	self assert: false equals: (game isXInPosition: 3@2).	
+! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'ST 10/14/2019 18:45:49'!
+test19YouWinIfYouPut3XOrOinAColumn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@2.
+	game putXAt: 3@1.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:10'!
+test20YouWinIfYouPut3XOrOinARow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 2@1.
+	game putXAt: 1@2.
+	game putOAt: 2@2.
+	game putXAt: 1@3.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:15'!
+test21YouWinIfYouPut3XOrOinADiagonal
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	game putXAt: 3@3.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:25'!
+test22YouWinIfYouMoveXOrOAndMake3InARow
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 2@1.
+	game putXAt: 1@3.
+	game putOAt: 3@1.
+	game putXAt: 2@2.
+	game putOAt: 3@2.
+	
+	game moveXFrom: 2@2 to: 1@2.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:33'!
+test23YouWinIfYouMoveXOrOAndMake3InAColumn
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@2.
+	game putXAt: 3@1.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:29:41'!
+test24YouWinIfYouMoveXOrOAndMake3InADiagonal
+
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@2.
+	game putXAt: 3@1.
+		
+	self assert: true equals: (game isOver).
+	self assert: true equals: (game playerXWon).	
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:07'!
+test25YouCantPutIfAPlayerAlreadyWon
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@2.
+	game putOAt: 2@3.
+	game putXAt: 3@3.
+		
+	self
+	should: [ game putOAt: 1@3]
+	raise: Error - MessageNotUnderstood 
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = TerniLapilli cantPlayAfterEitherPlayerHasWon].
+	
+	
+	self assert: false equals: (game isOInPosition: 1@3).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:15'!
+test26YouCantMoveIfAPlayerAlreadyWon
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@3.
+	game putXAt: 3@2.
+	game putOAt: 3@3.
+	
+	game moveXFrom: 3@2 to: 3@1.
+		
+	self
+	should: [ game moveOFrom: 1@2 to: 1@3  ]
+	raise: Error - MessageNotUnderstood 
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = TerniLapilli cantPlayAfterEitherPlayerHasWon].
+	
+	self assert: true equals: (game isOInPosition: 1@2).
+	self assert: false equals: (game isOInPosition: 1@3).
+	! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:22'!
+test27WhenOMovesTheNextPlayerIsX
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@3.
+	game putXAt: 3@2.
+	game putOAt: 3@3.
+	
+	game moveXFrom: 3@2 to: 2@2.
+	game moveOFrom: 3@3 to: 3@2.
+	
+	self assert: true equals: game isPlayingX.! !
+!JuegoTest methodsFor: 'as yet unclassified' stamp: 'PB 10/16/2019 23:30:26'!
+test28WhenXMovesTheNextPlayerIsO
+
+	
+	| game |
+	
+	game _ TerniLapilli new.
+	game putXAt: 1@1.
+	game putOAt: 1@2.
+	game putXAt: 2@1.
+	game putOAt: 2@3.
+	game putXAt: 3@2.
+	game putOAt: 3@1.
+	
+	game moveXFrom: 3@2 to: 3@3.
+	
+
+	self assert: true equals: game isPlayingO.! !
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'st 11/4/2019 21:39:33'!
+Object subclass: #Cashier
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:38:14' prior: 50782714!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart new.
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCart ].
+
+	! !
+!Cashier methodsFor: 'no messages' stamp: 'st 11/4/2019 20:38:53'!
+checkout! !
+
+!methodRemoval: Cashier #checkout stamp: 'st 11/4/2019 21:39:33'!
+checkout!
+!Cashier methodsFor: 'no messages' stamp: 'st 11/4/2019 20:39:08'!
+checkout: aCart! !
+!Cashier class methodsFor: 'no messages' stamp: 'st 11/4/2019 20:40:59'!
+cannotCheckoutEmptyCartError
+
+	^'Cannot checkout an empty cart'.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:41:10' prior: 50783150!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart new.
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:42:23' prior: 50783167!
+checkout: aCart
+
+	aCart isEmpty ifTrue: [Error signal: Cashier cannot]! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:42:34' prior: 50783188!
+checkout: aCart
+
+	aCart isEmpty ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError]! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:42:58' prior: 50783194!
+checkout: aCart
+
+	[aCart isEmpty] ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError]! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:43:27' prior: 50783200!
+checkout: aCart
+
+	(aCart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:46:51' prior: 50783176!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart createCart: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:47:16' prior: 50783213!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:52:11'!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:54:53' prior: 50783240!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkout: cart).
+
+	! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 20:55:21' prior: 50783206!
+checkout: aCart
+
+	(aCart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	
+	^100.! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:01:49'!
+test09subtotalOfEmptyCartIsZero
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 0 equals: cart subtotal.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:02:01'!
+subtotal
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:02:15' prior: 50783278!
+subtotal
+	^0.! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:02:37'!
+test09SubtotalOfEmptyCartIsZero
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 0 equals: cart subtotal.! !
+
+!methodRemoval: CartTest #test09subtotalOfEmptyCartIsZero stamp: 'st 11/4/2019 21:39:33'!
+test09subtotalOfEmptyCartIsZero
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 0 equals: cart subtotal.!
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:04:03'!
+test10SubtotalOfOneItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 10 equals: cart subtotal.! !
+!Cart methodsFor: 'initialization' stamp: 'st 11/4/2019 21:05:58' prior: 50782551!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := OrderedCollection new.! !
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:39:33'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items priceList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:39:33'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items priceList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:39:33'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 21:39:33'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'support' stamp: 'st 11/4/2019 21:11:36' prior: 50782692!
+defaultCatalog
+	
+	| catalog |
+
+	catalog _ Dictionary new.
+	catalog add: 'validBook'->100.	
+	
+	^catalog.! !
+!Cart methodsFor: 'assertions' stamp: 'st 11/4/2019 21:13:44' prior: 50782538!
+assertIsValidItem: anItem
+
+	(catalog includesKey: anItem) ifFalse: [ self error: self invalidItemErrorMessage ]! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:14:07' prior: 50783297!
+test10SubtotalOfOneItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self assert: 100 equals: cart subtotal.! !
+!Cart methodsFor: 'queries' stamp: 'st 11/4/2019 21:17:58' prior: 50783282!
+subtotal
+
+	^ items inject: 0
+	into: [:item :subtotal | subtotal + catalog at: item].! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:18:56' prior: 50783350!
+test10SubtotalOfOneItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: cart subtotal.! !
+!Cart methodsFor: 'queries' stamp: 'st 11/4/2019 21:19:14' prior: 50783357!
+subtotal
+
+	^ items inject: 0
+	into: [:item :subtotal | subtotal + (catalog at: item)].! !
+!Cart methodsFor: 'queries' stamp: 'st 11/4/2019 21:19:40' prior: 50783370!
+subtotal
+
+	^ items inject: 0
+	into: [:subtotal :item | subtotal + (catalog at: item)].! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:20:41'!
+test11SubtotalOfMoreThanItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: cart subtotal.! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/4/2019 21:20:57' prior: 50783381!
+test11SubtotalOfMoreThanItemIsCorrect
+
+	| cart |
+	
+	cart := self createCart.
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: cart subtotal.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:23:14' prior: 50783255!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkout: cart).
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:24:07'!
+test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: (cashier checkout: cart).
+
+	! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:24:20' prior: 50783266!
+checkout: aCart
+
+	(aCart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	
+	^ aCart subtotal.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:41:11'!
+test04CreditCardMustNotBeExpiredForCheckout
+
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:42:36' prior: 50783432!
+test04CreditCardMustNotBeExpiredForCheckout
+
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:42:43' prior: 50783437!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: (cashier checkout: cart).
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:43:26' prior: 50783442!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnEmptyCreditCard ].! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:44:42' prior: 50783455!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self should: [ cashier checkout]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnEmptyCreditCard ].! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:44:46' prior: 50783473!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnEmptyCreditCard ].! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:46:43'!
+for: aCart with: aCreditCard on: aDate
+
+	^self new initializeFor: aCart with: aCreditCard on: aDate.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:47:10'!
+initializeFor: aCart with: aCreditCard on: aDate
+
+	! !
+
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard date'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: #TusLibros stamp: 'st 11/4/2019 21:47:19'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard date'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:47:42' prior: 50783514!
+initializeFor: aCart with: aCreditCard on: aDate
+
+	cart _ aCart.
+	creditCard _ aCreditCard.
+	date _ aDate.	! !
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'st 11/4/2019 21:48:47'!
+Object subclass: #CreditCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:48:44' prior: 50783491!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date now).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnEmptyCreditCard ].! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:49:40'!
+cannotCheckoutWithAnExpiredCreditCardError
+
+	^'The credit card that you provided has expired'! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:49:44' prior: 50783562!
+cannotCheckoutWithAnExpiredCreditCardError
+
+	^'The credit card that you provided has expired'.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:50:04'!
+checkout
+
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	
+	^ cart subtotal.! !
+
+!methodRemoval: Cashier #checkout: stamp: 'st 11/4/2019 21:50:10'!
+checkout: aCart
+
+	(aCart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	
+	^ aCart subtotal.!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:50:29' prior: 50783227!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier creditCard|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date now).
+	
+	
+	self should: [ cashier checkout: cart]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:50:32' prior: 50783588!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier creditCard|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date now).
+	
+	
+	self should: [ cashier checkout]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:50:40' prior: 50783398!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkout).
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:50:50' prior: 50783411!
+test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cashier _ Cashier new.
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: (cashier checkout).
+
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:51:01' prior: 50783544!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date now).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCard ].! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:51:18' prior: 50783649!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date now).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 21:51:22'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:51:54' prior: 50783668!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+
+Date today!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:52:19' prior: 50783690!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+!CreditCard class methodsFor: 'no messages' stamp: 'st 11/4/2019 21:53:21'!
+with: aCreditCardNumber and: anExpirationDate withOwner: aName! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:53:28' prior: 50783727!
+with: aCreditCardNumber and: anExpirationDate withOwner: aName
+
+	! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:54:26' prior: 50783733!
+with: aCreditCardNumber and: anExpirationDate withOwner: aName
+
+	^self new initializeFor: aCreditCardNumber with: anExpirationDate owner: aName.! !
+!CreditCard methodsFor: 'no messages' stamp: 'st 11/4/2019 21:54:37'!
+initializeFor: aCreditCardNumber with: anExpirationDate owner: aName
+
+	! !
+
+Object subclass: #CreditCard
+	instanceVariableNames: 'number expirationDate ownerName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: #TusLibros stamp: 'st 11/4/2019 21:54:55'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'number expirationDate ownerName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:55:44' prior: 50783746!
+initializeFor: aCreditCardNumber with: anExpirationDate owner: aName
+
+	number _ aCreditCardNumber.
+	expirationDate _ anExpirationDate.
+	ownerName _ aName.
+
+	! !
+
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCardTest category: #TusLibros stamp: 'st 11/4/2019 21:56:12'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCardTest methodsFor: 'no messages' stamp: 'st 11/4/2019 21:56:41'!
+test01CreditCardNumberMustHaveExactly16Digits! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:57:29' prior: 50783783!
+test01CreditCardNumberMustHaveExactly16Digits
+
+	|creditCard|
+	
+! !
+
+01/02/2020!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:58:44' prior: 50783788!
+test01CreditCardNumberMustHaveExactly16Digits
+
+	|creditCard|
+	
+	creditCard _ CreditCard with: 1234123412341234 and: (Date today) withOwner: 'peter naborski'.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:59:39'!
+test01CreditCardNumberWithLessThan16DigitsRaisesError
+
+	|creditCard|
+	
+	creditCard _ CreditCard with: 1234123412341234 and: (Date today) withOwner: 'peter naborski'.! !
+
+!methodRemoval: CreditCardTest #test01CreditCardNumberMustHaveExactly16Digits stamp: 'st 11/4/2019 21:59:39'!
+test01CreditCardNumberMustHaveExactly16Digits
+
+	|creditCard|
+	
+	creditCard _ CreditCard with: 1234123412341234 and: (Date today) withOwner: 'peter naborski'.!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:00:03' prior: 50783802!
+test01CreditCardNumberWithLessThan16DigitsRaisesError
+
+	|creditCard|
+	
+	creditCard _ CreditCard with: 123412341234123 and: (Date today) withOwner: 'peter naborski'.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:00:55' prior: 50783819!
+test01CreditCardNumberWithLessThan16DigitsRaisesError
+
+	|creditCard|
+	
+	
+	self should: [ creditCard _ CreditCard with: 123412341234123 and: (Date today) withOwner: 'peter naborski'. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard creditCardNumberMustHave16Digits ].! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:01:29'!
+creditCardNumberMustHave16DigitsError
+
+	^'Credit card number must have 16 digits'.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:01:44' prior: 50783828!
+test01CreditCardNumberWithLessThan16DigitsRaisesError
+
+	|creditCard|
+	
+	
+	self should: [ creditCard _ CreditCard with: 123412341234123 and: (Date today) withOwner: 'peter naborski'. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard creditCardNumberMustHave16DigitsError ].! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:01:49'!
+FAILURE!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:02:19' prior: 50783764!
+initializeFor: aCreditCardNumber with: anExpirationDate owner: aName
+
+	self validateNumberLength.
+	
+	number _ aCreditCardNumber.
+	expirationDate _ anExpirationDate.
+	ownerName _ aName.
+
+	! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:02:44'!
+validateNumberLength
+! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:02:55' prior: 50783866!
+initializeFor: aCreditCardNumber with: anExpirationDate owner: aName
+
+
+	number _ aCreditCardNumber.
+	
+	self validateNumberLength.	
+	
+	expirationDate _ anExpirationDate.
+	ownerName _ aName.
+
+	! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:03:19' prior: 50783879!
+initializeFor: aCreditCardNumber with: anExpirationDate owner: aName
+
+	self validateNumberLength: aCreditCardNumber.
+	
+	number _ aCreditCardNumber.
+	expirationDate _ anExpirationDate.
+	ownerName _ aName.
+
+	! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:03:25'!
+validateNumberLength: aCreditCardNumber
+! !
+
+!methodRemoval: CreditCard #validateNumberLength stamp: 'st 11/4/2019 22:03:28'!
+validateNumberLength
+!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:03:36' prior: 50783898!
+validateNumberLength: aCreditCardNumber
+	
+	! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:03:59' prior: 50783906!
+validateNumberLength: aCreditCardNumber
+	
+	(aCreditCardNumber < 16) ifTrue: [Error signal: CreditCard cannotCheckoutEmptyCartError].! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:04:17' prior: 50783911!
+validateNumberLength: aCreditCardNumber
+	
+	(aCreditCardNumber < 16) ifTrue: [Error signal: CreditCard creditCardNumberMustHave16DigitsError].! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:04:17'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:04:17'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:04:21'!
+FAILURE!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:06:12' prior: 50783919!
+validateNumberLength: aCreditCardNumber
+	
+	((aCreditCardNumber asString length) < 16) ifTrue: [Error signal: CreditCard creditCardNumberMustHave16DigitsError].! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:06:12'!
+ERROR!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:06:12'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:06:18' prior: 50783938!
+validateNumberLength: aCreditCardNumber
+	
+	((aCreditCardNumber asString size) < 16) ifTrue: [Error signal: CreditCard creditCardNumberMustHave16DigitsError].! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:06:18'!
+PASSED!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:06:33'!
+test02CreditCardNumberWithMoreThan16DigitsRaisesError
+
+	|creditCard|
+	
+	
+	self should: [ creditCard _ CreditCard with: 12341234123412345 and: (Date today) withOwner: 'peter naborski'. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard creditCardNumberMustHave16DigitsError ].! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:06:45' prior: 50783966!
+test02CreditCardNumberWithMoreThan16DigitsRaisesError
+	
+	self should: [ CreditCard with: 12341234123412345 and: (Date today) withOwner: 'peter naborski'. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard creditCardNumberMustHave16DigitsError ].! !
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:06:47'!
+FAILURE!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:06:58' prior: 50783848!
+test01CreditCardNumberWithLessThan16DigitsRaisesError
+
+	self should: [ CreditCard with: 123412341234123 and: (Date today) withOwner: 'peter naborski'. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = CreditCard creditCardNumberMustHave16DigitsError ].! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:01'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:01'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:01'!
+FAILURE!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:01'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:06'!
+FAILURE!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:06'!
+FAILURE!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:07:39' prior: 50783954!
+validateNumberLength: aCreditCardNumber
+	
+	((aCreditCardNumber asString size) ~=16) ifTrue: [Error signal: CreditCard creditCardNumberMustHave16DigitsError].! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:39'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:07:39'!
+PASSED!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:07:55'!
+FAILURE!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:07:57'!
+FAILURE!
+
+----SNAPSHOT----(4 November 2019 22:08:21) TusLibros.image priorSource: 14383547!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:08:49' prior: 50783575!
+checkout
+
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	
+	
+	^ cart subtotal.! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:13:26'!
+isExpiredOn: aDate
+
+	expirationDate year < aDate year ifTrue: [^ true].
+	expirationDate month < aDate month ifTrue:[^ true].
+	^false.
+	! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:13:49' prior: 50784072!
+isExpiredOn: aDate
+
+	(expirationDate year < aDate year) ifTrue: [^ true].
+	(expirationDate month < aDate month) ifTrue:[^ true].
+	^false.
+	! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:13:54' prior: 50784080!
+isExpiredOn: aDate
+
+	(expirationDate year < aDate year) ifTrue: [^ true].
+	(expirationDate month < aDate month) ifTrue:[^ true].
+	
+	^ false.
+	! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:14:52' prior: 50784066!
+checkout
+
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError]
+	
+	^ cart subtotal.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:15:04' prior: 50784096!
+checkout
+
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError]
+	
+	^ cart subtotal.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:15:06' prior: 50784106!
+checkout
+
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
+	
+	^ cart subtotal.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:15:13' prior: 50783709!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:15:13'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:15:57' prior: 50784127!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cart add: 'validBook'.	
+	creditCard _ CreditCard new.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:15:58'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:16:56' prior: 50784088!
+isExpiredOn: aDate
+
+	((expirationDate year) < (aDate year)) ifTrue: [^ true].
+	((expirationDate month) < (aDate month)) ifTrue:[^ true].
+	
+	^ false.
+	! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:16:56'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:16:56'!
+PASSED!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:17:03'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:18:02' prior: 50784149!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cart add: 'validBook'.	
+	creditCard _ CreditCard with: 1234123412341235 and: (Date newDay: 12 month: #July year: 1999) withOwner: 'peter naborski'.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:18:02'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:18:42' prior: 50784172!
+isExpiredOn: aDate
+
+	((expirationDate year) < (aDate year)) ifTrue: [^ true].
+	((expirationDate month) < (aDate month)) ifTrue:[^ true].
+	
+	^ false.
+	
+	! !
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:18:58'!
+ERROR!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:19:09'!
+ERROR!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:19:16'!
+ERROR!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:19:26'!
+ERROR!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:19:35'!
+ERROR!
+
+(Date today) year!
+
+Date today year!
+
+Date today year value!
+
+	Year!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:22:13' prior: 50784191!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cart add: 'validBook'.	
+	creditCard _ CreditCard with: 123412312341235 and: (Date newDay: 12 month: #July year: 1999) withOwner: 'peter naborski'.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:22:15' prior: 50784217!
+isExpiredOn: aDate
+
+	((expirationDate yearNumber) < (aDate yearNumber)) ifTrue: [^ true].
+	((expirationDate monthNumber) < (aDate monthNumber)) ifTrue:[^ true].
+	
+	^ false.
+	
+! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:22:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:22:15'!
+PASSED!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:22:21'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:22:39' prior: 50784244!
+test04CreditCardMustNotBeExpiredForCheckout
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	cart add: 'validBook'.	
+	creditCard _ CreditCard with: 1234123123412355 and: (Date newDay: 12 month: #July year: 1999) withOwner: 'peter naborski'.
+	
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:22:40'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:22:40'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:22:40'!
+ERROR!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:22:40'!
+ERROR!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:22:40'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:23:21' prior: 50783635!
+test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard with: 1234123123412355 and: (Date newDay: 12 month: #July year: 2200) withOwner: 'peter naborski'.
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	cart add: 'validBook'.
+	cart add: 'validBook'.
+	
+	self assert: 200 equals: (cashier checkout).
+
+	! !
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:23:22'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:24:10' prior: 50784267!
+isExpiredOn: aDate
+
+	((expirationDate yearNumber) < (aDate yearNumber)) ifTrue: [^ true].
+	((expirationDate monthIndex) < (aDate monthIndex)) ifTrue:[^ true].
+	
+	^ false.
+	
+! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:24:10'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:24:10'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:24:14'!
+ERROR!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:24:31'!
+ERROR!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:25:01' prior: 50784350!
+isExpiredOn: aDate
+
+	((expirationDate yearNumber) < (aDate yearNumber)) ifTrue: [^ true].
+	((expirationDate monthIndex) < (aDate monthIndex)) ifTrue:[^ true].
+	
+	^ false.
+	
+! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:25:52' prior: 50784375!
+isExpiredOn: aDate
+
+	((expirationDate yearNumber) > (aDate yearNumber)) ifTrue: [^ false].
+	((expirationDate monthIndex) > (aDate monthIndex)) ifTrue:[^ false].
+	
+	^ true.
+	
+! !
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsRaisesError stamp: 'st 11/4/2019 22:25:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsRaisesError stamp: 'st 11/4/2019 22:25:53'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:25:57'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:25:57'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:25:57'!
+ERROR!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:25:57'!
+PASSED!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:25:57'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:26:10' prior: 50783622!
+test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney
+
+	|cart cashier priceList creditCard|
+	
+	priceList _ Dictionary new.
+	priceList add: 'validBook' -> 100.		
+	cart _ Cart acceptingItemsOf: priceList.
+	creditCard _ CreditCard with: 1234123123412355 and: (Date newDay: 12 month: #July year: 2200) withOwner: 'peter naborski'.
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	cart add: 'validBook'.
+	
+	self assert: 100 equals: (cashier checkout).
+
+	! !
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:15'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:26:15'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:15'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:15'!
+PASSED!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:26:15'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:26:15'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:20'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:26:20'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:20'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:26:20'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:26:20'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:26:51' prior: 50783605!
+test01YouCantCheckoutAnEmptyCart
+
+	|cart cashier creditCard|
+	
+	cart _ Cart acceptingItemsOf: (Array with: 'validBook').
+	cashier _ Cashier new.
+	
+	creditCard _ CreditCard with: 1234123123412355 and: (Date newDay: 12 month: #July year: 2200) withOwner: 'peter naborski'.
+	
+	cashier _ Cashier for: cart with: creditCard on: (Date today).
+	
+	
+	self should: [ cashier checkout]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier cannotCheckoutEmptyCartError ].
+
+	! !
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:26:52'!
+PASSED!
+
+!testRun: #CashierTest #test01YouCantCheckoutAnEmptyCart stamp: 'st 11/4/2019 22:26:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckingOutASingleItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:52'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckingOutMoreThanOneItemReturnsTheCorrectAmountOfMoney stamp: 'st 11/4/2019 22:26:52'!
+PASSED!
+
+!testRun: #CashierTest #test04CreditCardMustNotBeExpiredForCheckout stamp: 'st 11/4/2019 22:26:52'!
+PASSED!
+
+----SNAPSHOT----(4 November 2019 22:27:23) TusLibros.image priorSource: 14477200!
+
+----SNAPSHOT----(4 November 2019 22:27:40) TusLibros.image priorSource: 14491709!
