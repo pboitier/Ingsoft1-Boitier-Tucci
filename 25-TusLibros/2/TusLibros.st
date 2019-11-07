@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'st 11/4/2019 22:27:21'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 TestCase subclass: #CartTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -148,7 +148,7 @@ itemSellByTheStore
 	^ 'validBook'! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/4/2019 22:27:21'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -233,7 +233,7 @@ test04CreditCardMustNotBeExpiredForCheckout
 		self assert: anError messageText = Cashier cannotCheckoutWithAnExpiredCreditCardError ].! !
 
 
-!classDefinition: #CreditCardTest category: #TusLibros stamp: 'st 11/4/2019 22:27:21'!
+!classDefinition: #CreditCardTest category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 TestCase subclass: #CreditCardTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -257,7 +257,63 @@ test02CreditCardNumberWithMoreThan16DigitsRaisesError
 		self assert: anError messageText = CreditCard creditCardNumberMustHave16DigitsError ].! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'st 11/4/2019 22:27:21'!
+!classDefinition: #MerchantProcessorInnerInterfaceTest category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
+TestCase subclass: #MerchantProcessorInnerInterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:40:20'!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Martin Carlos Alberto Alfonso Dias de la Fuente'.
+	self should: [merchantProcessor debitOf: 100 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError].! !
+
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:51:42'!
+test02CannotDebitAnAmountWithAWholePartLongerThan15Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 1000000000000000000000000 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].! !
+
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:00:58'!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.2 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:01:30'!
+test04CannotDebitAnAmountWithADecimalPartLongerThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.2345 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+
+!classDefinition: #Cart category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -331,7 +387,7 @@ add: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'st 11/4/2019 22:27:21'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -341,20 +397,23 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'st 11/4/2019 22:27:21'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart creditCard date'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:15:06'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:58:51'!
 checkout
 
+	|merchantProcessor|
+	
 	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
 	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
-	
-	^ cart subtotal.! !
+	merchantProcessor := MerchantProcessor new.
+	merchantProcessor debitOf: (cart subtotal) onCard: creditCard.
+	^cart subtotal.! !
 
 !Cashier methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 21:47:42'!
 initializeFor: aCart with: aCreditCard on: aDate
@@ -365,7 +424,7 @@ initializeFor: aCart with: aCreditCard on: aDate
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'st 11/4/2019 22:27:22'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -385,7 +444,7 @@ for: aCart with: aCreditCard on: aDate
 	^self new initializeFor: aCart with: aCreditCard on: aDate.! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'st 11/4/2019 22:27:22'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'number expirationDate ownerName'
 	classVariableNames: ''
@@ -413,6 +472,12 @@ isExpiredOn: aDate
 	
 ! !
 
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:40:59'!
+ownerName
+
+	^ownerName.
+	! !
+
 !CreditCard methodsFor: 'as yet unclassified' stamp: 'st 11/4/2019 22:07:39'!
 validateNumberLength: aCreditCardNumber
 	
@@ -420,7 +485,7 @@ validateNumberLength: aCreditCardNumber
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'st 11/4/2019 22:27:22'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -433,3 +498,66 @@ creditCardNumberMustHave16DigitsError
 with: aCreditCardNumber and: anExpirationDate withOwner: aName
 
 	^self new initializeFor: aCreditCardNumber with: anExpirationDate owner: aName.! !
+
+
+!classDefinition: #MerchantProcessor category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
+Object subclass: #MerchantProcessor
+	instanceVariableNames: 'sales'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:48:10'!
+assertDebitAmountDecimalPartLengthIsCorrect: anAmount
+
+	(((anAmount printString) indexOf: $.) ~= (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError].! !
+
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:47:28'!
+assertDebitAmountWholePartLengthIsCorrect: anAmount
+
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].! !
+
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:54:27'!
+debitOf: anAmount onCard: aCreditCard
+
+	self validateCreditCard: aCreditCard.
+	self validateDebitAmount: anAmount.
+
+
+	
+	
+	! !
+
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:56:40'!
+initialize
+
+	sales := OrderedCollection new.! !
+
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:43:36'!
+validateCreditCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].! !
+
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:54:10'!
+validateDebitAmount: anAmount
+
+	self assertDebitAmountWholePartLengthIsCorrect: anAmount.
+	self assertDebitAmountDecimalPartLengthIsCorrect: anAmount.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'MerchantProcessor class' category: #TusLibros stamp: 'PB 11/6/2019 22:04:31'!
+MerchantProcessor class
+	instanceVariableNames: ''!
+
+!MerchantProcessor class methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:37:40'!
+creditCardOwnerNameExceedsMaximumLengthError
+	^'a Credit Card Owner Name cannot exceed 30 characters in length'.! !
+
+!MerchantProcessor class methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:48:17'!
+decimalPartOfamountToDebitIsTheWrongLengthError
+	^'The decimal part of the amount to debit must be exactly 2 characters in length'.! !
+
+!MerchantProcessor class methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:53:54'!
+wholePartOfamountToDebitExceedsMaximumLengthError
+	^'The whole part of the amount to debit cannot exceed 15 characters in length'.! !

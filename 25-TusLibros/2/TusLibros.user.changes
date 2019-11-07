@@ -3481,3 +3481,837 @@ PASSED!
 ----SNAPSHOT----(4 November 2019 22:27:23) TusLibros.image priorSource: 14477200!
 
 ----SNAPSHOT----(4 November 2019 22:27:40) TusLibros.image priorSource: 14491709!
+
+----STARTUP---- (6 November 2019 19:06:38) as /home/tejo240/Documents/Facultad/Inge1/CuisUniversity-3839v2/TusLibros.image!
+
+
+TestCase subclass: #MerchantProcessorInnerInterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #MerchantProcessorInnerInterfaceTest category: #TusLibros stamp: 'PB 11/6/2019 19:20:53'!
+TestCase subclass: #MerchantProcessorInnerInterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'no messages' stamp: 'PB 11/6/2019 19:24:58'!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:25:02' prior: 50784540!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	! !
+
+!classDefinition: #MerchantProcessor category: #TusLibros stamp: 'PB 11/6/2019 19:27:57'!
+Object subclass: #MerchantProcessor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:27:50' prior: 50784546!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	self assert: (merchantProcessor  successfulDebitOf: 100 onCard: aCreditCard) equals: false.! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:28:18' prior: 50784559!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard :=
+	self assert: (merchantProcessor  successfulDebitOf: 100 onCard: aCreditCard) equals: false.! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:31:12' prior: 50784571!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Martin Carlos Alberto Alfonso Dias de la Fuente'.
+	self assert: (merchantProcessor  successfulDebitOf: 100 onCard: aCreditCard) equals: false.! !
+!MerchantProcessor methodsFor: 'no messages' stamp: 'PB 11/6/2019 19:36:58'!
+successfulDebitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard owner) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].! !
+!MerchantProcessor class methodsFor: 'no messages' stamp: 'PB 11/6/2019 19:37:40'!
+creditCardOwnerNameExceedsMaximumLengthError
+	^'a Credit Card Owner Name cannot exceed 30 characters in length'.! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:38:05'!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard owner) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].! !
+
+!methodRemoval: MerchantProcessor #successfulDebitOf:onCard: stamp: 'PB 11/6/2019 19:38:05'!
+successfulDebitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard owner) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:38:13' prior: 50784583!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Martin Carlos Alberto Alfonso Dias de la Fuente'.
+	self assert: (merchantProcessor  debitOf: 100 onCard: aCreditCard) equals: false.! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:39:16' prior: 50784632!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Martin Carlos Alberto Alfonso Dias de la Fuente'.
+	self should: [merchantProcessor debitOf: 100 onCard: aCreditCard]
+		 ! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:39:56' prior: 50784648!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Martin Carlos Alberto Alfonso Dias de la Fuente'.
+	self should: [merchantProcessor debitOf: 100 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor creditCardNumberMustHave16DigitsError ].! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:40:20' prior: 50784663!
+test01CannotDebitFromCardWithOwnerNameLongerThan30Characters
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Martin Carlos Alberto Alfonso Dias de la Fuente'.
+	self should: [merchantProcessor debitOf: 100 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 19:40:23'!
+ERROR!
+!CreditCard methodsFor: 'nil' stamp: 'PB 11/6/2019 19:40:59'!
+ownerName
+
+	^ownerName.
+	! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 19:41:03'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 19:41:03'!
+ERROR!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:41:10' prior: 50784614!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 19:41:12'!
+PASSED!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:51:42'!
+test02CannotDebitAnAmountWithAWholePartLongerThan15Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 1000000000000000000000000 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:51:45'!
+FAILURE!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:52:43' prior: 50784722!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfAmountExceedsMaximumLengthError.]! !
+!MerchantProcessor class methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:53:14'!
+wholePartOfamountToDebitExceedsMaximumLengthError
+	^'The whole part of the amount to debit cannot exceed 15 characters in length'.! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:53:22'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:53:22'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:53:40'!
+ERROR!
+!MerchantProcessor class methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:53:54' prior: 50784772!
+wholePartOfamountToDebitExceedsMaximumLengthError
+	^'The whole part of the amount to debit cannot exceed 15 characters in length'.! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:54:18' prior: 50784760!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 19:54:19'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:54:19'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:54:23'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 19:54:23'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:54:23'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 19:54:38'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 19:54:38'!
+PASSED!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:56:12'!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 1000000000000000000000000 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 19:57:00' prior: 50784847!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.2 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLength.].! !
+
+100.2 mod: 1.!
+
+100.2!
+
+100.2 - (100.2 floor)!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:03:20' prior: 50784802!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	! !
+
+----SNAPSHOT----(6 November 2019 20:11:55) TusLibros.image priorSource: 14491792!
+
+----STARTUP---- (6 November 2019 20:28:30) as /home/tejo240/Documents/Facultad/Inge1/CuisUniversity-3839v2/TusLibros.image!
+
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:36:00' prior: 50784887!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:42:50' prior: 50784909!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	((anAmount printString) indexOf: $. = (anAmount printString) size - 2)! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:47:40' prior: 50784924!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	((anAmount printString) indexOf: $. = (anAmount printString) size - 2) ifTrue:[Error signal: MerchantProcessor ]! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:47:53' prior: 50784942!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	((anAmount printString) indexOf: $. = (anAmount printString) size - 2) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError]! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:47:58' prior: 50784867!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.2 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+!MerchantProcessor class methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:48:17'!
+decimalPartOfamountToDebitIsTheWrongLengthError
+	^'The decimal part of the amount to debit must be exactly 2 characters in length'.! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:49:19'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:49:19'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:49:19'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:49:19'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:49:23'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:49:23'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:49:23'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:49:23'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:49:51'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:49:51'!
+ERROR!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:50:52' prior: 50784961!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	((anAmount printString) indexOf: $. = ((anAmount printString) size) - 2) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError]! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:50:54'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:50:54'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:50:54'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:50:54'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:50:58'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:50:58'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:50:58'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:50:58'!
+ERROR!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:51:56' prior: 50785055!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	(((anAmount printString) indexOf: $.) = ((anAmount printString) size) - 2) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError]! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:51:56'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:51:56'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:51:56'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:51:56'!
+ERROR!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:52:40' prior: 50785113!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	(((anAmount printString) indexOf: $.) = (((anAmount printString) size)) - 2) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError]! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:52:42'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:52:42'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:52:42'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:52:42'!
+ERROR!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:52:47' prior: 50785152!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	(((anAmount printString) indexOf: $.) = (((anAmount printString) size) - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError]! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:52:48'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:52:48'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:52:48'!
+FAILURE!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:52:48'!
+FAILURE!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:52:54'!
+FAILURE!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:52:54'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:52:54'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:52:54'!
+FAILURE!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:54:26' prior: 50785191!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	(((anAmount printString) indexOf: $.) = anAmount printString size - 2) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError]! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:54:27'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:54:27'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:54:27'!
+ERROR!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:54:27'!
+ERROR!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:55:07' prior: 50785249!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	(((anAmount printString) indexOf: $.) = (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError]! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 20:55:07'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 20:55:07'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:55:07'!
+FAILURE!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 20:55:07'!
+FAILURE!
+
+'123' indexOf: $1.!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 20:59:53' prior: 50785288!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	"((anAmount printString) split: )
+	decimalPartOfamountToDebitIsTheWrongLength"
+	(((anAmount printString) indexOf: $.) ~= (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError].
+	! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:02'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:00:04'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:00:04'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:04'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:10'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:00:10'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:00:10'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:10'!
+PASSED!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:00:14' prior: 50784982!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.234 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:14'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:00:14'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:00:14'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:14'!
+PASSED!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:00:18' prior: 50785386!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.23 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:18'!
+FAILURE!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:00:22' prior: 50785424!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.2 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:00:44' prior: 50785448!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.234 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:44'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:00:44'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:00:44'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:44'!
+PASSED!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:00:53' prior: 50785468!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.23 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:54'!
+FAILURE!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:00:58' prior: 50785506!
+test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.2 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:59'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:00:59'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:00:59'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:00:59'!
+PASSED!
+!MerchantProcessorInnerInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:01:30'!
+test04CannotDebitAnAmountWithADecimalPartLongerThan2Digits
+
+	|merchantProcessor aCreditCard |
+	
+	merchantProcessor := MerchantProcessor new.
+	aCreditCard := CreditCard with: 1234123412341234 and: (Date tomorrow) withOwner: 'Roberto Carlos'.
+	self should: [merchantProcessor debitOf: 100.2345 onCard: aCreditCard]
+		 raise: Error - MessageNotUnderstood 
+		 withExceptionDo: [ :anError |
+			self assert: anError messageText = MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError.].! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test04CannotDebitAnAmountWithADecimalPartLongerThan2Digits stamp: 'PB 11/6/2019 21:01:31'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:01:31'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:01:31'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:01:31'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test04CannotDebitAnAmountWithADecimalPartLongerThan2Digits stamp: 'PB 11/6/2019 21:01:31'!
+PASSED!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:04:55' prior: 50785328!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	(((anAmount printString) indexOf: $.) ~= (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError].
+	! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:36:19' prior: 50785610!
+debitOf: anAmount onCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	(((anAmount printString) indexOf: $.) ~= (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError].
+	
+	
+	! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:43:17'!
+validateCreditCard: aCreditCard
+
+	! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:43:27' prior: 50785628!
+debitOf: anAmount onCard: aCreditCard
+
+	
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].
+	(((anAmount printString) indexOf: $.) ~= (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError].
+	
+	
+	! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:43:32' prior: 50785646!
+validateCreditCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:43:36' prior: 50785665!
+validateCreditCard: aCreditCard
+
+	((aCreditCard ownerName) size > 30) ifTrue: [Error signal: MerchantProcessor creditCardOwnerNameExceedsMaximumLengthError.].! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:44:09'!
+validateDebitAmount: anAmount
+
+	! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:46:40' prior: 50785682!
+validateDebitAmount: anAmount
+
+	self assertDebitAmountWholePartLengthIsCorrect
+	self assertDebitAmountDecimalPartLengthIsCorrect! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:46:45' prior: 50785687!
+validateDebitAmount: anAmount
+
+	self assertDebitAmountWholePartLengthIsCorrect.
+	self assertDebitAmountDecimalPartLengthIsCorrect.! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:46:55'!
+assertDebitAmountWholePartLengthIsCorrect
+
+! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:47:11' prior: 50785651!
+debitOf: anAmount onCard: aCreditCard
+
+	
+	
+	(((anAmount printString) indexOf: $.) ~= (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError].
+	
+	
+	! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:47:28'!
+assertDebitAmountWholePartLengthIsCorrect: anAmount
+
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].! !
+
+!methodRemoval: MerchantProcessor #assertDebitAmountWholePartLengthIsCorrect stamp: 'PB 11/6/2019 21:47:36'!
+assertDebitAmountWholePartLengthIsCorrect
+
+!
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:47:42'!
+assertDebitAmountDecimalPartLengthIsCorrect: anAmount
+
+	((anAmount printString) size > 15) ifTrue: [Error signal: MerchantProcessor wholePartOfamountToDebitExceedsMaximumLengthError.].! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:47:51' prior: 50785707!
+debitOf: anAmount onCard: aCreditCard
+
+	
+	
+
+	
+	
+	! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:48:10' prior: 50785731!
+assertDebitAmountDecimalPartLengthIsCorrect: anAmount
+
+	(((anAmount printString) indexOf: $.) ~= (anAmount printString size - 2)) ifTrue:[Error signal: MerchantProcessor decimalPartOfamountToDebitIsTheWrongLengthError].! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:49:11' prior: 50785741!
+debitOf: anAmount onCard: aCreditCard
+
+	self validateCreditCard: aCreditCard.
+	self assertDebitAmountWholePartLengthIsCorrect: anAmount.
+	self assertDebitAmountDecimalPartLengthIsCorrect: anAmount.
+	
+
+	
+	
+	! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:49:49'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:49:49'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:49:49'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test04CannotDebitAnAmountWithADecimalPartLongerThan2Digits stamp: 'PB 11/6/2019 21:49:49'!
+PASSED!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:50:51' prior: 50784116!
+checkout
+
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
+	
+	^cart subtotal.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:52:01' prior: 50785785!
+checkout
+
+	|merchantProcessor|
+	
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
+	merchantProcessor := MerchantProcessor new.
+	merchantProcessor debit.
+	^cart subtotal.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:52:35' prior: 50785795!
+checkout
+
+	|merchantProcessor|
+	
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
+	merchantProcessor := MerchantProcessor new.
+	merchantProcessor debit.
+	^cart subtotal.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:53:24' prior: 50785808!
+checkout
+
+	|merchantProcessor|
+	
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
+	merchantProcessor := MerchantProcessor new.
+	merchantProcessor debitOf: (cart subtotal) forCard: creditCard.
+	^cart subtotal.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:53:35' prior: 50785821!
+checkout
+
+	|merchantProcessor|
+	
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
+	merchantProcessor := MerchantProcessor new.
+	merchantProcessor debitOf: (cart subtotal) onCard: creditCard.
+	^cart subtotal.! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:54:10' prior: 50785695!
+validateDebitAmount: anAmount
+
+	self assertDebitAmountWholePartLengthIsCorrect: anAmount.
+	self assertDebitAmountDecimalPartLengthIsCorrect: anAmount.! !
+!MerchantProcessor methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:54:27' prior: 50785757!
+debitOf: anAmount onCard: aCreditCard
+
+	self validateCreditCard: aCreditCard.
+	self validateDebitAmount: anAmount.
+
+
+	
+	
+	! !
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test01CannotDebitFromCardWithOwnerNameLongerThan30Characters stamp: 'PB 11/6/2019 21:54:28'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test02CannotDebitAnAmountWithAWholePartLongerThan15Digits stamp: 'PB 11/6/2019 21:54:28'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test03CannotDebitAnAmountWithADecimalPartShorterThan2Digits stamp: 'PB 11/6/2019 21:54:28'!
+PASSED!
+
+!testRun: #MerchantProcessorInnerInterfaceTest #test04CannotDebitAnAmountWithADecimalPartLongerThan2Digits stamp: 'PB 11/6/2019 21:54:28'!
+PASSED!
+
+Object subclass: #MerchantProcessor
+	instanceVariableNames: 'sales'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #MerchantProcessor category: #TusLibros stamp: 'PB 11/6/2019 21:56:16'!
+Object subclass: #MerchantProcessor
+	instanceVariableNames: 'sales'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!MerchantProcessor methodsFor: 'nil' stamp: 'PB 11/6/2019 21:56:40'!
+initialize
+
+	sales := OrderedCollection new.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'PB 11/6/2019 21:58:51' prior: 50785835!
+checkout
+
+	|merchantProcessor|
+	
+	(cart isEmpty) ifTrue: [Error signal: Cashier cannotCheckoutEmptyCartError].
+	(creditCard isExpiredOn: (Date today)) ifTrue: [Error signal: Cashier cannotCheckoutWithAnExpiredCreditCardError].
+	merchantProcessor := MerchantProcessor new.
+	merchantProcessor debitOf: (cart subtotal) onCard: creditCard.
+	^cart subtotal.! !
+
+----SNAPSHOT----(6 November 2019 22:04:27) TusLibros.image priorSource: 14504027!
