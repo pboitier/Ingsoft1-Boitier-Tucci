@@ -6739,3 +6739,2889 @@ PASSED!
 
 !testRun: #InnerInterfaceTest #test13AddingANonExistingCartReturnsError stamp: 'st 11/9/2019 12:53:35'!
 PASSED!
+
+----STARTUP---- (9 November 2019 17:42:05) as /home/tejo240/Documents/Facultad/Inge1/CuisUniversity-3839v2/TusLibros.image!
+
+
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #InnerInterfaceTest
+	instanceVariableNames: 'testObjectsFactory debitBehavior'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #InnerInterfaceTest
+	instanceVariableNames: 'testObjectsFactory debitBehavior'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #InnerInterfaceTest
+	instanceVariableNames: 'testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #InnerInterfaceTest
+	instanceVariableNames: 'testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 09:55:45'!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	! !
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #InnerInterface
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 09:59:23' prior: 50789498!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	innerInterface _ InnerInterface new.
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:01:25' prior: 50789510!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface new.
+	
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 10:02:42'!
+listCart: aCartId
+
+	^ OrderedCollection new.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:07:04'!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface new.
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+
+!classDefinition: #NameOfSubclass category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'cartList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #NameOfSubclass category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'cartList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #NameOfSubclass category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'cartDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #NameOfSubclass category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'cartDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #NameOfSubclass stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'cartDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 10:10:17' prior: 50789526!
+listCart: aCartId
+
+	^ cartDicc at: aCartId.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:11:04' prior: 50789530!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface new.
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterface methodsFor: 'access' stamp: 'st 11/9/2019 10:11:28'!
+cartDicc
+
+	^ cartDicc.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:12:39' prior: 50789594!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface new.
+	innerInterface cartDicc add: 1 -> (OrderedCollection with: 1).
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:12:52' prior: 50789517!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface new.
+	innerInterface cartDicc add: 1 -> (OrderedCollection new).
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:12:59' prior: 50789621!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface new.
+	(innerInterface cartDicc) add: 1 -> (OrderedCollection new).
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:13:04' prior: 50789608!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface new.
+	(innerInterface cartDicc) add: 1 -> (OrderedCollection with: 1).
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:13:45' prior: 50789643!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc|
+	
+	innerInterface _ InnerInterface new.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add: 1 -> (OrderedCollection with: 1).
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:14:12' prior: 50789656!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc|
+	
+	innerInterface _ InnerInterface new.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:(1 -> (OrderedCollection with: 1)).
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:14:43' prior: 50789670!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc|
+	
+	innerInterface _ InnerInterface new.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:(1 -> (OrderedCollection with: 1)); yourself.
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:14:53' prior: 50789684!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc|
+	
+	innerInterface _ InnerInterface new.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:15:26' prior: 50789632!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface new.
+	(innerInterface cartDicc) add: 1 -> (OrderedCollection new); yourself.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/9/2019 10:16:30'!
+initialize
+
+	cartDicc _ Dictionary new.! !
+!InnerInterface class methodsFor: 'initialize' stamp: 'st 11/9/2019 10:30:56'!
+create
+
+	self new initialize.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:38:18' prior: 50789698!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc|
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:38:24' prior: 50789712!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+	(innerInterface cartDicc) add: 1 -> (OrderedCollection new); yourself.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterface class methodsFor: 'initialize' stamp: 'st 11/9/2019 10:39:35' prior: 50789727!
+create
+
+	^self new initialize.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:40:40' prior: 50789731!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:42:46'!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	cartItems _ OrderedCollection with: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:43:26' prior: 50789774!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	cartDicc add:2->(OrderedCollection with: 4 with: 5); yourself.
+	
+	cartItems _ OrderedCollection with: 4 with: 5.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:45:51'!
+test03ListingANonExistingCartReturnsError
+
+	| innerInterface cartItems cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	
+	cartItems _ OrderedCollection with: 4 with: 5.
+		
+	self assert: cartItems equals: (innerInterface listCart: 5).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:46:04'!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartItems cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	
+	cartItems _ OrderedCollection with: 4 with: 5.
+		
+	self assert: cartItems equals: (innerInterface listCart: 5).
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test03ListingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:42:21'!
+test03ListingANonExistingCartReturnsError
+
+	| innerInterface cartItems cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	
+	cartItems _ OrderedCollection with: 4 with: 5.
+		
+	self assert: cartItems equals: (innerInterface listCart: 5).
+	
+	!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:47:37' prior: 50789817!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartItems cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	
+	cartItems _ OrderedCollection with: 4 with: 5.
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = innerInterface nonExistingCartError.].
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:47:50' prior: 50789845!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = innerInterface nonExistingCartError.].
+	
+	
+	! !
+!InnerInterface class methodsFor: 'exception' stamp: 'st 11/9/2019 10:48:33'!
+nonExistingCartError
+
+	^'The specified cart does not exists'.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:48:55' prior: 50789863!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartDicc |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 10:49:11' prior: 50789589!
+listCart: aCartId
+
+	^ cartDicc at: aCartId ifAbsent: [].! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 10:49:28' prior: 50789900!
+listCart: aCartId
+
+	^ cartDicc at: aCartId ifAbsent: [self error: self nonExistingCartError].! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 10:49:41' prior: 50789905!
+listCart: aCartId
+
+	^ cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:50:48'!
+test05CreatingACartReturnsEmptyCollection
+
+	| innerInterface cartDicc |
+	
+	innerInterface _ InnerInterface create.
+
+	
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:50:55' prior: 50789917!
+test05CreatingACartReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:53:36' prior: 50789924!
+test05CreatingACartReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 1 with: '123456'.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 10:54:15'!
+createCart: aClientId with: aPassword
+
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 10:58:33' prior: 50789941!
+createCart: aClientId with: aPassword
+
+	cartDicc add: 1->(OrderedCollection new)! !
+
+!classDefinition: #PortfolioTest category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioTest category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:16:26'!
+test01BalanceOfPortfolioWithoutAccountsIsZero
+
+	self assert: 0 equals: Portfolio new balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:17:51'!
+test02BalanceOfPortfolioWithOneAccountIsAccountBalance
+
+	| account portfolio |
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	self assert: account balance equals: portfolio balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:23:25'!
+test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortofolio |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortofolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	self assert: (composedPortfolioAccount balance + simplePortfolio balance) equals: composedPortofolio balance! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:43:15'!
+test04PortfolioWithoutAccountsHasNoRegisteredTransaction
+
+	self deny: (Portfolio new hasRegistered: (Deposit for: 100))! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:43:11'!
+test05PortfolioHasRegisteredItsAccountsTransactions
+
+	| account portfolio deposit |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	self assert: (portfolio hasRegistered: deposit)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:06'!
+test06PortfolioLooksForRegisteredTransactionsRecursively
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortfolio composedPortfolioAccountWithdraw simplePortfolioAccountDeposit |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	simplePortfolioAccountDeposit := Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	composedPortfolioAccountWithdraw := Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortfolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	self assert: (composedPortfolio hasRegistered: simplePortfolioAccountDeposit).
+	self assert: (composedPortfolio hasRegistered: composedPortfolioAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:10'!
+test07PortfolioHasNoTransactionWhenHasNoAccounts
+
+	self assert: Portfolio new transactions isEmpty! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:15'!
+test08PortfolioTransasctionsIncludesAllItsAccountsTransactions
+
+	| account portfolio accountDeposit anotherAccount portfolioTransactions anotherAccountWithdraw |
+	
+	account := ReceptiveAccount new.
+	accountDeposit := Deposit register: 100 on: account.
+	anotherAccount := ReceptiveAccount new.
+	anotherAccountWithdraw := Withdraw register: 100 on: account.
+	portfolio := Portfolio with: account.
+	
+	portfolioTransactions := portfolio transactions.
+	
+	self assert: 2 equals: portfolioTransactions size.
+	self assert: (portfolioTransactions includes: accountDeposit).
+	self assert: (portfolioTransactions includes: anotherAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:20'!
+test09PortfolioTransactionsAreCalculatedRecursively
+
+	| simplePortfolioAccount simplePortfolio composedPortfolioAccount composedPortfolio composedPortfolioAccountWithdraw simplePortfolioAccountDeposit composedPortfolioTransactions |
+	
+	simplePortfolioAccount := ReceptiveAccount new.
+	simplePortfolioAccountDeposit := Deposit register: 100 on: simplePortfolioAccount.
+	simplePortfolio := Portfolio with: simplePortfolioAccount.
+	
+	composedPortfolioAccount := ReceptiveAccount new.
+	composedPortfolioAccountWithdraw := Withdraw register: 50 on: composedPortfolioAccount.
+	composedPortfolio := Portfolio with: simplePortfolio with: composedPortfolioAccount.
+	
+	composedPortfolioTransactions := composedPortfolio transactions.
+	self assert: 2 equals: composedPortfolioTransactions size.
+	self assert: (composedPortfolioTransactions includes: simplePortfolioAccountDeposit).
+	self assert: (composedPortfolioTransactions includes: composedPortfolioAccountWithdraw)! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:24'!
+test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce
+
+	| account portfolio |
+	
+	account := ReceptiveAccount new.
+	portfolio := Portfolio with: account.
+	
+	self 
+		should: [ portfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: portfolio accountsSize.
+			self assert: (portfolio accountsIncludes: account) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:28'!
+test11PortfolioCanNotIncludeAccountOfItsPortfolios
+
+	| account simplePortfolio composedPortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio with: account.
+	composedPortfolio := Portfolio with: simplePortfolio.
+	
+	self 
+		should: [ composedPortfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: composedPortfolio accountsSize.
+			self assert: (composedPortfolio accountsIncludes: simplePortfolio) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 11:58:32'!
+test12PortfolioCanNotIncludeItself
+
+	| account simplePortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio with: account.
+	
+	self 
+		should: [ simplePortfolio add: simplePortfolio ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: 1 equals: simplePortfolio accountsSize.
+			self assert: (simplePortfolio accountsIncludes: account) ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 12:01:51'!
+test13ComposedPortfolioCanNotHaveParentPortfolioAccount
+
+	| account simplePortfolio composedPortfolio |
+	
+	account := ReceptiveAccount new.
+	simplePortfolio := Portfolio new.
+	composedPortfolio := Portfolio with: simplePortfolio.
+	composedPortfolio add: account.
+	
+	self 
+		should: [ simplePortfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: simplePortfolio accountsIsEmpty ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/25/2019 12:12:16'!
+test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively
+
+	| account leftParentPortfolio leftRootParentPortfolio portfolio rightParentPortfolio rightRootParentPortfolio |
+	
+	account := ReceptiveAccount new.
+	portfolio := Portfolio new.
+	leftParentPortfolio := Portfolio with: portfolio .
+	leftRootParentPortfolio := Portfolio with: leftParentPortfolio.
+	leftRootParentPortfolio add: account.
+	
+	rightParentPortfolio := Portfolio with: portfolio .
+	rightRootParentPortfolio := Portfolio with: rightParentPortfolio.
+	rightRootParentPortfolio add: account.
+
+	self 
+		should: [ portfolio add: account ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: portfolio accountsIsEmpty ]! !
+!PortfolioTest methodsFor: 'tests' stamp: 'HAW 5/29/2019 16:31:18'!
+test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd
+
+	| portfolioToAdd portfolioToModify rootPortfolio sharedAccount |
+	
+	sharedAccount := ReceptiveAccount new.
+	portfolioToModify := Portfolio new.
+	rootPortfolio := Portfolio with: sharedAccount with: portfolioToModify.
+	portfolioToAdd := Portfolio with: sharedAccount.
+	
+	self 
+		should: [ portfolioToModify add: portfolioToAdd ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError | 
+			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
+			self assert: portfolioToModify accountsIsEmpty ]! !
+
+!classDefinition: #ReceptiveAccountTest category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #ReceptiveAccountTest category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:21'!
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:48'!
+test01ReceptiveAccountHaveZeroAsBalanceWhenCreated 
+
+	| account |
+	
+	account := ReceptiveAccount new.
+
+	self assert: 0 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:54'!
+test02DepositIncreasesBalanceOnTransactionValue 
+
+	| account |
+	
+	account := ReceptiveAccount  new.
+	Deposit register: 100 on: account.
+		
+	self assert: 100 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:02'!
+test03WithdrawDecreasesBalanceOnTransactionValue 
+
+	| account |
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	Withdraw register: 50 on: account.
+		
+	self assert: 50 equals: account balance .
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:32'!
+test04WithdrawValueMustBePositive 
+
+	| account withdrawValue |
+	
+	account := ReceptiveAccount new.
+	withdrawValue := 50.
+	
+	self assert: withdrawValue equals: (Withdraw register: withdrawValue on: account) value
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:46'!
+test05ReceptiveAccountKnowsRegisteredTransactions 
+
+	| account deposit withdraw |
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+		
+	self assert: (account hasRegistered: deposit).
+	self assert: (account hasRegistered: withdraw).
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:54'!
+test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
+
+	| account deposit withdraw |
+	
+	account := ReceptiveAccount new.
+	deposit :=  Deposit for: 100.
+	withdraw := Withdraw for: 50.
+		
+	self deny: (account hasRegistered: deposit).
+	self deny: (account hasRegistered:withdraw).
+! !
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:21:24'!
+test07AccountKnowsItsTransactions 
+
+	| account1 deposit1 |
+	
+	account1 := ReceptiveAccount new.
+	
+	deposit1 := Deposit register: 100 on: account1.
+		
+	self assert: 1 equals: account1 transactions size .
+	self assert: (account1 transactions includes: deposit1).
+! !
+
+!classDefinition: #Account category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Account category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:21'!
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:23:47'!
+hasRegistered: aTransaction
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:24:25'!
+isComposedBy: anAccount
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'balance' stamp: 'HAW 5/25/2019 12:23:40'!
+balance
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:27'!
+addTransactionsTo: aCollectionOfTransactions
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:15'!
+transactions
+
+	self subclassResponsibility ! !
+!Account methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:24:04'!
+addedTo: aPortfolio
+
+	self subclassResponsibility ! !
+
+!classDefinition: #Portfolio category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
+accountsIncludes: anAccount
+
+	^accounts includes: anAccount ! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:05:04'!
+accountsIsEmpty
+	
+	^accounts isEmpty ! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:06'!
+accountsSize
+	
+	^accounts size! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:19:20'!
+add: accountToAdd
+
+	self assertCanAdd: accountToAdd.
+		
+	accounts add: accountToAdd.
+	accountToAdd addedTo: self 
+	! !
+!Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 12:17:31'!
+rootParents
+	
+	| rootParents |
+	
+	rootParents := Set new.
+	self addRootParentsTo: rootParents.
+	
+	^ rootParents! !
+!Portfolio methodsFor: 'initialization' stamp: 'HAW 5/25/2019 12:03:18'!
+initialize
+
+	accounts := OrderedCollection new.
+	parents := OrderedCollection new.! !
+!Portfolio methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:19:36'!
+balance
+	
+	^accounts sum: [ :anAccount | anAccount balance ] ifEmpty: [ 0 ]! !
+!Portfolio methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:42:55'!
+addTransactionsTo: aCollectionOfTransactions
+
+	accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ]! !
+!Portfolio methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:32'!
+transactions
+	
+	| transactions |
+	
+	transactions := OrderedCollection new.
+	accounts do: [ :anAccount | anAccount addTransactionsTo: transactions ].
+	
+	^transactions ! !
+!Portfolio methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:02:59'!
+addedTo: aPortfolio 
+	
+	parents add: aPortfolio ! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:20:56'!
+anyRootParentIsComposedBy: accountToAdd
+
+	^self rootParents anySatisfy: [ :aParent | aParent isComposedBy: accountToAdd]! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/25/2019 11:28:29'!
+hasRegistered: aTransaction
+
+	^accounts anySatisfy: [ :anAccount | anAccount hasRegistered: aTransaction ]! !
+!Portfolio methodsFor: 'testing' stamp: 'HAW 5/29/2019 16:24:54'!
+isComposedBy: anAccount
+
+	^ self = anAccount or: [ accounts anySatisfy: [ :composedAccount | (composedAccount isComposedBy: anAccount) or: [ anAccount isComposedBy: composedAccount ]]]! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 12:17:31'!
+addRootParentsTo: rootParents
+
+	parents 
+		ifEmpty: [ rootParents add: self ] 
+		ifNotEmpty: [ parents do: [ :aParent | aParent addRootParentsTo: rootParents ]]! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 12:20:36'!
+assertCanAdd: accountToAdd
+
+	(self anyRootParentIsComposedBy: accountToAdd) ifTrue: [ self signalCanNotAddAccount ].
+! !
+!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 11:48:34'!
+signalCanNotAddAccount
+	
+	self error: self class canNotAddAccountErrorMessage! !
+
+!classDefinition: 'Portfolio class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Portfolio class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Portfolio class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Portfolio class
+	instanceVariableNames: ''!
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:48:55'!
+canNotAddAccountErrorMessage
+	
+	^'Can not add repeated account to a portfolio'! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:18:21'!
+with: anAccount
+
+	^self new 
+		add: anAccount;
+		yourself! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:23:59'!
+with: anAccount with: anotherAccount
+
+	^self new 
+		add: anAccount;
+		add: anotherAccount;
+		yourself! !
+
+!classDefinition: #ReceptiveAccount category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #ReceptiveAccount category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:35'!
+initialize
+
+	super initialize.
+	transactions := OrderedCollection new.! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:52'!
+addTransactionsTo: aCollectionOfTransactions
+
+	aCollectionOfTransactions addAll: transactions ! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
+register: aTransaction
+
+	transactions add: aTransaction 
+! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
+transactions 
+
+	^ transactions copy! !
+!ReceptiveAccount methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:24:46'!
+balance
+
+	^transactions 
+		inject: 0
+		into: [ :currentBalance :transaction | transaction affectBalance: currentBalance ]! !
+!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/21/2019 18:55:56'!
+hasRegistered: aTransaction
+
+	^ transactions includes: aTransaction 
+! !
+!ReceptiveAccount methodsFor: 'testing' stamp: 'HAW 5/25/2019 11:54:51'!
+isComposedBy: anAccount
+
+	^self = anAccount ! !
+!ReceptiveAccount methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:03:32'!
+addedTo: aPortfolio 
+	
+	! !
+
+!classDefinition: #AccountTransaction category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountTransaction category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
+value 
+
+	self subclassResponsibility ! !
+!AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
+affectBalance: aBalance
+
+	self subclassResponsibility ! !
+
+!classDefinition: 'AccountTransaction class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction class
+	instanceVariableNames: ''!
+
+!classDefinition: 'AccountTransaction class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction class
+	instanceVariableNames: ''!
+!AccountTransaction class methodsFor: 'instance creation' stamp: 'NR 10/21/2019 18:54:27'!
+register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction! !
+
+!classDefinition: #Deposit category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Deposit category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Deposit methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:45'!
+initializeFor: aValue
+
+	value := aValue ! !
+!Deposit methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:38'!
+value
+
+	^ value! !
+!Deposit methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:02'!
+affectBalance: aBalance
+
+	^aBalance + value ! !
+
+!classDefinition: 'Deposit class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Deposit class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Deposit class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Deposit class
+	instanceVariableNames: ''!
+!Deposit class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:38'!
+for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+!classDefinition: #Withdraw category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Withdraw category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Withdraw methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:46'!
+initializeFor: aValue
+
+	value := aValue ! !
+!Withdraw methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:33'!
+value
+
+	^ value! !
+!Withdraw methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:15'!
+affectBalance: aBalance
+
+	^aBalance - value! !
+
+!classDefinition: 'Withdraw class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Withdraw class
+	instanceVariableNames: ''!
+
+!classDefinition: 'Withdraw class' category: #'Portfolio-Solucion' stamp: 'PB 11/9/2019 17:42:22'!
+Withdraw class
+	instanceVariableNames: ''!
+!Withdraw class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:33'!
+for: aValue
+
+	^ self new initializeFor: aValue ! !
+
+!classRemoval: #Withdraw stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Deposit stamp: 'PB 11/9/2019 17:42:22'!
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #AccountTransaction stamp: 'PB 11/9/2019 17:42:22'!
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #ReceptiveAccount stamp: 'PB 11/9/2019 17:42:23'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Portfolio stamp: 'PB 11/9/2019 17:42:23'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Account stamp: 'PB 11/9/2019 17:42:23'!
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #ReceptiveAccountTest stamp: 'PB 11/9/2019 17:42:23'!
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #PortfolioTest stamp: 'PB 11/9/2019 17:42:24'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!CartTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:28:34'!
+test09ListingAnEmptyCartReturnsEmptyCollection
+
+	| cart |
+	
+	cart := testObjectsFactory createCart.
+	
+
+	self assert: (OrderedCollection new) equals: cart listItems.! !
+!Cart methodsFor: 'queries' stamp: 'st 11/9/2019 11:29:22'!
+listItems
+! !
+!Cart methodsFor: 'queries' stamp: 'st 11/9/2019 11:29:36' prior: 50790739!
+listItems
+
+	^ items.! !
+!Cart methodsFor: 'queries' stamp: 'st 11/9/2019 11:30:02' prior: 50790742!
+listItems
+
+	^ items asOrderedCollection.! !
+!Cart methodsFor: 'queries' stamp: 'st 11/9/2019 11:30:24' prior: 50790746!
+listItems
+
+	^ items asOrderedCollection.! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:30:41'!
+test10ListingANonEmptyCartReturnsItemCollection
+
+	| cart |
+	
+	cart := testObjectsFactory createCart.
+	
+
+	self assert: (OrderedCollection new) equals: cart listItems.! !
+!CartTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:31:38' prior: 50790754!
+test10ListingANonEmptyCartReturnsItemCollection
+
+	| cart |
+	
+	cart := testObjectsFactory createCart.
+	cart add: testObjectsFactory itemSellByTheStore.
+
+	self assert: (OrderedCollection with: testObjectsFactory itemSellByTheStore) equals: cart listItems.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:33:29' prior: 50789884!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartDicc |
+	
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cartDicc add:1->(OrderedCollection with: 1); yourself.
+	
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:33:49' prior: 50789745!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+	(innerInterface cartDicc) add: 1 -> (testObjectsFactory createCart); yourself.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 11:34:39' prior: 50789911!
+listCart: aCartId
+
+	| cart |
+	cart _ cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].
+	
+	^ cart listItems.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 11:34:42' prior: 50790801!
+listCart: aCartId
+
+	| cart |
+	
+	cart _ cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].
+	
+	^ cart listItems.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:35:23' prior: 50790789!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface cart |
+	
+	cart _ testObjectsFactory createCart.
+	innerInterface _ InnerInterface create.
+	(innerInterface cartDicc) add: 1 -> cart; yourself.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'setup' stamp: 'st 11/9/2019 11:35:45'!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:37:38' prior: 50789761!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc cart |
+	
+	cart _ testObjectsFactory createCart.
+	cart add: testObjectsFactory itemSellByTheStore.
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	
+	cartDicc add:1->cart; yourself.
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:39:49' prior: 50789788!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems cartDicc cart1 cart2 |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	
+	
+	cart1 _ testObjectsFactory createCart.
+	cart1 add: testObjectsFactory itemSellByTheStore.
+	cart2 _ testObjectsFactory createCart.
+	cart2 add: testObjectsFactory itemSellByTheStore.
+	cart2 add: testObjectsFactory itemSellByTheStore.
+	cartDicc add:1->cart1; yourself.
+	cartDicc add:2->cart2; yourself.
+	
+		
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:40:03' prior: 50790851!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems cartDicc cart1 cart2 |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	
+	
+	cart1 _ testObjectsFactory createCart.
+	cart1 add: testObjectsFactory itemSellByTheStore.
+	cart2 _ testObjectsFactory createCart.
+	cart2 add: testObjectsFactory itemSellByTheStore.
+	cart2 add: testObjectsFactory itemSellByTheStore.
+	cartDicc add:1->cart1; yourself.
+	cartDicc add:2->cart2; yourself.
+		
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:44:39' prior: 50790876!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems cartDicc cart1 cart2 |
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	
+	cart1 _ testObjectsFactory createCart.
+	cart1 add: testObjectsFactory itemSellByTheStore.
+	cart2 _ testObjectsFactory createCart.
+	cart2 add: testObjectsFactory itemSellByTheStore.
+	cart2 add: testObjectsFactory itemSellByTheStore.
+	cartDicc add:1->cart1; yourself.
+	cartDicc add:2->cart2; yourself.
+		
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:45:15' prior: 50790773!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartDicc cart1 |
+	
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cart1 _ testObjectsFactory createCart.
+
+	
+	cartDicc add:1->cart1; yourself.
+	
+	
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:45:24' prior: 50790926!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartDicc cart1 |
+	
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cart1 _ testObjectsFactory createCart.
+
+	
+	cartDicc add:1->cart1; yourself.
+	
+	
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:45:27' prior: 50790943!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface cartDicc cart1 |
+	
+	
+	innerInterface _ InnerInterface create.
+	cartDicc _ innerInterface cartDicc.
+	cart1 _ testObjectsFactory createCart.
+
+	
+	cartDicc add:1->cart1; yourself.	
+	
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 11:46:10' prior: 50789945!
+createCart: aClientId with: aPassword
+
+	cartDicc add: 1->(Cart new)! !
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:24'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:24'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 11:47:31' prior: 50790977!
+createCart: aClientId with: aPassword
+
+	cartDicc add: 1->(testObjectsFactory createCart)! !
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/9/2019 11:48:04' prior: 50789723!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.! !
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:24'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:24'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/9/2019 11:49:49' prior: 50791004!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	lastId _ 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 11:50:21' prior: 50790998!
+createCart: aClientId with: aPassword
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:59:59'!
+test06TryingToCreateACartWithANonExistingUserReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 3 with: '123456'.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:00:30' prior: 50791038!
+test06TryingToCreateACartWithANonExistingUserReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	
+	
+	self 
+	should: [ innerInterface createCart: 3 with: '123456'. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingUserCartError.].
+
+	
+	
+	! !
+!InnerInterface class methodsFor: 'exception' stamp: 'st 11/9/2019 12:01:01'!
+nonExistingUserCartError
+
+	^'The specified user does not exists'.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:01:44' prior: 50791049!
+test06TryingToCreateACartWithANonExistingUserReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	self 
+	should: [ innerInterface createCart: 3 with: '123456'. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingUserCartError.].
+
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:02:20' prior: 50791032!
+createCart: aClientId with: aPassword
+
+	aClientId = 3 ifTrue: [].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:02:51' prior: 50791082!
+createCart: aClientId with: aPassword
+
+	aClientId = 3 ifTrue: [self error: InnerInterface nonExistingUserError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface class methodsFor: 'exception' stamp: 'st 11/9/2019 12:03:37'!
+nonExistingUserError
+
+	^'The specified user does not exists'.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:03:48' prior: 50791068!
+test06TryingToCreateACartWithANonExistingUserReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	self 
+	should: [ innerInterface createCart: 3 with: '123456'. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingUserError.].
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:05:17'!
+test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:05:29' prior: 50791117!
+test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:06:53' prior: 50791125!
+test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '123456'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:08:04' prior: 50791090!
+createCart: aClientId with: aPassword
+
+	aClientId = 1 ifFalse: [self error: InnerInterface nonExistingUserError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:24'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/9/2019 17:42:24'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/9/2019 12:09:11' prior: 50791026!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ Collection with: 1 with: 2.
+	lastId _ 1.! !
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/9/2019 12:09:38' prior: 50791172!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ OrderedCollection with: 1 with: 2.
+	lastId _ 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:10:13' prior: 50791146!
+createCart: aClientId with: aPassword
+
+	(users includes: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:11:11'!
+test07TryingToCreateACartWithAWrongPasswordReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '123'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:11:22'!
+test08TryingToCreateACartWithAWrongPasswordReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '123'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test07TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/9/2019 17:42:24'!
+test07TryingToCreateACartWithAWrongPasswordReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '123'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:11:53' prior: 50791208!
+test08TryingToCreateACartWithAWrongPasswordReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	
+	self 
+	should: [ innerInterface createCart: 2 with: '123'. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface wrongPasswordError.].
+
+	
+	
+	! !
+!InnerInterface class methodsFor: 'exception' stamp: 'st 11/9/2019 12:12:12'!
+wrongPasswordError
+
+	^'Wrong Password'.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:13:09' prior: 50791188!
+createCart: aClientId with: aPassword
+
+	(users includes: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     (aPassword ~= '123456') ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:13:19' prior: 50791248!
+createCart: aClientId with: aPassword
+
+	(users includes: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     (aPassword = '123456') ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:13:49'!
+test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	
+	self 
+	should: [ innerInterface createCart: 2 with: '123'. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface wrongPasswordError.].
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:14:06' prior: 50791272!
+test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	
+	self 
+	should: [ innerInterface createCart: 2 with: '1234'. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface wrongPasswordError.].
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:14:28' prior: 50791286!
+test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/9/2019 12:15:39' prior: 50791180!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ Dictionary add: 1->'123456'; add: 2->'1234'; yourself. 
+	lastId _ 1.! !
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/9/2019 12:16:07' prior: 50791312!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ Dictionary new.
+	users add: 1->'123456'; add: 2->'1234'; yourself. 
+	lastId _ 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:17:19' prior: 50791260!
+createCart: aClientId with: aPassword
+
+	(users includes: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     (users at: aClientId = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:18:01' prior: 50791330!
+createCart: aClientId with: aPassword
+
+	(users includes: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     (users at: aClientId = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:18:34' prior: 50791343!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     (users at: aClientId = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:19:30' prior: 50791356!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:19:37' prior: 50791135!
+test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:29:37'!
+test10TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addCart: 1 
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	"cartId: Id del carrito creado con /createCart
+	bookIsbn: ISBN del libro que se desea agregar. Debe ser un ISBN de la editorial
+	bookQuantity: Cantidad de libros que se desean agregar. Debe ser >= 1."
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:32:59'!
+test10AddingAValidItemInACartListsCorrectly
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self assert: 
+	(OrderedCollection 
+		with: testObjectsFactory itemSellByTheStore
+		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+	
+	"cartId: Id del carrito creado con /createCart
+	bookIsbn: ISBN del libro que se desea agregar. Debe ser un ISBN de la editorial
+	bookQuantity: Cantidad de libros que se desean agregar. Debe ser >= 1."
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:33:29'!
+test11AddingAValidItemInACartListsCorrectly
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self assert: 
+	(OrderedCollection 
+		with: testObjectsFactory itemSellByTheStore
+		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+	
+	"cartId: Id del carrito creado con /createCart
+	bookIsbn: ISBN del libro que se desea agregar. Debe ser un ISBN de la editorial
+	bookQuantity: Cantidad de libros que se desean agregar. Debe ser >= 1."
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/9/2019 17:42:24'!
+test10AddingAValidItemInACartListsCorrectly
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self assert: 
+	(OrderedCollection 
+		with: testObjectsFactory itemSellByTheStore
+		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+	
+	"cartId: Id del carrito creado con /createCart
+	bookIsbn: ISBN del libro que se desea agregar. Debe ser un ISBN de la editorial
+	bookQuantity: Cantidad de libros que se desean agregar. Debe ser >= 1."
+
+	
+	
+	!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:34:00'!
+addToCart: aCartId withISBN: aBookISBN quantity: aBookQuantity! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:34:06' prior: 50791478!
+addToCart: aCartId withISBN: aBookISBN quantity: aBookQuantity
+
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:35:16' prior: 50791483!
+addToCart: aCartId withISBN: aBookISBN quantity: aBookQuantity
+
+	cartDicc at: aCartId ! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:35:58' prior: 50791488!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	(cartDicc at: aCartId) add: aQuantity of: anISBN.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:36:10' prior: 50791494!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	^ (cartDicc at: aCartId) add: aQuantity of: anISBN.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:36:48' prior: 50791393!
+test10TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addCart: 1. 
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	"cartId: Id del carrito creado con /createCart
+	bookIsbn: ISBN del libro que se desea agregar. Debe ser un ISBN de la editorial
+	bookQuantity: Cantidad de libros que se desean agregar. Debe ser >= 1."
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:37:13' prior: 50791508!
+test10TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:37:43' prior: 50791433!
+test11AddingAValidItemInACartListsCorrectly
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self assert: 
+	(OrderedCollection 
+		with: testObjectsFactory itemSellByTheStore
+		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:38:54'!
+test12AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self assert: 
+	(OrderedCollection 
+		with: testObjectsFactory itemSellByTheStore
+		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:39:12' prior: 50791555!
+test12AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:39:34' prior: 50791571!
+test12AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterface class methodsFor: 'exception' stamp: 'st 11/9/2019 12:40:50'!
+itemNotInCatalogError
+
+	^'Item is not in catalog'.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:41:05' prior: 50791590!
+test12AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:42:34'!
+test12AddingANonExistingCartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:42:42' prior: 50791614!
+test12AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:42:43' prior: 50791652!
+test12AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:42:50'!
+test13AddingANonExistingCartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:42:24'!
+test12AddingANonExistingCartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:44:08' prior: 50791684!
+test13AddingANonExistingCartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+
+	self 
+	should: [ innerInterface addToCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:44:45' prior: 50791501!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+cart _ cartDicc at: aCartId ifAbsent: [].
+
+	 (cartDicc at: aCartId) add: aQuantity of: anISBN.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:44:52' prior: 50791739!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 cart _ cartDicc at: aCartId ifAbsent: [].
+
+	 (cartDicc at: aCartId) add: aQuantity of: anISBN.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:45:15' prior: 50791747!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 cart _ cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].
+
+	 (cartDicc at: aCartId) add: aQuantity of: anISBN.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/9/2019 12:45:25' prior: 50791755!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 cart _ cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].
+
+	 cart add: aQuantity of: anISBN.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:47:20' prior: 50790817!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface cart |
+	
+	cart _ testObjectsFactory createCart.
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:47:49' prior: 50791774!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface cart |
+	
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:47:54' prior: 50791786!
+test01ListingAnEmptyCartReturnsAnEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:48:19' prior: 50790834!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems cartDicc cart |
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	
+	cartDicc add:1->cart; yourself.
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:48:57' prior: 50791808!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:50:01' prior: 50790901!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+			
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+		
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:50:18' prior: 50791839!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+			
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+		
+	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:50:42' prior: 50790960!
+test04ListingANonExistingCartReturnsError
+
+	| innerInterface |
+	
+	
+	innerInterface _ InnerInterface create.
+	
+	self 
+	should: [ innerInterface listCart: 5 ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+	
+	
+	! !
+
+!methodRemoval: InnerInterface #cartDicc stamp: 'PB 11/9/2019 17:42:24'!
+cartDicc
+
+	^ cartDicc.!
+
+!classRemoval: #InnerInterface stamp: 'PB 11/9/2019 17:42:59'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CreditCard stamp: 'PB 11/9/2019 17:43:00'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'number expirationDate ownerName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Cashier stamp: 'PB 11/9/2019 17:43:00'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard date'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Cart stamp: 'PB 11/9/2019 17:43:00'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #InnerInterfaceTest stamp: 'PB 11/9/2019 17:43:00'!
+TestCase subclass: #InnerInterfaceTest
+	instanceVariableNames: 'testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CreditCardTest stamp: 'PB 11/9/2019 17:43:01'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CashierTest stamp: 'PB 11/9/2019 17:43:01'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'PB 11/9/2019 17:43:01'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+----End fileIn of /home/tejo240/Documents/Facultad/Inge1/Ejercicios/25-TusLibros/3/TusLibros.st----!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAValidItemInACartListsCorrectly stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:43:30'!
+PASSED!
+
+----SNAPSHOT----(9 November 2019 17:45:53) TusLibros.image priorSource: 14510744!
+
+----STARTUP---- (9 November 2019 17:52:20) as /home/tejo240/Documents/Facultad/Inge1/CuisUniversity-3839v2/TusLibros.image!
+
+
+!testRun: #InnerInterfaceTest #test13AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:52:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAValidItemInACartListsCorrectly stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:52:32'!
+PASSED!
+
+!methodRemoval: InnerInterfaceTest #test10TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 17:52:58'!
+test10TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	
+	
+
+	
+	
+	!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 17:53:04'!
+test10AddingAValidItemInACartListsCorrectly
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self assert: 
+	(OrderedCollection 
+		with: testObjectsFactory itemSellByTheStore
+		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test11AddingAValidItemInACartListsCorrectly stamp: 'PB 11/9/2019 17:53:04'!
+test11AddingAValidItemInACartListsCorrectly
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+
+	self assert: 
+	(OrderedCollection 
+		with: testObjectsFactory itemSellByTheStore
+		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+
+
+	
+	
+	!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 17:53:07'!
+test11AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test12AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/9/2019 17:53:07'!
+test12AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 17:53:10'!
+test12AddingANonExistingCartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+
+	self 
+	should: [ innerInterface addToCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test13AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:53:10'!
+test13AddingANonExistingCartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+
+	self 
+	should: [ innerInterface addToCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 17:55:10'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 17:58:01' prior: 50792966!
+test11AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.
+	"self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.]."
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/9/2019 17:58:01'!
+ERROR!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 18:08:10' prior: 50793035!
+test11AddingAnInvalidItemInACartReturnsError
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+	self 
+	should: [ innerInterface addToCart: 1 withISBN: testObjectsFactory itemNotSellByTheStore quantity: 2.  ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface itemNotInCatalogError.].
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 18:08:13'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 18:14:05'!
+test13CannotCheckoutANonExistingCart
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+
+	self 
+	should: [ innerInterface addToCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 18:16:01' prior: 50793121!
+test13CannotCheckoutANonExistingCart
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+
+	self 
+	should: [ innerInterface checkoutCart: 3 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 18:19:31' prior: 50793137!
+test13CannotCheckoutANonExistingCart
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create.
+
+	innerInterface createCart: 2 with: '1234'.
+
+	self 
+	should: [ innerInterface checkoutCart: 3 withCardNumber: 1234123412341234 expirationYear: 2020 expirationMonth: 12 ofOwnerOfName: 'Cesar Fuentes'. ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/9/2019 18:20:50'!
+checkoutCart: cartId withCardNumber: cardNumber expirationYear: expirationYear expirationMonth: expirationMonth ofOwnerOfName: ownerName
+
+	 ! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/9/2019 18:21:54' prior: 50793170!
+checkoutCart: cartId withCardNumber: cardNumber expirationYear: expirationYear expirationMonth: expirationMonth ofOwnerOfName: ownerName
+
+
+	 ! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/9/2019 18:23:51' prior: 50793178!
+checkoutCart: aCartId withCardNumber: aCardNumber expirationYear: anExpirationYear expirationMonth: anExpirationMonth ofOwnerOfName: anOwnerName
+
+ | cart |
+	
+	 cart _ cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].
+
+
+	 ! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/9/2019 18:23:56' prior: 50793186!
+checkoutCart: aCartId withCardNumber: aCardNumber expirationYear: anExpirationYear expirationMonth: anExpirationMonth ofOwnerOfName: anOwnerName
+
+ 	| cart |
+	
+	 cart _ cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].
+
+
+	 ! !
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/9/2019 18:24:03'!
+PASSED!
+!InnerInterface methodsFor: 'nil' stamp: 'PB 11/9/2019 18:25:58'!
+assertCartExists: aCartId
+
+	! !
+!InnerInterface methodsFor: 'assertions' stamp: 'PB 11/9/2019 18:26:35' prior: 50793261!
+assertCartExists: aCartId
+
+	cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/9/2019 18:27:24' prior: 50786683!
+listCart: aCartId
+
+	| cart |
+	
+	self assertCartExists: aCartId.
+	cart _ cartDicc at: aCartId.
+	^ cart listItems.! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/9/2019 18:27:51' prior: 50788834!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 self assertCartExists: aCartId.
+	 cart _ cartDicc at: aCartId.
+	 cart add: aQuantity of: anISBN.! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/9/2019 18:28:01' prior: 50793197!
+checkoutCart: aCartId withCardNumber: aCardNumber expirationYear: anExpirationYear expirationMonth: anExpirationMonth ofOwnerOfName: anOwnerName
+
+ 	| cart |
+	self assertCartExists: aCartId.
+	cart _ cartDicc at: aCartId.
+
+
+	 ! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/9/2019 18:28:05'!
+PASSED!
+
+----SNAPSHOT----(9 November 2019 18:28:25) TusLibros.image priorSource: 14649983!
+
+----SNAPSHOT----(9 November 2019 18:39:15) TusLibros.image priorSource: 14774278!
