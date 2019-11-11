@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -118,9 +118,9 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 TestCase subclass: #CashierTest
-	instanceVariableNames: 'testObjectsFactory debitBehavior'
+	instanceVariableNames: 'testObjectsFactory debitBehavior merchantProcessor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -202,7 +202,7 @@ test04CheckoutRegistersASale
 	self assert: salesBook size = 1.
 	self assert: salesBook first total = total.! !
 
-!CashierTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 19:00'!
+!CashierTest methodsFor: 'tests' stamp: 'PB 11/11/2019 19:02:56'!
 test05CashierChargesCreditCardUsingMerchantProcessor
 
 	| cart cashier salesBook total creditCard debitedAmout debitedCreditCard  |
@@ -219,7 +219,7 @@ test05CashierChargesCreditCardUsingMerchantProcessor
 		on: testObjectsFactory today
 		registeringOn: salesBook.
 		
-	debitBehavior := [ :anAmount :aCreditCard | 
+	merchantProcessor setDebitBehavior: [ :anAmount :aCreditCard | 
 		debitedAmout := anAmount.
 		debitedCreditCard := aCreditCard ].
 	total := cashier checkOut.
@@ -227,7 +227,7 @@ test05CashierChargesCreditCardUsingMerchantProcessor
 	self assert: debitedCreditCard = creditCard.
 	self assert: debitedAmout = total.! !
 
-!CashierTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 18:59'!
+!CashierTest methodsFor: 'tests' stamp: 'PB 11/11/2019 19:03:47'!
 test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit
 
 	| cart cashier salesBook creditCard |
@@ -236,7 +236,7 @@ test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit
 	cart add: testObjectsFactory itemSellByTheStore.
 	creditCard := testObjectsFactory notExpiredCreditCard.
 	salesBook := OrderedCollection new.
- 	debitBehavior := [ :anAmount :aCreditCard | self error: Cashier creditCardHasNoCreditErrorMessage].
+ 	merchantProcessor setDebitBehavior: [ :anAmount :aCreditCard | self error: Cashier creditCardHasNoCreditErrorMessage].
 	
 	cashier:= Cashier 
 		toCheckout: cart 
@@ -253,20 +253,20 @@ test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit
 			self assert: salesBook isEmpty ]! !
 
 
-!CashierTest methodsFor: 'setup' stamp: 'HernanWilkinson 6/17/2013 19:03'!
+!CashierTest methodsFor: 'setup' stamp: 'PB 11/11/2019 18:56:34'!
 setUp 
 
 	testObjectsFactory := StoreTestObjectsFactory new.
-	debitBehavior := [ :anAmount :aCreditCard | ]! !
+	merchantProcessor := MerchantProcessorSimulator new.! !
 
 
-!CashierTest methodsFor: 'merchant processor protocol' stamp: 'HernanWilkinson 6/17/2013 19:02'!
+!CashierTest methodsFor: 'merchant processor protocol' stamp: 'PB 11/11/2019 18:57:09'!
 debit: anAmount from: aCreditCard 
 
-	^debitBehavior value: anAmount value: aCreditCard ! !
+	^merchantProcessor debit: anAmount from: aCreditCard.! !
 
 
-!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 TestCase subclass: #InnerInterfaceTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -499,12 +499,12 @@ test13CannotCheckoutANonExistingCart
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/11/2019 18:45:07'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/11/2019 19:13:36'!
 test14CheckingOutCartRegistersSales
 
 	| innerInterface creditCard orderedCollection merchantProcessor|
 	creditCard := CreditCard expiringOn: (Date tomorrow).
-	merchantProcessor := CashierTest new.	
+	merchantProcessor := MerchantProcessorSimulator new.	
 		
 	innerInterface _ InnerInterface create.
 	innerInterface createCart: 2 with: '1234'.
@@ -512,8 +512,7 @@ test14CheckingOutCartRegistersSales
 	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
 	
 	orderedCollection := OrderedCollection new.
-	orderedCollection add: testObjectsFactory itemSellByTheStore.
-	orderedCollection add: testObjectsFactory itemSellByTheStore.
+	orderedCollection add: (Sale of: 20).
 	
 	self assert:orderedCollection equals: (innerInterface salesBook). 
 	
@@ -524,7 +523,7 @@ test14CheckingOutCartRegistersSales
 	! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #Cart category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -603,7 +602,7 @@ add: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -613,7 +612,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
 	classVariableNames: ''
@@ -664,7 +663,7 @@ initializeToCheckout: aCart charging: aCreditCard throught: aMerchantProcessor r
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -704,7 +703,7 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expiration'
 	classVariableNames: ''
@@ -724,7 +723,7 @@ initializeExpiringOn: aMonth
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -734,7 +733,7 @@ expiringOn: aMonth
 	^self new initializeExpiringOn: aMonth! !
 
 
-!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Object subclass: #InnerInterface
 	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook'
 	classVariableNames: ''
@@ -804,7 +803,7 @@ assertCartExists: aCartId
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 InnerInterface class
 	instanceVariableNames: ''!
 
@@ -840,15 +839,30 @@ create
 	^self new initialize.! !
 
 
-!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Object subclass: #MerchantProcessorSimulator
-	instanceVariableNames: ''
+	instanceVariableNames: 'debitBehavior'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
+!MerchantProcessorSimulator methodsFor: 'as yet unclassified' stamp: 'PB 11/11/2019 18:58:14'!
+debit: anAmount from: aCreditCard
+
+	^debitBehavior value: anAmount value: aCreditCard.! !
+
+!MerchantProcessorSimulator methodsFor: 'as yet unclassified' stamp: 'PB 11/11/2019 18:55:14'!
+initialize
+
+	debitBehavior := [ :anAmount :aCreditCard | ]! !
+
+!MerchantProcessorSimulator methodsFor: 'as yet unclassified' stamp: 'PB 11/11/2019 19:03:13'!
+setDebitBehavior: aClosure
+
+	debitBehavior := aClosure.! !
+
 
-!classDefinition: #Sale category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #Sale category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Object subclass: #Sale
 	instanceVariableNames: 'total'
 	classVariableNames: ''
@@ -868,7 +882,7 @@ initializeTotal: aTotal
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: 'Sale class' category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -879,7 +893,7 @@ of: aTotal
 	^self new initializeTotal: aTotal ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'PB 11/11/2019 18:54:24'!
+!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'PB 11/11/2019 19:15:19'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
