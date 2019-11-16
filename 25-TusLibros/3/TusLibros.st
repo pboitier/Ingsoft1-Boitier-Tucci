@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -62,7 +62,7 @@ test05CanNotAddMoreThanOneItemNotSellByTheStore
 			self assert: anError messageText = cart invalidItemErrorMessage.
 			self assert: cart isEmpty ]! !
 
-!CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 18:11'!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/16/2019 18:30:01'!
 test06CartRemembersAddedItems
 
 	| cart |
@@ -70,7 +70,7 @@ test06CartRemembersAddedItems
 	cart := testObjectsFactory createCart.
 	
 	cart add: testObjectsFactory itemSellByTheStore.
-	self assert: (cart includes: testObjectsFactory itemSellByTheStore)! !
+	self assert: (cart includes: testObjectsFactory itemSellByTheStore).! !
 
 !CartTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 18:11'!
 test07CartDoesNotHoldNotAddedItems
@@ -91,7 +91,7 @@ test08CartRemembersTheNumberOfAddedItems
 	cart add: 2 of: testObjectsFactory itemSellByTheStore.
 	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 2! !
 
-!CartTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:28:34'!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/16/2019 18:35:56'!
 test09ListingAnEmptyCartReturnsEmptyCollection
 
 	| cart |
@@ -99,17 +99,20 @@ test09ListingAnEmptyCartReturnsEmptyCollection
 	cart := testObjectsFactory createCart.
 	
 
-	self assert: (OrderedCollection new) equals: cart listItems.! !
+	self assert: (Dictionary new) equals: cart listItems.! !
 
-!CartTest methodsFor: 'tests' stamp: 'st 11/9/2019 11:31:38'!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/16/2019 18:37:34'!
 test10ListingANonEmptyCartReturnsItemCollection
 
-	| cart |
+	| cart items|
 	
 	cart := testObjectsFactory createCart.
 	cart add: testObjectsFactory itemSellByTheStore.
+	items := Dictionary new.
+	items at: testObjectsFactory itemSellByTheStore put:1.
 
-	self assert: (OrderedCollection with: testObjectsFactory itemSellByTheStore) equals: cart listItems.! !
+
+	self assert: items equals: cart listItems.! !
 
 
 !CartTest methodsFor: 'setup' stamp: 'HernanWilkinson 6/17/2013 18:09'!
@@ -118,7 +121,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior merchantProcessor'
 	classVariableNames: ''
@@ -143,7 +146,7 @@ test01CanNotCheckoutAnEmptyCart
 			self assert: anError messageText = Cashier cartCanNotBeEmptyErrorMessage.
 			self assert: salesBook isEmpty ]! !
 
-!CashierTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 18:51'!
+!CashierTest methodsFor: 'tests' stamp: 'PB 11/16/2019 18:26:19'!
 test02CalculatedTotalIsCorrect
 
 	| cart cashier |
@@ -158,7 +161,7 @@ test02CalculatedTotalIsCorrect
 		on: testObjectsFactory today 
 		registeringOn: OrderedCollection new.
 		
-	self assert: cashier checkOut = (testObjectsFactory itemSellByTheStorePrice * 2)! !
+	self assert: cashier checkOut total = (testObjectsFactory itemSellByTheStorePrice * 2)! !
 
 !CashierTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 18:51'!
 test03CanNotCheckoutWithAnExpiredCreditCart
@@ -181,7 +184,7 @@ test03CanNotCheckoutWithAnExpiredCreditCart
 			self assert: anError messageText = Cashier canNotChargeAnExpiredCreditCardErrorMessage.
 			self assert: salesBook isEmpty ]! !
 
-!CashierTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 19:04'!
+!CashierTest methodsFor: 'tests' stamp: 'PB 11/16/2019 18:52:42'!
 test04CheckoutRegistersASale
 
 	| cart cashier salesBook total |
@@ -197,12 +200,12 @@ test04CheckoutRegistersASale
 		on: testObjectsFactory today
 		registeringOn: salesBook.
 		
-	total := cashier checkOut.
+	total := cashier checkOut total.
 					
 	self assert: salesBook size = 1.
 	self assert: salesBook first total = total.! !
 
-!CashierTest methodsFor: 'tests' stamp: 'PB 11/11/2019 19:02:56'!
+!CashierTest methodsFor: 'tests' stamp: 'PB 11/16/2019 18:53:21'!
 test05CashierChargesCreditCardUsingMerchantProcessor
 
 	| cart cashier salesBook total creditCard debitedAmout debitedCreditCard  |
@@ -222,7 +225,7 @@ test05CashierChargesCreditCardUsingMerchantProcessor
 	merchantProcessor setDebitBehavior: [ :anAmount :aCreditCard | 
 		debitedAmout := anAmount.
 		debitedCreditCard := aCreditCard ].
-	total := cashier checkOut.
+	total := cashier checkOut total.
 					
 	self assert: debitedCreditCard = creditCard.
 	self assert: debitedAmout = total.! !
@@ -266,7 +269,7 @@ debit: anAmount from: aCreditCard
 	^merchantProcessor debit: anAmount from: aCreditCard.! !
 
 
-!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 TestCase subclass: #InnerInterfaceTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -279,7 +282,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:47:54'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:20:10'!
 test01ListingAnEmptyCartReturnsAnEmptyCollection
 
 	| innerInterface |
@@ -287,11 +290,11 @@ test01ListingAnEmptyCartReturnsAnEmptyCollection
 	innerInterface _ InnerInterface create.
 	innerInterface createCart: 1 with: '123456'.
 	
-	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	self assert: (Dictionary new) equals: (innerInterface listCart: 1).
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:48:57'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:20:56'!
 test02ListingACartWithOneItemReturnsNonEmptyCollection
 
 	| innerInterface cartItems |
@@ -300,13 +303,14 @@ test02ListingACartWithOneItemReturnsNonEmptyCollection
 	innerInterface createCart: 1 with: '123456'.
 	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
 	
-	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore.
+	cartItems _ Dictionary new. 
+	cartItems at: testObjectsFactory itemSellByTheStore put: 1.
 		
 	self assert: cartItems equals: (innerInterface listCart: 1).
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:50:18'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:22:11'!
 test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
 
 	| innerInterface cartItems |
@@ -320,7 +324,8 @@ test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
 	innerInterface createCart: 1 with: '123456'.
 	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
 		
-	cartItems _ OrderedCollection with: testObjectsFactory itemSellByTheStore with: testObjectsFactory itemSellByTheStore.
+	cartItems _ Dictionary new.
+	cartItems at: testObjectsFactory itemSellByTheStore put: 2.
 		
 	self assert: cartItems equals: (innerInterface listCart: 2).
 	
@@ -343,7 +348,7 @@ test04ListingANonExistingCartReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 10:53:36'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:22:24'!
 test05CreatingACartReturnsEmptyCollection
 
 	| innerInterface |
@@ -352,7 +357,7 @@ test05CreatingACartReturnsEmptyCollection
 
 	innerInterface createCart: 1 with: '123456'.
 	
-	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	self assert: (Dictionary new) equals: (innerInterface listCart: 1).
 
 	
 	
@@ -375,7 +380,7 @@ test06TryingToCreateACartWithANonExistingUserReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:19:37'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:22:33'!
 test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
 
 	| innerInterface |
@@ -383,7 +388,7 @@ test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
 	innerInterface _ InnerInterface create.
 
 	innerInterface createCart: 2 with: '1234'.
-	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	self assert: (Dictionary new) equals: (innerInterface listCart: 1).
 
 	
 	
@@ -407,7 +412,7 @@ test08TryingToCreateACartWithAWrongPasswordReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:14:28'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:22:41'!
 test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
 
 	| innerInterface |
@@ -415,26 +420,27 @@ test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
 	innerInterface _ InnerInterface create.
 
 	innerInterface createCart: 2 with: '1234'.
-	self assert: (OrderedCollection new) equals: (innerInterface listCart: 1).
+	self assert: (Dictionary new) equals: (innerInterface listCart: 1).
 
 	
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 17:53:04'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:23:35'!
 test10AddingAValidItemInACartListsCorrectly
 
-	| innerInterface |
+	| innerInterface cartItems|
 	
 	innerInterface _ InnerInterface create.
 
 	innerInterface createCart: 2 with: '1234'.
 	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
 
+	cartItems := Dictionary new.
+	cartItems at: testObjectsFactory itemSellByTheStore put: 2.
+
 	self assert: 
-	(OrderedCollection 
-		with: testObjectsFactory itemSellByTheStore
-		with: testObjectsFactory itemSellByTheStore) equals: (innerInterface listCart: 1).
+	(cartItems) equals: (innerInterface listCart: 1).
 
 
 	
@@ -567,7 +573,7 @@ test16ListingPurchasesOfCustomerWithNoPurchases
 	! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #Cart category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -603,10 +609,10 @@ initializeAcceptingItemsOf: aCatalog
 	items := Dictionary new.! !
 
 
-!Cart methodsFor: 'queries' stamp: 'PB 11/16/2019 18:22:47'!
+!Cart methodsFor: 'queries' stamp: 'PB 11/16/2019 18:35:39'!
 listItems
 
-	^ items keys asOrderedCollection.! !
+	^ items copy.! !
 
 !Cart methodsFor: 'queries' stamp: 'PB 11/16/2019 18:20:02'!
 occurrencesOf: anItem
@@ -625,10 +631,13 @@ isEmpty
 	^items isEmpty ! !
 
 
-!Cart methodsFor: 'total' stamp: 'HernanWilkinson 6/17/2013 19:09'!
+!Cart methodsFor: 'total' stamp: 'PB 11/16/2019 18:41:06'!
 total
 
-	^ items sum: [ :anItem | catalog at: anItem ]! !
+	|total|
+	total := 0.
+	items keysDo: [:key | total := total + (items at: key) * catalog at: key].
+	^total.! !
 
 
 !Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:17:15'!
@@ -650,7 +659,7 @@ add: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -660,7 +669,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
 	classVariableNames: ''
@@ -673,10 +682,10 @@ calculateTotal
 	total := cart total.
 	! !
 
-!Cashier methodsFor: 'checkout - private' stamp: 'PB 11/16/2019 17:57:28'!
+!Cashier methodsFor: 'checkout - private' stamp: 'PB 11/16/2019 18:41:58'!
 createSale
 
-	^ Sale of: (cart items) totaling: total
+	^ Sale of: (cart listItems) totaling: total
 ! !
 
 !Cashier methodsFor: 'checkout - private' stamp: 'HernanWilkinson 6/17/2013 19:06'!
@@ -685,14 +694,19 @@ debitTotal
 	merchantProcessor debit: total from: creditCard.
 	! !
 
+!Cashier methodsFor: 'checkout - private' stamp: 'PB 11/16/2019 18:50:26'!
+registerSale
 
-!Cashier methodsFor: 'checkout' stamp: 'PB 11/16/2019 17:58:49'!
+	salesBook add: (self createSale)! !
+
+
+!Cashier methodsFor: 'checkout' stamp: 'PB 11/16/2019 18:51:40'!
 checkOut
 
 	self calculateTotal.
 	self debitTotal.
-
-	^ self createSale.! !
+	self registerSale.
+	^self createSale.! !
 
 
 !Cashier methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:53'!
@@ -705,7 +719,7 @@ initializeToCheckout: aCart charging: aCreditCard throught: aMerchantProcessor r
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -747,7 +761,7 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expiration'
 	classVariableNames: ''
@@ -767,7 +781,7 @@ initializeExpiringOn: aMonth
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -777,9 +791,9 @@ expiringOn: aMonth
 	^self new initializeExpiringOn: aMonth! !
 
 
-!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #InnerInterface
-	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook booksSoldToClientDicc'
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -822,12 +836,13 @@ listCart: aCartId
 	cart _ cartDicc at: aCartId.
 	^ cart listItems.! !
 
-!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 16:01:59'!
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 19:30:01'!
 listPurchasesOfClient: aClientId withPassword: aPassword
 
 	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
      ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
 	
+	salesByClient at: aClientId ifAbsent: [salesByClient at: aClientId put: Dictionary new.].
 	^self purchaseListFor: aClientId.
 
 
@@ -840,7 +855,7 @@ salesBook
 	^salesBook copy.! !
 
 
-!InnerInterface methodsFor: 'initialization' stamp: 'PB 11/16/2019 16:12:11'!
+!InnerInterface methodsFor: 'initialization' stamp: 'PB 11/16/2019 18:55:35'!
 initialize
 
 	cartDicc _ Dictionary new.
@@ -849,7 +864,7 @@ initialize
 	users add: 1->'123456'; add: 2->'1234'; yourself. 
 	lastId _ 1.
 	salesBook := OrderedCollection new.
-	salesDicc := Dictionary new.! !
+	salesByClient := Dictionary new.! !
 
 
 !InnerInterface methodsFor: 'assertions' stamp: 'PB 11/16/2019 16:12:11'!
@@ -858,20 +873,17 @@ assertCartExists: aCartId
 	cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].! !
 
 
-!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 17:27:09'!
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 19:00:26'!
 purchaseListFor: aClientId
 
-	||
-	^PurchaseList new "withPurchases: (booksSoldToClientDicc at: aClientId) total: total"
-	"
-	(salesDicc at: aClientId) inject: 0
-	into: [:total :sale | Cannot store into ->total := total + (sale total)] "
+	^PurchaseList of: (salesByClient at: aClientId)
+
 	
 	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 InnerInterface class
 	instanceVariableNames: ''!
 
@@ -907,7 +919,7 @@ create
 	^self new initialize.! !
 
 
-!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #MerchantProcessorSimulator
 	instanceVariableNames: 'debitBehavior'
 	classVariableNames: ''
@@ -930,15 +942,53 @@ setDebitBehavior: aClosure
 	debitBehavior := aClosure.! !
 
 
-!classDefinition: #PurchaseList category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #PurchaseList category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #PurchaseList
-	instanceVariableNames: ''
+	instanceVariableNames: 'dicc total'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 19:32:04'!
+createDictionaryFromList: aSaleList
+
+	|totalSale|
+	
+	totalSale := Sale of: (Dictionary new) totaling: 0.
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale|  totalSale := totalSale + sale].! !
+
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 19:34:38'!
+initializeWith: aSaleList
+
+	dicc := self createDictionaryFromList: aSaleList.
+	aSaleList isEmpty ifTrue: [total := 0. ^self].
+	total := aSaleList sum: [:sale | sale total.].! !
+
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 19:30:45'!
+purchases
+
+	^dicc copy.! !
+
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 19:35:07'!
+total
+
+	^total.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'PurchaseList class' category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
+PurchaseList class
+	instanceVariableNames: ''!
+
+!PurchaseList class methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 19:03:40'!
+of: aSaleList
+
+	^self new initializeWith: aSaleList.
+	! !
+
 
-!classDefinition: #Sale category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #Sale category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #Sale
 	instanceVariableNames: 'total productsSold'
 	classVariableNames: ''
@@ -965,7 +1015,7 @@ initializeSaleOf: aISBNQuantityDicc totaling: aTotal
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: 'Sale class' category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -976,7 +1026,7 @@ of: aISBNQuantityDicc totaling: aTotal
 ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'PB 11/16/2019 18:23:57'!
+!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'PB 11/16/2019 19:35:20'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
