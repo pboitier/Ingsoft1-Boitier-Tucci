@@ -12353,3 +12353,23 @@ ERROR!
 
 !testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/16/2019 18:22:55'!
 FAILURE!
+
+----SNAPSHOT----(16 November 2019 18:24:00) TusLibros.image priorSource: 14838599!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/16/2019 18:24:12'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/16/2019 18:24:12'!
+ERROR!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/16/2019 18:24:12'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/16/2019 18:24:12'!
+ERROR!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/16/2019 18:24:12'!
+ERROR!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/16/2019 18:24:12'!
+FAILURE!
