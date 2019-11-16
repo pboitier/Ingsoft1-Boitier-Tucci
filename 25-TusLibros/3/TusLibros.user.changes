@@ -10773,3 +10773,1583 @@ test14CheckingOutCartRegistersSales
 	! !
 
 ----SNAPSHOT----(11 November 2019 19:15:22) TusLibros.image priorSource: 14802393!
+
+----STARTUP---- (16 November 2019 13:54:09) as /home/tejo240/Documents/Facultad/Inge1/CuisUniversity-3839/TusLibros.image!
+
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:07:36'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:07:36'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:07:40'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:07:40'!
+FAILURE!
+!Sale methodsFor: 'nil' stamp: 'PB 11/16/2019 14:11:29'!
+=anotherSale
+
+	^total = anotherSale total.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 14:11:37'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:11:37'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 14:11:37'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:12:01'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 14:12:04'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 14:12:04'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:12:08'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:13:02' prior: 50793636!
+test13CannotCheckoutANonExistingCart
+
+	| innerInterface creditCard merchantProcessor |
+	
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	self should: [innerInterface checkoutCart: 3 withCreditCard: creditCard through: merchantProcessor on: (Date today). ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:13:36' prior: 50794706!
+test13CannotCheckoutANonExistingCart
+
+	| innerInterface creditCard merchantProcessor |
+	
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	self should: [innerInterface checkoutCart: 3 withCreditCard: creditCard through: merchantProcessor on: (Date today). ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:13:58' prior: 50794725!
+test13CannotCheckoutANonExistingCart
+
+	| innerInterface creditCard merchantProcessor |
+	
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.
+	
+	self should: [innerInterface checkoutCart: 3 withCreditCard: creditCard through: merchantProcessor on: (Date today). ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:14:21' prior: 50794744!
+test13CannotCheckoutANonExistingCart
+
+	| innerInterface creditCard merchantProcessor |
+	
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.
+	
+	self should: [innerInterface checkOutCart: 3 withCreditCard: creditCard through: merchantProcessor on: (Date today). ]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = InnerInterface nonExistingCartError.].
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 14:14:22'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:36:58'!
+test15CheckOutCartFailureDoesNotRegistersSales
+
+	| innerInterface creditCard orderedCollection merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+	
+	orderedCollection := OrderedCollection new.
+	orderedCollection add: (Sale of: 20).
+	
+	self assert:orderedCollection equals: (innerInterface salesBook). 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:37:20'!
+test15CartCheckOutFailureDoesNotRegistersSales
+
+	| innerInterface creditCard orderedCollection merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+	
+	orderedCollection := OrderedCollection new.
+	orderedCollection add: (Sale of: 20).
+	
+	self assert:orderedCollection equals: (innerInterface salesBook). 
+	
+
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test15CheckOutCartFailureDoesNotRegistersSales stamp: 'PB 11/16/2019 14:37:20'!
+test15CheckOutCartFailureDoesNotRegistersSales
+
+	| innerInterface creditCard orderedCollection merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+	
+	orderedCollection := OrderedCollection new.
+	orderedCollection add: (Sale of: 20).
+	
+	self assert:orderedCollection equals: (innerInterface salesBook). 
+	
+
+
+	
+	
+	!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:38:07' prior: 50794867!
+test15CartCheckOutFailureDoesNotRegistersSales
+
+	| innerInterface creditCard orderedCollection merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook empty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:38:19' prior: 50794916!
+test15CartCheckOutFailureDoesNotRegistersSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook empty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:39:43' prior: 50794937!
+test15CartCheckOutFailureDoesNotRegistersSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date yesterday).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook empty. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegistersSales stamp: 'PB 11/16/2019 14:39:44'!
+ERROR!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:39:52' prior: 50794957!
+test15CartCheckOutFailureDoesNotRegistersSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date yesterday).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegistersSales stamp: 'PB 11/16/2019 14:39:53'!
+FAILURE!
+!Cashier class methodsFor: 'assertions' stamp: 'PB 11/16/2019 14:43:45' prior: 50784799!
+assertIsNotExpired: aCreditCard on: aDate
+	
+	(aCreditCard isExpiredOn: aDate) ifTrue: [^self error: self canNotChargeAnExpiredCreditCardErrorMessage ]! !
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegistersSales stamp: 'PB 11/16/2019 14:43:49'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegistersSales stamp: 'PB 11/16/2019 14:43:49'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegistersSales stamp: 'PB 11/16/2019 14:48:37'!
+FAILURE!
+!Cashier class methodsFor: 'assertions' stamp: 'PB 11/16/2019 14:52:55' prior: 50795005!
+assertIsNotExpired: aCreditCard on: aDate
+	
+	|debugvar|
+	(aCreditCard isExpiredOn: aDate) ifTrue: [^self error: self canNotChargeAnExpiredCreditCardErrorMessage ].
+	debugvar :=  (aCreditCard isExpiredOn: aDate).! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:59:20' prior: 50794981!
+test15CartCheckOutFailureDoesNotRegistersSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date yesterday).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:00:40'!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date yesterday).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+
+!methodRemoval: InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegistersSales stamp: 'PB 11/16/2019 15:00:40'!
+test15CartCheckOutFailureDoesNotRegistersSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := CreditCard expiringOn: (Date yesterday).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	!
+
+Date!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:03:20' prior: 50795054!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	"creditCard := testObjectFactory expiredCreditCard."
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:03:53' prior: 50795096!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 15:03:55'!
+ERROR!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:05:13' prior: 50795116!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	self should: [innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today)]
+	
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:05:51' prior: 50795140!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	self should: [innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today)]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [].
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:09:06' prior: 50795161!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	self should: [innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today)]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier exp.].
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:09:25' prior: 50795184!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	self should: [innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today)]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier canNotChargeAnExpiredCreditCardErrorMessage.].
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/16/2019 15:09:26'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 15:09:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 15:09:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 15:09:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 15:20:29'!
+PASSED!
+
+----SNAPSHOT----(16 November 2019 15:26:52) TusLibros.image priorSource: 14814711!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:30:49'!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	self should: [innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today)]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier canNotChargeAnExpiredCreditCardErrorMessage.].
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:33:15' prior: 50795360!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+
+	self assert: innerInterface listPurchases isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:40:06' prior: 50795386!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+
+	self assert: (innerInterface listPurchasesOfClient: 1 withPassword: '1234') isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:40:26' prior: 50795401!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	|innerInterface|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+
+	self assert: (innerInterface listPurchasesOfClient: 1 withPassword: '1234') isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:41:07' prior: 50795417!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	|innerInterface|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+
+	self assert: (innerInterface listPurchasesOfClient: 1 withPassword: '1234') isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 15:41:26' prior: 50795428!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	|innerInterface|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+
+	self assert: (innerInterface listPurchasesOfClient: 1 withPassword: '123456') isEmpty. 
+	
+
+
+	
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 15:42:51'!
+listPurchasesOfClient: aClientId withPassword: aPassword
+
+	 ! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 15:43:28' prior: 50795450!
+listPurchasesOfClient: aClientId withPassword: aPassword
+
+	 (users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 15:44:52' prior: 50795455!
+listPurchasesOfClient: aClientId withPassword: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+
+	! !
+
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 15:47:34'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'initialization' stamp: 'PB 11/16/2019 15:49:52' prior: 50793846!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ Dictionary new.
+	users add: 1->'123456'; add: 2->'1234'; yourself. 
+	lastId _ 1.
+	salesBook := OrderedCollection new.
+	salesDicc := Dictionary new.! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 15:53:09' prior: 50795466!
+listPurchasesOfClient: aClientId withPassword: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+	
+	^salesDicc at: aClientId
+
+
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 16:01:59' prior: 50795503!
+listPurchasesOfClient: aClientId withPassword: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+	
+	^self purchaseListFor: aClientId.
+
+
+	! !
+!InnerInterface methodsFor: 'nil' stamp: 'PB 11/16/2019 16:02:14'!
+purchaseListFor: aClientId! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:09:56' prior: 50795527!
+purchaseListFor: aClientId
+
+	||
+	"
+	(salesDicc at: aClientId) inject: 0
+	into: [:total :sale | Cannot store into ->total := total + (sale total)] "
+	
+	! !
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 16:11:56'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'booksSoldToClientDicc testObjectsFactory lastId users salesBook salesDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:11:56' prior: 50793265!
+assertCartExists: aCartId
+
+	booksSoldToClientDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:11:56' prior: 50793272!
+listCart: aCartId
+
+	| cart |
+	
+	self assertCartExists: aCartId.
+	cart _ booksSoldToClientDicc at: aCartId.
+	^ cart listItems.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:11:56' prior: 50793279!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 self assertCartExists: aCartId.
+	 cart _ booksSoldToClientDicc at: aCartId.
+	 cart add: aQuantity of: anISBN.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:11:56' prior: 50795492!
+initialize
+
+	booksSoldToClientDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ Dictionary new.
+	users add: 1->'123456'; add: 2->'1234'; yourself. 
+	lastId _ 1.
+	salesBook := OrderedCollection new.
+	salesDicc := Dictionary new.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:11:56' prior: 50788014!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	booksSoldToClientDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:11:56' prior: 50794117!
+checkOutCart: aCartId withCreditCard: aCreditCard through: aMerchantProcessor on: aDate
+
+	| cart cashier|
+	
+	self assertCartExists: aCartId.
+	cart _ booksSoldToClientDicc at: aCartId.
+	cashier := Cashier toCheckout: cart charging: aCreditCard 
+						throught: aMerchantProcessor on: aDate registeringOn: salesBook.
+	^cashier checkOut.! !
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 16:12:11'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:12:11' prior: 50795550!
+assertCartExists: aCartId
+
+	cartDicc at: aCartId ifAbsent: [self error: InnerInterface nonExistingCartError].! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:12:11' prior: 50795558!
+listCart: aCartId
+
+	| cart |
+	
+	self assertCartExists: aCartId.
+	cart _ cartDicc at: aCartId.
+	^ cart listItems.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:12:11' prior: 50795566!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 self assertCartExists: aCartId.
+	 cart _ cartDicc at: aCartId.
+	 cart add: aQuantity of: anISBN.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:12:11' prior: 50795575!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ Dictionary new.
+	users add: 1->'123456'; add: 2->'1234'; yourself. 
+	lastId _ 1.
+	salesBook := OrderedCollection new.
+	salesDicc := Dictionary new.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:12:11' prior: 50795587!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 16:12:11' prior: 50795601!
+checkOutCart: aCartId withCreditCard: aCreditCard through: aMerchantProcessor on: aDate
+
+	| cart cashier|
+	
+	self assertCartExists: aCartId.
+	cart _ cartDicc at: aCartId.
+	cashier := Cashier toCheckout: cart charging: aCreditCard 
+						throught: aMerchantProcessor on: aDate registeringOn: salesBook.
+	^cashier checkOut.! !
+
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook booksSoldToClientDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 16:12:30'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook booksSoldToClientDicc'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 17:07:20' prior: 50795532!
+purchaseListFor: aClientId
+
+	|total|
+	"^ PurchaseList withPurchases: (booksSoldToClientDicc at: aClientId) total: total"
+	"
+	(salesDicc at: aClientId) inject: 0
+	into: [:total :sale | Cannot store into ->total := total + (sale total)] "
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 17:24:24' prior: 50795439!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	|innerInterface purchaseList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert:  purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 17:25:26' prior: 50795711!
+test16ListingPurchasesOfCustomerWithNoPurchases
+
+	|innerInterface purchaseList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert: purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'PB 11/16/2019 17:26:02'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'PB 11/16/2019 17:26:02'!
+ERROR!
+
+!classDefinition: #PurchaseList category: #TusLibros stamp: 'PB 11/16/2019 17:27:16'!
+Object subclass: #PurchaseList
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 17:27:09' prior: 50795700!
+purchaseListFor: aClientId
+
+	||
+	^PurchaseList new "withPurchases: (booksSoldToClientDicc at: aClientId) total: total"
+	"
+	(salesDicc at: aClientId) inject: 0
+	into: [:total :sale | Cannot store into ->total := total + (sale total)] "
+	
+	! !
+!Sale methodsFor: 'total' stamp: 'PB 11/16/2019 17:31:12' prior: 50785029!
+total
+	
+	^ total! !
+
+Object subclass: #Sale
+	instanceVariableNames: 'total productsSold'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Sale category: #TusLibros stamp: 'PB 11/16/2019 17:32:41'!
+Object subclass: #Sale
+	instanceVariableNames: 'total productsSold'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Sale class methodsFor: 'instance creation' stamp: 'PB 11/16/2019 17:34:17'!
+of: aISBNQuantityDicc totaling: aTotal
+
+	"should assert total is not negative or 0!!"
+	^self new initializeTotal: aTotal ! !
+!Sale methodsFor: 'initialization' stamp: 'PB 11/16/2019 17:35:37'!
+initializeSaleOf: aISBNQuantityDicc totaling: aTotal
+
+	total := aTotal.
+	productsSold :=  aISBNQuantityDicc.! !
+!Sale class methodsFor: 'instance creation' stamp: 'PB 11/16/2019 17:36:24' prior: 50795779!
+of: aISBNQuantityDicc totaling: aTotal
+
+	^self new initializeSaleOf: aISBNQuantityDicc totaling: aTotal
+! !
+
+!methodRemoval: Sale class #of: stamp: 'PB 11/16/2019 17:36:54'!
+of: aTotal
+
+	"should assert total is not negative or 0!!"
+	^self new initializeTotal: aTotal !
+
+!methodRemoval: Sale #initializeTotal: stamp: 'PB 11/16/2019 17:37:02'!
+initializeTotal: aTotal
+
+	total := aTotal !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 17:37:46'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 17:37:46'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'PB 11/16/2019 17:37:46'!
+ERROR!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 17:39:45' prior: 50794587!
+test14CheckingOutCartRegistersSales
+
+	| innerInterface creditCard orderedCollection merchantProcessor productsSold|
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 2 with: '1234'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+	
+	orderedCollection := OrderedCollection new.
+	productsSold := Dictionary new.
+	productsSold at: (testObjectsFactory itemSellByTheStore) put: 2.
+	orderedCollection add: (Sale of: productsSold totaling: 20).
+	
+	self assert:orderedCollection equals: (innerInterface salesBook). 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 17:40:08'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 17:40:42'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 17:41:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 17:43:50'!
+ERROR!
+!Cashier methodsFor: 'checkout' stamp: 'PB 11/16/2019 17:54:58' prior: 50784770!
+checkOut
+
+	self calculateTotal.
+	self debitTotal.
+
+	^ total! !
+
+!methodRemoval: Cashier #registerSale stamp: 'PB 11/16/2019 17:55:06'!
+registerSale
+
+	salesBook add: self createSale!
+!Cashier methodsFor: 'checkout - private' stamp: 'PB 11/16/2019 17:57:28' prior: 50784757!
+createSale
+
+	^ Sale of: (cart items) totaling: total
+! !
+!Cashier methodsFor: 'checkout' stamp: 'PB 11/16/2019 17:58:49' prior: 50795911!
+checkOut
+
+	self calculateTotal.
+	self debitTotal.
+
+	^ self createSale.! !
+!Cart methodsFor: 'initialization' stamp: 'PB 11/16/2019 17:59:53' prior: 50784595!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := Dictionary new.! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:12:48' prior: 50784625!
+add: anItem
+
+	items at: anItem ifAbsent:[items at: anItem put: 1]. 
+	^ items at: anItem put: 1 + (items at: anItem). ! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:13:00' prior: 50795936!
+add: anItem
+
+	items at: anItem ifAbsent:[^items at: anItem put: 1]. 
+	^ items at: anItem put: 1 + (items at: anItem). ! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:13:06' prior: 50795943!
+add: anItem
+
+	items at: anItem ifAbsent:[^items at: anItem put: 1]. 
+	^items at: anItem put: 1 + (items at: anItem). ! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:14:08' prior: 50784617!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	1 to: aQuantity do: [ :aNumber | items add: anItem ]! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:14:24' prior: 50795957!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	items at: anItem ifAbsent:[^items at: anItem put: 1]. 
+	^items at: anItem put: aQuantity + (items at: anItem). ! !
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:14:39'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:14:43'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:14:43'!
+FAILURE!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:14:43'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:14:43'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:14:43'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:14:43'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:14:43'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:14:43'!
+FAILURE!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:14:43'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:14:43'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:16:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:16:10'!
+FAILURE!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:16:10'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:16:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:16:10'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:16:10'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:16:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:16:10'!
+FAILURE!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:16:10'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:16:10'!
+FAILURE!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:16:18'!
+FAILURE!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:16:18'!
+FAILURE!
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:17:00' prior: 50795950!
+add: anItem
+
+	items at: anItem ifAbsent:[^items at: anItem put: 1]. 
+	^items at: anItem put: 1 + (items at: anItem). ! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:17:15' prior: 50796050!
+add: anItem
+
+	self assertIsValidItem: anItem.
+
+	items at: anItem ifAbsent:[^items at: anItem put: 1]. 
+	^items at: anItem put: 1 + (items at: anItem). ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:17:18'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:17:18'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:17:18'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:17:18'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:17:18'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:17:18'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:17:18'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:17:18'!
+FAILURE!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:17:18'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:17:18'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:17:50'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:17:50'!
+FAILURE!
+!Cart methodsFor: 'testing' stamp: 'PB 11/16/2019 18:19:13' prior: 50784605!
+includes: anItem
+
+	^items includesKey: anItem ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:19:15'!
+FAILURE!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:19:15'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:19:15'!
+FAILURE!
+!Cart methodsFor: 'queries' stamp: 'PB 11/16/2019 18:20:02' prior: 50784601!
+occurrencesOf: anItem
+
+	^items at:anItem.  ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:20:08'!
+FAILURE!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:20:08'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:20:08'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:20:19'!
+FAILURE!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:20:19'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:20:19'!
+FAILURE!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:20:25'!
+FAILURE!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:20:25'!
+FAILURE!
+!Cart methodsFor: 'adding' stamp: 'PB 11/16/2019 18:21:08' prior: 50795965!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	items at: anItem ifAbsent:[^items at: anItem put: aQuantity]. 
+	^items at: anItem put: aQuantity + (items at: anItem). ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:21:11'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:11'!
+FAILURE!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:11'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:21:16'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:16'!
+FAILURE!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:16'!
+FAILURE!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:22'!
+FAILURE!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:22'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:21:40'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:40'!
+FAILURE!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:21:40'!
+FAILURE!
+!Cart methodsFor: 'queries' stamp: 'PB 11/16/2019 18:22:47' prior: 50786585!
+listItems
+
+	^ items keys asOrderedCollection.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test09ListingAnEmptyCartReturnsEmptyCollection stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CartTest #test10ListingANonEmptyCartReturnsItemCollection stamp: 'PB 11/16/2019 18:22:51'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/16/2019 18:22:55'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/16/2019 18:22:55'!
+ERROR!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/16/2019 18:22:55'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/16/2019 18:22:55'!
+ERROR!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/16/2019 18:22:55'!
+ERROR!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/16/2019 18:22:55'!
+FAILURE!
