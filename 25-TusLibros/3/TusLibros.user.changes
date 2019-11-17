@@ -13899,3 +13899,710 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(16 November 2019 19:35:24) TusLibros.image priorSource: 14894845!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:38:44'!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert: purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:40:26' prior: 50798155!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByStore.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert: purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:40:37' prior: 50798170!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByStore.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert: purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:47:52' prior: 50798186!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByStore.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert: purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:48:00' prior: 50798202!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByTheStore.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert: purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:48:11' prior: 50798218!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByTheStore.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	self assert: purchaseList purchases isEmpty.
+	self assert: 0 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:52:06' prior: 50798235!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByTheStore.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList := cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 19:52:10'!
+ERROR!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:52:54' prior: 50798252!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList|
+
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByTheStore.
+	"innerInterface checkOut:"
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList := cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:54:05' prior: 50798276!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface add: testObjectsFactory itemSellByTheStore.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList := cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 19:54:14'!
+ERROR!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:54:38' prior: 50798297!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: testObjectsFactory itemSellByTheStore.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList := cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:55:06' prior: 50798328!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList := cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:55:08' prior: 50798355!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList := cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 19:55:09'!
+FAILURE!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:57:04' prior: 50798383!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 19:57:07'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 19:57:07'!
+FAILURE!
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 20:00:46' prior: 50795671!
+checkOutCart: aCartId withCreditCard: aCreditCard through: aMerchantProcessor on: aDate
+
+	| cart cashier sale|
+	
+	self assertCartExists: aCartId.
+	cart _ cartDicc at: aCartId.
+	cashier := Cashier toCheckout: cart charging: aCreditCard 
+						throught: aMerchantProcessor on: aDate registeringOn: salesBook.
+	sale := cashier checkOut.
+	self registerSaleInSalesByClient: sale.
+	^sale! !
+!InnerInterface methodsFor: 'nil' stamp: 'PB 11/16/2019 20:02:43'!
+registerSale: aSale ofCart: aCart
+
+	
+
+	! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 20:03:34' prior: 50798465!
+registerSale: aSale ofCart: aCart
+
+	
+
+	! !
+
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient cartsByClient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 20:06:30'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient cartsByClient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'initialization' stamp: 'PB 11/16/2019 20:06:56' prior: 50797137!
+initialize
+
+	cartDicc _ Dictionary new.
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	users _ Dictionary new.
+	users add: 1->'123456'; add: 2->'1234'; yourself. 
+	lastId _ 1.
+	salesBook := OrderedCollection new.
+	salesByClient := Dictionary new.
+	cartsByClient := Dictionary new.
+	! !
+
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 20:20:54'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!methodRemoval: InnerInterface #registerSale:ofCart: stamp: 'PB 11/16/2019 20:21:04'!
+registerSale: aSale ofCart: aCart
+
+	
+
+	!
+
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient cartsByClient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 20:25:08'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient cartsByClient'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 20:25:44' prior: 50795658!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	cartsByClient at:(cartDicc at: lastId) put: aClientId.
+	lastId _ lastId + 1.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 20:26:09'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'PB 11/16/2019 20:26:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 20:26:09'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 20:26:18'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 20:26:18'!
+ERROR!
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 20:27:39' prior: 50798450!
+checkOutCart: aCartId withCreditCard: aCreditCard through: aMerchantProcessor on: aDate
+
+	| cart cashier sale|
+	
+	self assertCartExists: aCartId.
+	cart _ cartDicc at: aCartId.
+	cashier := Cashier toCheckout: cart charging: aCreditCard 
+						throught: aMerchantProcessor on: aDate registeringOn: salesBook.
+	sale := cashier checkOut.
+	self registerSale: sale forClient: (cartsByClient at: aCartId).
+	^sale! !
+!InnerInterface methodsFor: 'nil' stamp: 'PB 11/16/2019 20:27:53'!
+registerSale: aSale forClient: aClientId! !
+!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 20:28:12' prior: 50798538!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	cartsByClient at: lastId put: aClientId.
+	lastId _ lastId + 1.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 20:29:14' prior: 50798640!
+registerSale: aSale forClient: aClientId
+
+	
+	(salesByClient at: aClientId) add: aSale.! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 20:29:41' prior: 50798659!
+registerSale: aSale forClient: aClientId
+
+	salesByClient at: aClientId ifAbsent:[salesByClient at: aClientId put: OrderedCollection new.].
+	(salesByClient at: aClientId) add: aSale.! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 20:29:58'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 20:29:58'!
+ERROR!
+!Sale methodsFor: 'nil' stamp: 'PB 11/16/2019 20:31:26'!
++ anotherSale
+
+	||
+	
+! !
+!Sale methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 20:33:35' prior: 50798681!
++ anotherSale
+
+	|sumOfProducts|
+	
+	sumOfProducts := productsSold.
+	
+	! !
+
+!methodRemoval: Sale #+ stamp: 'PB 11/16/2019 20:41:15'!
++ anotherSale
+
+	|sumOfProducts|
+	
+	sumOfProducts := productsSold.
+	
+	!
+!PurchaseList methodsFor: 'nil' stamp: 'PB 11/16/2019 20:43:28'!
++ anotherSale
+
+	"|sumOfProducts|
+	
+	sumOfProducts := productsSold.
+	
+	anotherSale products keysDo: [:key | sumOfProducts at: key ifAbsent:[ sumOfProducts at: key put: (anotherSale products at: key).
+												sumOfProducts at: key put: (sumOfProducts at: key + anotherSale)]]"! !
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:31:57'!
+ anotherSale
+
+	"|sumOfProducts|
+	
+	sumOfProducts := productsSold.
+	
+	anotherSale products keysDo: [:key | sumOfProducts at: key ifAbsent:[ sumOfProducts at: key put: (anotherSale products at: key).
+												sumOfProducts at: key put: (sumOfProducts at: key + anotherSale)]]"! !
+
+!methodRemoval: PurchaseList #anotherSale stamp: 'PB 11/16/2019 21:32:00'!
+anotherSale
+
+	"|sumOfProducts|
+	
+	sumOfProducts := productsSold.
+	
+	anotherSale products keysDo: [:key | sumOfProducts at: key ifAbsent:[ sumOfProducts at: key put: (anotherSale products at: key).
+												sumOfProducts at: key put: (sumOfProducts at: key + anotherSale)]]"!
+
+!methodRemoval: PurchaseList #+ stamp: 'PB 11/16/2019 21:32:03'!
++ anotherSale
+
+	"|sumOfProducts|
+	
+	sumOfProducts := productsSold.
+	
+	anotherSale products keysDo: [:key | sumOfProducts at: key ifAbsent:[ sumOfProducts at: key put: (anotherSale products at: key).
+												sumOfProducts at: key put: (sumOfProducts at: key + anotherSale)]]"!
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:42:18' prior: 50798054!
+createDictionaryFromList: aSaleList
+
+	|allProducts|
+	
+	"(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											allProducts includesKey: key and (products includesKey: key) ifTrue:[allProducts at: key put: (allProducts at: key + products at: key)]
+										].
+										]."! !
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:42:28' prior: 50798740!
+createDictionaryFromList: aSaleList
+
+	"|allProducts|
+	
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											allProducts includesKey: key and (products includesKey: key) ifTrue:[allProducts at: key put: (allProducts at: key + products at: key)]
+										].
+										]."! !
+!Sale methodsFor: 'nil' stamp: 'PB 11/16/2019 21:42:52'!
+products
+
+	^productsSold copy.! !
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:46:26' prior: 50798755!
+createDictionaryFromList: aSaleList
+
+	|allProducts|
+	
+	allProducts := Dictionary new.
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											((allProducts includesKey: key ) and products includesKey: key) ifTrue:[allProducts at: key put: (allProducts at: key + products at: key)]
+										].
+										].! !
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:46:44' prior: 50798774!
+createDictionaryFromList: aSaleList
+
+	|allProducts|
+	
+	allProducts := Dictionary new.
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											((allProducts includesKey: key ) and products includesKey: key) ifTrue:[allProducts at: key put: ((allProducts at: key) + (products at: key))]
+										].
+										].! !
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:48:58' prior: 50798790!
+createDictionaryFromList: aSaleList
+
+	|allProducts|
+	
+	allProducts := Dictionary new.
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											((allProducts includesKey: key ) and products includesKey: key) ifTrue:[allProducts at: key put: ((allProducts at: key) + (products at: key))].
+											((allProducts includesKey: key not) and products includesKey: key) ifTrue: [allProducts at: key put: (products at: key)].
+										].
+										].! !
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:49:27' prior: 50798806!
+createDictionaryFromList: aSaleList
+
+	|allProducts|
+	
+	allProducts := Dictionary new.
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											((allProducts includesKey: key ) and products includesKey: key) ifTrue:[allProducts at: key put: ((allProducts at: key) + (products at: key))].
+											((allProducts includesKey: key not) and products includesKey: key) ifTrue: [allProducts at: key put: (products at: key)].
+										].
+										].
+									
+	^allProducts.! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 21:49:56'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 21:49:56'!
+ERROR!
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:50:52' prior: 50798827!
+createDictionaryFromList: aSaleList
+
+	|allProducts|
+	
+	allProducts := Dictionary new.
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											((allProducts includesKey: key ) and: (products includesKey: key)) ifTrue:[allProducts at: key put: ((allProducts at: key) + (products at: key))].
+											((allProducts includesKey: key not) and: (products includesKey: key)) ifTrue: [allProducts at: key put: (products at: key)].
+										].
+										].
+									
+	^allProducts.
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 21:51:00'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 21:51:00'!
+ERROR!
+!PurchaseList methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 21:52:04' prior: 50798857!
+createDictionaryFromList: aSaleList
+
+	|allProducts|
+	
+	allProducts := Dictionary new.
+	(aSaleList isEmpty) ifTrue:[^ Dictionary new.].
+	aSaleList do: [:sale| |products|  products := sale products.
+										products keysDo: [ :key|
+											((allProducts includesKey: key ) and: (products includesKey: key)) ifTrue:[allProducts at: key put: ((allProducts at: key) + (products at: key))].
+											(((allProducts includesKey: key) not) and: (products includesKey: key)) ifTrue: [allProducts at: key put: (products at: key)].
+										].
+										].
+									
+	^allProducts.
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 21:52:20'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 21:52:44'!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 21:53:51' prior: 50798912!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 3.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'PB 11/16/2019 21:53:52'!
+FAILURE!
+
+----SNAPSHOT----(16 November 2019 21:54:17) TusLibros.image priorSource: 14928063!
