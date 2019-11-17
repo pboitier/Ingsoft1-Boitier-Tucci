@@ -14606,3 +14606,124 @@ test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
 FAILURE!
 
 ----SNAPSHOT----(16 November 2019 21:54:17) TusLibros.image priorSource: 14928063!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'PB 11/16/2019 21:56:04'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'PB 11/16/2019 21:56:04'!
+FAILURE!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 21:56:29' prior: 50798940!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 3.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 30 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'PB 11/16/2019 21:56:30'!
+FAILURE!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 22:02:46' prior: 50798987!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 2 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 3.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 30 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'PB 11/16/2019 22:02:47'!
+PASSED!
+
+----SNAPSHOT----(16 November 2019 22:03:12) TusLibros.image priorSource: 14954395!

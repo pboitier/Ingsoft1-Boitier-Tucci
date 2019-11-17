@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -121,7 +121,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior merchantProcessor'
 	classVariableNames: ''
@@ -269,7 +269,7 @@ debit: anAmount from: aCreditCard
 	^merchantProcessor debit: anAmount from: aCreditCard.! !
 
 
-!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 TestCase subclass: #InnerInterfaceTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -596,7 +596,7 @@ test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 21:53:51'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 22:02:46'!
 test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
 
 	|innerInterface purchaseList cartList merchantProcessor|
@@ -609,13 +609,14 @@ test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
 
 	innerInterface createCart: 1 with: '123456'.
 	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 2 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
 
 	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
 	cartList := Dictionary new.
 	cartList at: testObjectsFactory itemSellByTheStore put: 3.
 	
 	self assert: cartList equals: purchaseList purchases.
-	self assert: 10 equals: purchaseList total. 
+	self assert: 30 equals: purchaseList total. 
 	
 
 
@@ -624,7 +625,7 @@ test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
 	! !
 
 
-!classDefinition: #Cart category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #Cart category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -710,7 +711,7 @@ add: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -720,7 +721,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
 	classVariableNames: ''
@@ -770,7 +771,7 @@ initializeToCheckout: aCart charging: aCreditCard throught: aMerchantProcessor r
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -812,7 +813,7 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expiration'
 	classVariableNames: ''
@@ -832,7 +833,7 @@ initializeExpiringOn: aMonth
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -842,7 +843,7 @@ expiringOn: aMonth
 	^self new initializeExpiringOn: aMonth! !
 
 
-!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #InnerInterface
 	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient cartsByClient'
 	classVariableNames: ''
@@ -945,7 +946,7 @@ registerSale: aSale forClient: aClientId
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 InnerInterface class
 	instanceVariableNames: ''!
 
@@ -981,7 +982,7 @@ create
 	^self new initialize.! !
 
 
-!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #MerchantProcessorSimulator
 	instanceVariableNames: 'debitBehavior'
 	classVariableNames: ''
@@ -1004,7 +1005,7 @@ setDebitBehavior: aClosure
 	debitBehavior := aClosure.! !
 
 
-!classDefinition: #PurchaseList category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #PurchaseList category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #PurchaseList
 	instanceVariableNames: 'dicc total'
 	classVariableNames: ''
@@ -1047,7 +1048,7 @@ total
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'PurchaseList class' category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: 'PurchaseList class' category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 PurchaseList class
 	instanceVariableNames: ''!
 
@@ -1058,7 +1059,7 @@ of: aSaleList
 	! !
 
 
-!classDefinition: #Sale category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #Sale category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #Sale
 	instanceVariableNames: 'total productsSold'
 	classVariableNames: ''
@@ -1090,7 +1091,7 @@ products
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: 'Sale class' category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -1101,7 +1102,7 @@ of: aISBNQuantityDicc totaling: aTotal
 ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'PB 11/16/2019 21:54:14'!
+!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'PB 11/16/2019 22:03:59'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
