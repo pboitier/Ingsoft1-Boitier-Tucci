@@ -20304,3 +20304,5 @@ PASSED!
 
 !testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 15:31:06'!
 PASSED!
+
+----SNAPSHOT----(18 November 2019 15:43:47) TusLibros.image priorSource: 15182347!
