@@ -1,4 +1,4 @@
-!classDefinition: #CartTest category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #CartTest category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 TestCase subclass: #CartTest
 	instanceVariableNames: 'testObjectsFactory'
 	classVariableNames: ''
@@ -121,7 +121,7 @@ setUp
 	testObjectsFactory := StoreTestObjectsFactory new.! !
 
 
-!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #CashierTest category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 TestCase subclass: #CashierTest
 	instanceVariableNames: 'testObjectsFactory debitBehavior merchantProcessor'
 	classVariableNames: ''
@@ -269,17 +269,18 @@ debit: anAmount from: aCreditCard
 	^merchantProcessor debit: anAmount from: aCreditCard.! !
 
 
-!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #InnerInterfaceTest category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 TestCase subclass: #InnerInterfaceTest
-	instanceVariableNames: 'testObjectsFactory'
+	instanceVariableNames: 'testObjectsFactory clock'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!InnerInterfaceTest methodsFor: 'setup' stamp: 'st 11/9/2019 11:35:45'!
+!InnerInterfaceTest methodsFor: 'setup' stamp: 'st 11/18/2019 13:48:49'!
 setUp 
 
-	testObjectsFactory := StoreTestObjectsFactory new.! !
+	testObjectsFactory _ StoreTestObjectsFactory new.
+	clock _ InnerClockMock withTime: Time dateAndTimeNow.! !
 
 
 !InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:19:17'!
@@ -302,24 +303,24 @@ createCartOn: anInnerInterface with: userId and: aPassword thenAdd: aBookISBN am
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:20:10'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:44:56'!
 test01ListingAnEmptyCartReturnsAnEmptyCollection
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	innerInterface createCart: 1 with: '123456'.
 	
 	self assert: (Dictionary new) equals: (innerInterface listCart: 1).
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:19:56'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:05'!
 test02ListingACartWithOneItemReturnsNonEmptyCollection
 
 	| innerInterface cartItems |
 		
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
 	
 	cartItems _ self createCartList: testObjectsFactory itemSellByTheStore with: 1.	
@@ -328,12 +329,12 @@ test02ListingACartWithOneItemReturnsNonEmptyCollection
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:20:24'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:08'!
 test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
 
 	| innerInterface cartItems |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
 	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
 
@@ -344,13 +345,13 @@ test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:50:42'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:11'!
 test04ListingANonExistingCartReturnsError
 
 	| innerInterface |
 	
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	
 	self 
 	should: [ innerInterface listCart: 5 ]
@@ -361,12 +362,12 @@ test04ListingANonExistingCartReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:22:24'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:15'!
 test05CreatingACartReturnsEmptyCollection
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 
 	innerInterface createCart: 1 with: '123456'.
 	
@@ -376,12 +377,12 @@ test05CreatingACartReturnsEmptyCollection
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:03:48'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:18'!
 test06TryingToCreateACartWithANonExistingUserReturnsError
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 
 	self 
 	should: [ innerInterface createCart: 3 with: '123456'. ]
@@ -393,12 +394,12 @@ test06TryingToCreateACartWithANonExistingUserReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:22:33'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:21'!
 test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 
 	innerInterface createCart: 2 with: '1234'.
 	self assert: (Dictionary new) equals: (innerInterface listCart: 1).
@@ -407,12 +408,12 @@ test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/9/2019 12:11:53'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:25'!
 test08TryingToCreateACartWithAWrongPasswordReturnsError
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 
 	
 	self 
@@ -425,12 +426,12 @@ test08TryingToCreateACartWithAWrongPasswordReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 19:22:41'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:30'!
 test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 
 	innerInterface createCart: 2 with: '1234'.
 	self assert: (Dictionary new) equals: (innerInterface listCart: 1).
@@ -439,12 +440,12 @@ test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:20:42'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:33'!
 test10AddingAValidItemInACartListsCorrectly
 
 	| innerInterface cartItems|
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	
 	self createCartOn: innerInterface with: 2 and: '1234' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
 
@@ -458,12 +459,12 @@ test10AddingAValidItemInACartListsCorrectly
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 18:08:10'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:37'!
 test11AddingAnInvalidItemInACartReturnsError
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 
 	innerInterface createCart: 2 with: '1234'.
 	self 
@@ -477,12 +478,12 @@ test11AddingAnInvalidItemInACartReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/9/2019 17:53:10'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:40'!
 test12AddingANonExistingCartReturnsError
 
 	| innerInterface |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 
 	innerInterface createCart: 2 with: '1234'.
 
@@ -497,12 +498,12 @@ test12AddingANonExistingCartReturnsError
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 14:14:21'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:44'!
 test13CannotCheckoutANonExistingCart
 
 	| innerInterface creditCard merchantProcessor |
 	
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	innerInterface createCart: 2 with: '1234'.
 	creditCard := CreditCard expiringOn: (Date tomorrow).
 	merchantProcessor := MerchantProcessorSimulator new.
@@ -517,14 +518,14 @@ test13CannotCheckoutANonExistingCart
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:16:28'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:48'!
 test14CheckingOutCartRegistersSales
 
 	| innerInterface creditCard orderedCollection merchantProcessor productsSold|
 	creditCard := CreditCard expiringOn: (Date tomorrow).
 	merchantProcessor := MerchantProcessorSimulator new.	
 		
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	self createCartOn: innerInterface with: 2 and: '1234' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
 	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
 	
@@ -541,14 +542,14 @@ test14CheckingOutCartRegistersSales
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:11:15'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:52'!
 test15CartCheckOutFailureDoesNotRegisterSales
 
 	| innerInterface creditCard merchantProcessor|
 	creditCard := testObjectsFactory expiredCreditCard.
 	merchantProcessor := MerchantProcessorSimulator new.	
 		
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	self createCartOn: innerInterface with: 2 and: '1234' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
 	
 	
@@ -565,12 +566,12 @@ test15CartCheckOutFailureDoesNotRegisterSales
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'PB 11/16/2019 17:25:26'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:45:57'!
 test16ListingPurchasesOfCustomerWithNoPurchases
 
 	|innerInterface purchaseList|
 
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	innerInterface createCart: 1 with: '123456'.
 
 	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
@@ -583,12 +584,12 @@ test16ListingPurchasesOfCustomerWithNoPurchases
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:21:08'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:46:00'!
 test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
 
 	|innerInterface purchaseList cartList merchantProcessor|
 
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	merchantProcessor := MerchantProcessorSimulator new.
 	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
 	
@@ -607,12 +608,12 @@ test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
 	
 	! !
 
-!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:21:22'!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:46:07'!
 test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
 
 	|innerInterface purchaseList cartList merchantProcessor|
 
-	innerInterface _ InnerInterface create.
+	innerInterface _ InnerInterface create: clock.
 	merchantProcessor := MerchantProcessorSimulator new.
 	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
 	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
@@ -632,8 +633,26 @@ test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
 	
 	! !
 
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/18/2019 13:54:28'!
+test19CannotAddToAnExpiredCart
+
+	| innerInterface |
+	
+	innerInterface _ InnerInterface create: clock.
+	innerInterface createCart: 1 with: '123456'.
+	clock addTime: (Time hour: 0 minute: 31 second: 0).
+	
+	
+	
+
+
+
+	
+	
+	! !
+
 
-!classDefinition: #Cart category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #Cart category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Object subclass: #Cart
 	instanceVariableNames: 'catalog items'
 	classVariableNames: ''
@@ -719,7 +738,7 @@ add: aQuantity of: anItem
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cart class' category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: 'Cart class' category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Cart class
 	instanceVariableNames: ''!
 
@@ -729,7 +748,7 @@ acceptingItemsOf: aCatalog
 	^self new initializeAcceptingItemsOf: aCatalog ! !
 
 
-!classDefinition: #Cashier category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #Cashier category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Object subclass: #Cashier
 	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
 	classVariableNames: ''
@@ -779,7 +798,7 @@ initializeToCheckout: aCart charging: aCreditCard throught: aMerchantProcessor r
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cashier class' category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: 'Cashier class' category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Cashier class
 	instanceVariableNames: ''!
 
@@ -821,7 +840,7 @@ creditCardHasNoCreditErrorMessage
 	^'Credit card has no credit'! !
 
 
-!classDefinition: #CreditCard category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #CreditCard category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Object subclass: #CreditCard
 	instanceVariableNames: 'expiration'
 	classVariableNames: ''
@@ -841,7 +860,7 @@ initializeExpiringOn: aMonth
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: 'CreditCard class' category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 CreditCard class
 	instanceVariableNames: ''!
 
@@ -851,53 +870,101 @@ expiringOn: aMonth
 	^self new initializeExpiringOn: aMonth! !
 
 
-!classDefinition: #InnerInterface category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
-Object subclass: #InnerInterface
-	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient cartsByClient'
+!classDefinition: #InnerClock category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
+Object subclass: #InnerClock
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 16:12:11'!
+!InnerClock methodsFor: 'as yet unclassified' stamp: 'st 11/18/2019 13:39:53'!
+now
+
+	^ Time dateAndTimeNow.! !
+
+
+!classDefinition: #InnerClockMock category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
+Object subclass: #InnerClockMock
+	instanceVariableNames: 'now'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!InnerClockMock methodsFor: 'as yet unclassified' stamp: 'st 11/18/2019 13:55:09'!
+addTime: aTime
+
+	(now at: 2) put: ((now at: 2) + aTime).! !
+
+!InnerClockMock methodsFor: 'as yet unclassified' stamp: 'st 11/18/2019 13:41:28'!
+initializeWithTime: aTime
+
+	now _ aTime.! !
+
+!InnerClockMock methodsFor: 'as yet unclassified' stamp: 'st 11/18/2019 13:41:06'!
+now
+
+	^ now.
+! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'InnerClockMock class' category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
+InnerClockMock class
+	instanceVariableNames: ''!
+
+!InnerClockMock class methodsFor: 'as yet unclassified' stamp: 'st 11/18/2019 13:42:00'!
+withTime: aTime
+
+	^ self new initializeWithTime: aTime.! !
+
+
+!classDefinition: #InnerInterface category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
+Object subclass: #InnerInterface
+	instanceVariableNames: 'cartDicc testObjectsFactory lastId users salesBook salesByClient cartsByClient clock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 13:33:54'!
 addToCart: aCartId withISBN: anISBN quantity: aQuantity
 
 	 | cart |
 	
 	 self assertCartExists: aCartId.
-	 cart _ cartDicc at: aCartId.
+	 cart _ self getCart: aCartId.
 	 cart add: aQuantity of: anISBN.! !
 
-!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 20:27:39'!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 13:34:03'!
 checkOutCart: aCartId withCreditCard: aCreditCard through: aMerchantProcessor on: aDate
 
 	| cart cashier sale|
 	
 	self assertCartExists: aCartId.
-	cart _ cartDicc at: aCartId.
+	cart _ self getCart: aCartId.
 	cashier := Cashier toCheckout: cart charging: aCreditCard 
 						throught: aMerchantProcessor on: aDate registeringOn: salesBook.
 	sale := cashier checkOut.
 	self registerSale: sale forClient: (cartsByClient at: aCartId).
 	^sale! !
 
-!InnerInterface methodsFor: 'api' stamp: 'st 11/17/2019 23:08:10'!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 13:32:16'!
 createCart: aClientId with: aPassword
 
 	self authenticateClient: aClientId with: aPassword.
 
-	cartDicc add: lastId->(testObjectsFactory createCart).
+	cartDicc add: lastId->(Array with: testObjectsFactory createCart with: Date dateAndTimeNow).
 	cartsByClient at: lastId put: aClientId.
 	lastId _ lastId + 1.
 	
 	^ lastId - 1.! !
 
-!InnerInterface methodsFor: 'api' stamp: 'PB 11/16/2019 16:12:11'!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 13:34:11'!
 listCart: aCartId
 
 	| cart |
 	
 	self assertCartExists: aCartId.
-	cart _ cartDicc at: aCartId.
+	cart _ self getCart: aCartId.
 	^ cart listItems.! !
 
 !InnerInterface methodsFor: 'api' stamp: 'st 11/17/2019 23:07:56'!
@@ -919,8 +986,8 @@ salesBook
 	^salesBook copy.! !
 
 
-!InnerInterface methodsFor: 'initialization' stamp: 'PB 11/16/2019 20:06:56'!
-initialize
+!InnerInterface methodsFor: 'initialization' stamp: 'st 11/18/2019 13:43:27'!
+initializeWithClock: aClock
 
 	cartDicc _ Dictionary new.
 	testObjectsFactory _ StoreTestObjectsFactory new.
@@ -930,6 +997,7 @@ initialize
 	salesBook := OrderedCollection new.
 	salesByClient := Dictionary new.
 	cartsByClient := Dictionary new.
+	clock _ aClock. 
 	! !
 
 
@@ -945,6 +1013,11 @@ authenticateClient: aClientId with: aPassword
 	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
      ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
 ! !
+
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'st 11/18/2019 13:33:35'!
+getCart: aCartId
+	
+	^(cartDicc at: aCartId) at: 1.! !
 
 !InnerInterface methodsFor: 'as yet unclassified' stamp: 'PB 11/16/2019 19:00:26'!
 purchaseListFor: aClientId
@@ -962,7 +1035,7 @@ registerSale: aSale forClient: aClientId
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: 'InnerInterface class' category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 InnerInterface class
 	instanceVariableNames: ''!
 
@@ -992,13 +1065,13 @@ wrongPasswordError
 	^'Wrong Password'.! !
 
 
-!InnerInterface class methodsFor: 'initialize' stamp: 'st 11/9/2019 10:39:35'!
-create
+!InnerInterface class methodsFor: 'initialize' stamp: 'st 11/18/2019 13:43:50'!
+create: aClock
 
-	^self new initialize.! !
+	^self new initializeWithClock: aClock.! !
 
 
-!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #MerchantProcessorSimulator category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Object subclass: #MerchantProcessorSimulator
 	instanceVariableNames: 'debitBehavior'
 	classVariableNames: ''
@@ -1021,7 +1094,7 @@ setDebitBehavior: aClosure
 	debitBehavior := aClosure.! !
 
 
-!classDefinition: #PurchaseList category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #PurchaseList category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Object subclass: #PurchaseList
 	instanceVariableNames: 'dicc total'
 	classVariableNames: ''
@@ -1064,7 +1137,7 @@ total
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'PurchaseList class' category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: 'PurchaseList class' category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 PurchaseList class
 	instanceVariableNames: ''!
 
@@ -1075,7 +1148,7 @@ of: aSaleList
 	! !
 
 
-!classDefinition: #Sale category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #Sale category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Object subclass: #Sale
 	instanceVariableNames: 'total productsSold'
 	classVariableNames: ''
@@ -1107,7 +1180,7 @@ initializeSaleOf: aISBNQuantityDicc totaling: aTotal
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Sale class' category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: 'Sale class' category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Sale class
 	instanceVariableNames: ''!
 
@@ -1118,7 +1191,7 @@ of: aISBNQuantityDicc totaling: aTotal
 ! !
 
 
-!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'st 11/17/2019 23:22:42'!
+!classDefinition: #StoreTestObjectsFactory category: #TusLibros stamp: 'st 11/18/2019 13:56:43'!
 Object subclass: #StoreTestObjectsFactory
 	instanceVariableNames: 'today'
 	classVariableNames: ''
