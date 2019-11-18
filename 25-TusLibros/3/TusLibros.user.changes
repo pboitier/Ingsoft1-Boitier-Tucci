@@ -14727,3 +14727,1473 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(16 November 2019 22:03:12) TusLibros.image priorSource: 14954395!
+
+----STARTUP---- (17 November 2019 20:52:17) as /home/stucci/Desktop/linux64/TusLibros.image!
+
+!Sale methodsFor: 'as yet unclassified' stamp: 'st 11/17/2019 20:57:04' prior: 50794630!
+=anotherSale
+
+	^ (total = anotherSale total) and: (self products = anotherSale products).! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 20:57:05'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 21:00:28' prior: 50797494!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 1.
+	
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+		
+	cartItems _ Dictionary new.
+	cartItems at: testObjectsFactory itemSellByTheStore put: 2.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 21:03:46'!
+createCartOn: anInnerInterface with: userId and: aPassword thenAdd: aBookISBN amount: anAmount
+
+
+	anInnerInterface createCart: userId with: aPassword.
+	anInnerInterface addToCart: 1 withISBN: testObjectsFactory itemSellByTheStore quantity: 2. 
+	
+	! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/17/2019 21:04:26' prior: 50798644!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	cartsByClient at: lastId put: aClientId.
+	lastId _ lastId + 1.
+	
+	^ lastId.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 21:05:03' prior: 50799236!
+createCartOn: anInnerInterface with: userId and: aPassword thenAdd: aBookISBN amount: anAmount
+	
+	| cartId |
+
+	cartId _ anInnerInterface createCart: userId with: aPassword.
+	anInnerInterface addToCart: cartId withISBN: aBookISBN quantity: anAmount. 
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 21:06:07' prior: 50797412!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+		
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	cartItems _ Dictionary new. 
+	cartItems at: testObjectsFactory itemSellByTheStore put: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 21:06:09'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 21:07:08'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 21:07:08'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 21:07:08'!
+ERROR!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/17/2019 21:07:34' prior: 50799247!
+createCart: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	cartsByClient at: lastId put: aClientId.
+	lastId _ lastId + 1.
+	
+	^ lastId - 1.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 21:07:34'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 21:08:41' prior: 50799215!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+
+		
+	cartItems _ Dictionary new.
+	cartItems at: testObjectsFactory itemSellByTheStore put: 2.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 21:08:43'!
+FAILURE!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 21:09:01'!
+FAILURE!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 21:09:07' prior: 50799452!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+
+		
+	cartItems _ Dictionary new.
+	cartItems at: testObjectsFactory itemSellByTheStore put: 2.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 21:09:07'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 21:10:02' prior: 50799273!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+		
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	cartItems _ Dictionary new. 
+	cartItems at: testObjectsFactory itemSellByTheStore put: 1.
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+
+----SNAPSHOT----(17 November 2019 21:10:16) TusLibros.image priorSource: 14959418!
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'st 11/17/2019 23:06:56'!
+authenticateUser
+
+! !
+!InnerInterface methodsFor: 'as yet unclassified' stamp: 'st 11/17/2019 23:07:29'!
+authenticateClient: aClientId with: aPassword
+
+	(users includesKey: aClientId) ifFalse: [self error: InnerInterface nonExistingUserError].
+     ((users at: aClientId) = aPassword) ifFalse: [self error: InnerInterface wrongPasswordError].
+! !
+
+!methodRemoval: InnerInterface #authenticateUser stamp: 'st 11/17/2019 23:07:34'!
+authenticateUser
+
+!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/17/2019 23:07:56' prior: 50798018!
+listPurchasesOfClient: aClientId withPassword: aPassword
+
+	self authenticateClient: aClientId with: aPassword.
+
+	
+	salesByClient at: aClientId ifAbsent: [salesByClient at: aClientId put: Dictionary new.].
+	^self purchaseListFor: aClientId.
+
+
+	! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:07:57'!
+PASSED!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/17/2019 23:08:10' prior: 50799367!
+createCart: aClientId with: aPassword
+
+	self authenticateClient: aClientId with: aPassword.
+
+	cartDicc add: lastId->(testObjectsFactory createCart).
+	cartsByClient at: lastId put: aClientId.
+	lastId _ lastId + 1.
+	
+	^ lastId - 1.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:08:11'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:09:17'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:10:23' prior: 50797831!
+test10AddingAValidItemInACartListsCorrectly
+
+	| innerInterface cartItems|
+	
+	innerInterface _ InnerInterface create.
+	
+	self createCartOn: innerInterface with: 2 and: '1234' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+
+	cartItems := Dictionary new.
+	cartItems at: testObjectsFactory itemSellByTheStore put: 2.
+
+	self assert: 
+	(cartItems) equals: (innerInterface listCart: 1).
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:10:23'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:11:15' prior: 50795209!
+test15CartCheckOutFailureDoesNotRegisterSales
+
+	| innerInterface creditCard merchantProcessor|
+	creditCard := testObjectsFactory expiredCreditCard.
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 2 and: '1234' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+	
+	
+	self should: [innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today)]
+	raise: Error - MessageNotUnderstood
+	withExceptionDo: [ :anError |
+		self assert: anError messageText = Cashier canNotChargeAnExpiredCreditCardErrorMessage.].
+
+	self assert: innerInterface salesBook isEmpty. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:11:16'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:11:38' prior: 50798415!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:11:39'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:11:56' prior: 50799023!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	innerInterface createCart: 1 with: '123456'.
+	innerInterface addToCart: 2 withISBN: testObjectsFactory itemSellByTheStore quantity: 2.
+	innerInterface checkOutCart: 2 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 3.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 30 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:11:56'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:12:31' prior: 50800066!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+	innerInterface checkOutCart: 2 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 3.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 30 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:12:31'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:12:57' prior: 50800176!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+	innerInterface checkOutCart: 2 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 3.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 30 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:16:28' prior: 50795870!
+test14CheckingOutCartRegistersSales
+
+	| innerInterface creditCard orderedCollection merchantProcessor productsSold|
+	creditCard := CreditCard expiringOn: (Date tomorrow).
+	merchantProcessor := MerchantProcessorSimulator new.	
+		
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 2 and: '1234' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+	innerInterface checkOutCart: 1 withCreditCard: creditCard through: merchantProcessor on: (Date today).
+	
+	orderedCollection := OrderedCollection new.
+	productsSold := Dictionary new.
+	productsSold at: (testObjectsFactory itemSellByTheStore) put: 2.
+	orderedCollection add: (Sale of: productsSold totaling: 20).
+	
+	self assert:orderedCollection equals: (innerInterface salesBook). 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:16:28'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:17:50'!
+createCartList
+
+! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:18:25' prior: 50800420!
+createCartList
+
+	| cartList |
+
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	^cartList.! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:18:45' prior: 50799575!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+		
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	cartItems _ Dictionary new. 
+	cartItems at: testObjectsFactory itemSellByTheStore put: 1.
+	
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:19:17'!
+createCartList: aBookISBN with: anAmount
+
+	| cartList |
+
+	cartList := Dictionary new.
+	cartList at: aBookISBN put: anAmount.
+	
+	^cartList.! !
+
+!methodRemoval: InnerInterfaceTest #createCartList stamp: 'st 11/17/2019 23:19:19'!
+createCartList
+
+	| cartList |
+
+	cartList := Dictionary new.
+	cartList at: testObjectsFactory itemSellByTheStore put: 1.
+	
+	^cartList.!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:19:56' prior: 50800432!
+test02ListingACartWithOneItemReturnsNonEmptyCollection
+
+	| innerInterface cartItems |
+		
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	cartItems _ self createCartList: testObjectsFactory itemSellByTheStore with: 1.	
+		
+	self assert: cartItems equals: (innerInterface listCart: 1).
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:19:56'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:20:21' prior: 50799481!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+
+		
+cartItems _ self createCartList: testObjectsFactory itemSellByTheStore with: 2.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:20:23' prior: 50800553!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+
+		
+cartItems _ self createCartList: testObjectsFactory itemSellByTheStore with: 2.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:20:24' prior: 50800573!
+test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart
+
+	| innerInterface cartItems |
+	
+	innerInterface _ InnerInterface create.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+
+		
+	cartItems _ self createCartList: testObjectsFactory itemSellByTheStore with: 2.
+		
+	self assert: cartItems equals: (innerInterface listCart: 2).
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:20:25'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:20:42' prior: 50799777!
+test10AddingAValidItemInACartListsCorrectly
+
+	| innerInterface cartItems|
+	
+	innerInterface _ InnerInterface create.
+	
+	self createCartOn: innerInterface with: 2 and: '1234' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+
+	cartItems _ self createCartList: testObjectsFactory itemSellByTheStore with: 2.
+
+	self assert: 
+	(cartItems) equals: (innerInterface listCart: 1).
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:20:42'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:21:08' prior: 50799965!
+test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	
+	
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList _ self createCartList: testObjectsFactory itemSellByTheStore with: 1.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 10 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:21:09'!
+PASSED!
+!InnerInterfaceTest methodsFor: 'tests' stamp: 'st 11/17/2019 23:21:22' prior: 50800285!
+test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts
+
+	|innerInterface purchaseList cartList merchantProcessor|
+
+	innerInterface _ InnerInterface create.
+	merchantProcessor := MerchantProcessorSimulator new.
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 1.
+	innerInterface checkOutCart: 1 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	self createCartOn: innerInterface with: 1 and: '123456' thenAdd: testObjectsFactory itemSellByTheStore amount: 2.
+	innerInterface checkOutCart: 2 withCreditCard: testObjectsFactory notExpiredCreditCard through: merchantProcessor on: (Date today).
+
+	purchaseList := innerInterface listPurchasesOfClient: 1 withPassword: '123456'.
+	cartList _ self createCartList: testObjectsFactory itemSellByTheStore with: 3.
+	
+	self assert: cartList equals: purchaseList purchases.
+	self assert: 30 equals: purchaseList total. 
+	
+
+
+	
+	
+	! !
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/17/2019 23:21:22'!
+PASSED!
+
+----SNAPSHOT----(17 November 2019 23:22:48) TusLibros.image priorSource: 14974073!
