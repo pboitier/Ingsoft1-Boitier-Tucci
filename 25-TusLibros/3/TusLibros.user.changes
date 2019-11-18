@@ -21619,3 +21619,513 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(18 November 2019 16:41:31) TusLibros.image priorSource: 15271724!
+
+----STARTUP---- (18 November 2019 19:22:49) as /home/stucci/Desktop/linux64/TusLibros.image!
+
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 19:24:13' prior: 50808325!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 self assertCartExists: aCartId.
+	(self assertCartIsNotExpired: aCartId) ifFalse: [self error: InnerInterface expiredCartError].
+	
+	self refreshCartExpirationDate: aCartId.
+		
+	 cart _ self getCart: aCartId.
+	 cart add: aQuantity of: anISBN.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test19CannotAddToAnExpiredCart stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test20CannotListAnExpiredCart stamp: 'st 11/18/2019 19:24:14'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:24:14'!
+ERROR!
+!InnerInterface methodsFor: 'private' stamp: 'st 11/18/2019 19:24:27' prior: 50806393!
+refreshCartExpirationDate: aCartId
+	
+	^((cartDicc at: aCartId)) put: clock now.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test19CannotAddToAnExpiredCart stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test20CannotListAnExpiredCart stamp: 'st 11/18/2019 19:24:27'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:24:27'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test19CannotAddToAnExpiredCart stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test20CannotListAnExpiredCart stamp: 'st 11/18/2019 19:24:31'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:24:31'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test19CannotAddToAnExpiredCart stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test20CannotListAnExpiredCart stamp: 'st 11/18/2019 19:24:53'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:24:53'!
+ERROR!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:24:58'!
+ERROR!
+!InnerInterface methodsFor: 'private' stamp: 'st 11/18/2019 19:25:41' prior: 50810170!
+refreshCartExpirationDate: aCartId
+	
+	(cartDicc at: aCartId) at: 2 put: clock now.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test19CannotAddToAnExpiredCart stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test20CannotListAnExpiredCart stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:25:42'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test19CannotAddToAnExpiredCart stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test20CannotListAnExpiredCart stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:25:44'!
+PASSED!
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 19:26:15' prior: 50808585!
+checkOutCart: aCartId withCreditCard: aCreditCard on: aDate
+
+	| cart cashier sale|
+	
+	self assertCartExists: aCartId.
+	(self assertCartIsNotExpired: aCartId) ifFalse: [self error: InnerInterface expiredCartError].
+	
+	cart _ self getCart: aCartId.
+	cashier := Cashier toCheckout: cart charging: aCreditCard 
+						throught: merchantProcessor on: aDate registeringOn: salesBook.
+	sale := cashier checkOut.
+	self registerSale: sale forClient: (cartsByClient at: aCartId).
+	
+	self refreshCartExpirationDate: aCartId.
+	
+	^sale! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 19:26:21' prior: 50810078!
+addToCart: aCartId withISBN: anISBN quantity: aQuantity
+
+	 | cart |
+	
+	 self assertCartExists: aCartId.
+	(self assertCartIsNotExpired: aCartId) ifFalse: [self error: InnerInterface expiredCartError].
+		
+	 cart _ self getCart: aCartId.
+	 cart add: aQuantity of: anISBN.
+	
+	self refreshCartExpirationDate: aCartId.! !
+!InnerInterface methodsFor: 'api' stamp: 'st 11/18/2019 19:26:31' prior: 50807828!
+listCart: aCartId
+
+	| cart |
+	
+	self assertCartExists: aCartId.
+	(self assertCartIsNotExpired: aCartId) ifFalse: [self error: InnerInterface expiredCartError].
+	cart _ self getCart: aCartId.
+	
+	self refreshCartExpirationDate: aCartId.
+	
+	^ cart listItems.! !
+
+!testRun: #InnerInterfaceTest #test01ListingAnEmptyCartReturnsAnEmptyCollection stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test02ListingACartWithOneItemReturnsNonEmptyCollection stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test03ListingACartReturnsItsItemsWhileHavingCreatedMoreThanOneCart stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test04ListingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test05CreatingACartReturnsEmptyCollection stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test06TryingToCreateACartWithANonExistingUserReturnsError stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test07TryingToCreateACartWithAExistingUserReturnsEmptyCollection stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test08TryingToCreateACartWithAWrongPasswordReturnsError stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test09TryingToCreateACartWithAValidPasswordReturnsEmptyCollection stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test10AddingAValidItemInACartListsCorrectly stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test11AddingAnInvalidItemInACartReturnsError stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test12AddingANonExistingCartReturnsError stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test13CannotCheckoutANonExistingCart stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test14CheckingOutCartRegistersSales stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test15CartCheckOutFailureDoesNotRegisterSales stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test16ListingPurchasesOfCustomerWithNoPurchases stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test17ListingPurchasesOfCustomerWithPurchasesOfOnlyOneCart stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test18ListingPurchasesOfCustomerWithPurchasesDoneInMultipleCarts stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test19CannotAddToAnExpiredCart stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test20CannotListAnExpiredCart stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+!testRun: #InnerInterfaceTest #test21CannotCheckoutAnExpiredCart stamp: 'st 11/18/2019 19:26:36'!
+PASSED!
+
+----SNAPSHOT----(18 November 2019 19:26:48) TusLibros.image priorSource: 15309490!
