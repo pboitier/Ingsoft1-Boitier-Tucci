@@ -8,7 +8,7 @@ def import_file(path, dst, leading_white_spaces):
   src.close()
 
 if __name__ == "__main__":
-  src = open("./templates/_index.html", "r")
+  src = open("../index.html", "r")
   dst = open("./index.html", "w")
 
   for line in src:

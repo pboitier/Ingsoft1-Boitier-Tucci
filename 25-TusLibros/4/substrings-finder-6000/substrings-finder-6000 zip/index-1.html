@@ -1,0 +1,42 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Unknown </title></head><body>
+<h1 id="substrings-finder-6000">Substrings Finder 6000</h1>
+<h2 id="servidor">Servidor</h2>
+<p>En la carpeta <code>server-services</code> se encuentra el archivo <code>StringServer-cors.st</code> con el servidor en Smalltalk. Para crear el servidor abrir un workspace y ejecutar:</p>
+<p><code>smalltalk
+server := StringServerController listeningOn: 8082.</code></p>
+<p>El servidor se queda escuchando en el puerto <code>8082</code> (se puede verificar desde el browser ingresando la url <code>http://localhost:8082/sayhi</code>)
+En caso de querer detener el servidor:</p>
+<p><code>smalltalk
+server stopListening.</code></p>
+<p>Los servicios que brinda el servidor:
+- <code>substrings?sentence=${text}</code>
+- <code>firstletter?word=${substring}</code>
+- <code>touppercase?word=${substring}</code>
+- <code>vowels?word=${substring}</code></p>
+<h2 id="cliente">Cliente</h2>
+<p>Hay dos formas de ejecutar/modificar el cliente:</p>
+<h3 id="file">file://</h3>
+<p>Se puede abrir el archivo <code>index.html</code> directamente en el browser. En este archivo está todo el código JavaScript.
+Ante una modificación en el código se debe refrescar el browser.</p>
+<h3 id="http">http://</h3>
+<p>Con esta forma se puede utilizar el proyecto de manera modularizada. Es decir, el código JavaScript está en la carpeta <code>/src</code>. Los componentes (React Components) están en <code>/src/components</code>. El archivo (template) <code>html</code> está en <code>templates/_index.html</code>.
+Todo esto se <em>compila</em> ejecutando <code>python ./scripts/compiler.py</code> y el resultado es el archivo <code>index.html</code></p>
+<h4 id="requisitos">Requisitos</h4>
+<ul>
+<li>Python3</li>
+<li>El paquete <a href="https://websockets.readthedocs.io/en/stable/intro.html"><code>websockets</code></a></li>
+</ul>
+<h4 id="servidor-del-cliente">Servidor del cliente</h4>
+<p>Para ejecutar el servidor (del cliente) desde una terminal ejecutar:
+<code>shell-session
+./server.sh</code>
+El cliente se accede desde <code>http://localhost:8081</code></p>
+<h4 id="ciclo-de-desarrollo">Ciclo de desarrollo</h4>
+<p>Hasta aquí, cada vez que se modifica un archivo (ya sea <code>JavaScript</code> o el template <code>HTML</code>), debemos compilar el proyecto y refrescar el browser.</p>
+<p>Para automatizar este ciclo se puede ejecturar:</p>
+<p><code>shell-session
+./client.sh</code></p>
+<p>De esta manera queda un <code>watch</code> sobre la carpeta y ante la modificación de un archivo:
+- se ejecuta automáticamente la compilación del proyecto (recordar que el resultado es el archivo <code>index.html</code>)
+- se refresca automáticamente el browser.</p>
+</body></html>
