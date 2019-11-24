@@ -60463,3 +60463,1911 @@ Cart allInstances!
 (self at: 28) content.!
 
 ----SNAPSHOT----(23 November 2019 19:44:57) CuisUniversity-3958.image priorSource: 17401940!
+
+----STARTUP---- (24 November 2019 18:37:46) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+
+StringServerController listeningOn: 8082!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:53:19'!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:53:51' prior: 50878042!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	cart remove: 1 of: testObjectsFactory itemSellByTheStore.
+	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:56:41' prior: 50878052!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/24/2019 19:57:56'!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	"items add: anItem withOccurrences: aQuantity" ! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:59:14'!
+test09CannotRemoveValidItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!methodRemoval: CartTest #test09CannotRemoveItemNotInCart stamp: 'PB 11/24/2019 19:59:14'!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:59:18' prior: 50878082!
+test09CannotRemoveValidItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:00:24'!
+FAILURE!
+!Cart methodsFor: 'adding' stamp: 'PB 11/24/2019 20:00:59' prior: 50878075!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	"items add: anItem withOccurrences: aQuantity" ! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:03:28' prior: 50878127!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	
+	"items add: anItem withOccurrences: aQuantity" ! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:07:10' prior: 50878135!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+	self assertCanRemoveQuantity: aQuantity of: anItem.
+	! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:07:58'!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	^items occurrencesOf: anItem >= aQuantity.! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:08:21' prior: 50878150!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity)! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:08:30' prior: 50878156!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity) ifFalse: []! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:09:24' prior: 50878162!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity) ifFalse: [self signal invalidRemoval.].! !
+!Cart methodsFor: 'error signal' stamp: 'PB 11/24/2019 20:09:58'!
+signalInvalidRemoval
+
+	self error: self invalidRemovalErrorMessage. ! !
+!Cart methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:10:16'!
+invalidRemovalErrorMessage
+
+	! !
+!Cart methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:10:25' prior: 50878180!
+invalidRemovalErrorMessage
+
+	^self class ! !
+!Cart methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:10:38' prior: 50878184!
+invalidRemovalErrorMessage
+
+	^self class invalidRemovalErrorMessage.! !
+!Cart class methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:11:19'!
+invalidRemovalErrorMessage
+
+	^'Invalid number of items to remove'! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:12:53' prior: 50878110!
+test09CannotRemoveValidItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidRemovalErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:12:54'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:13:14'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:14:30'!
+FAILURE!
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 20:15:32' prior: 50878168!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity) ifFalse: [self signal signalInvalidRemoval.].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:15:36'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:15:36'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:15:36'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:15:36'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:15:36'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:15:36'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:15:37'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:15:37'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:15:37'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:15:37'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:19:50'!
+FAILURE!
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 20:20:31' prior: 50878222!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	((items occurrencesOf: anItem) >= aQuantity) ifFalse: [self signal signalInvalidRemoval.].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:20:35'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:20:35'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:20:35'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:21:08'!
+ERROR!
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 20:21:38' prior: 50878264!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	((items occurrencesOf: anItem) >= aQuantity) ifFalse: [self signalInvalidRemoval.].! !
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:21:52'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:21:55'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:22:20'!
+test10CannotRemoveInvalidItem
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidRemovalErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:22:44'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:22:56' prior: 50878345!
+test10CannotRemoveInvalidItem
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:22:57'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:25:23'!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:25:56' prior: 50878408!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			 ]! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:26:23' prior: 50878422!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 1]! !
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:26:25'!
+FAILURE!
+!Cart class methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:27:05' prior: 50878194!
+invalidRemovalErrorMessage
+
+	^'Cannot remove more items than there are in the cart.'! !
+!Cart class methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:27:31' prior: 50878458!
+invalidRemovalErrorMessage
+
+	^'Cannot remove more items than the amount are in the cart.'! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:27:36'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:27:36'!
+FAILURE!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:27:36'!
+FAILURE!
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:30:04' prior: 50878143!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+	self assertCanRemoveQuantity: aQuantity of: anItem.
+	
+	1 to: aQuantity
+	do: [self remove: anItem].! !
+!Cart methodsFor: 'nil' stamp: 'PB 11/24/2019 20:30:41'!
+remove: anItem
+
+	items remove: anItem.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:30:51'!
+FAILURE!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:30:51'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:30:51'!
+FAILURE!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:31:07'!
+FAILURE!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:31:07'!
+FAILURE!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:31:27'!
+FAILURE!
+
+----STARTUP---- (24 November 2019 20:35:07) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:53:19'!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:53:51' prior: 50878667!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	cart remove: 1 of: testObjectsFactory itemSellByTheStore.
+	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:56:41' prior: 50878677!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/24/2019 19:57:56'!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	"items add: anItem withOccurrences: aQuantity" ! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:59:14'!
+test09CannotRemoveValidItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!methodRemoval: CartTest #test09CannotRemoveItemNotInCart stamp: 'PB 11/24/2019 20:35:20'!
+test09CannotRemoveItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 19:59:18' prior: 50878707!
+test09CannotRemoveValidItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart cannotRemoveItemNotInCartErrorMessage.
+			self assert: cart isEmpty ]! !
+!Cart methodsFor: 'adding' stamp: 'PB 11/24/2019 20:00:59' prior: 50878700!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	"items add: anItem withOccurrences: aQuantity" ! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:03:28' prior: 50878749!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	
+	"items add: anItem withOccurrences: aQuantity" ! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:07:10' prior: 50878757!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+	self assertCanRemoveQuantity: aQuantity of: anItem.
+	! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:07:58'!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	^items occurrencesOf: anItem >= aQuantity.! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:08:21' prior: 50878772!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity)! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:08:30' prior: 50878778!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity) ifFalse: []! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:09:24' prior: 50878784!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity) ifFalse: [self signal invalidRemoval.].! !
+!Cart methodsFor: 'error signal' stamp: 'PB 11/24/2019 20:09:58'!
+signalInvalidRemoval
+
+	self error: self invalidRemovalErrorMessage. ! !
+!Cart methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:10:16'!
+invalidRemovalErrorMessage
+
+	! !
+!Cart methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:10:25' prior: 50878802!
+invalidRemovalErrorMessage
+
+	^self class ! !
+!Cart methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:10:38' prior: 50878806!
+invalidRemovalErrorMessage
+
+	^self class invalidRemovalErrorMessage.! !
+!Cart class methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:11:19'!
+invalidRemovalErrorMessage
+
+	^'Invalid number of items to remove'! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:12:53' prior: 50878735!
+test09CannotRemoveValidItemNotInCart
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidRemovalErrorMessage.
+			self assert: cart isEmpty ]! !
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 20:15:32' prior: 50878790!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	(items occurrencesOf: anItem >= aQuantity) ifFalse: [self signal signalInvalidRemoval.].! !
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 20:20:31' prior: 50878835!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	((items occurrencesOf: anItem) >= aQuantity) ifFalse: [self signal signalInvalidRemoval.].! !
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 20:21:38' prior: 50878842!
+assertCanRemoveQuantity: aQuantity of: anItem
+
+	((items occurrencesOf: anItem) >= aQuantity) ifFalse: [self signalInvalidRemoval.].! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:22:20'!
+test10CannotRemoveInvalidItem
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidRemovalErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:22:56' prior: 50878856!
+test10CannotRemoveInvalidItem
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:25:23'!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemNotSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:25:56' prior: 50878883!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			 ]! !
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:26:23' prior: 50878897!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self
+		should: [cart remove: 1 of: testObjectsFactory itemSellByTheStore.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 1]! !
+!Cart class methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:27:05' prior: 50878816!
+invalidRemovalErrorMessage
+
+	^'Cannot remove more items than there are in the cart.'! !
+!Cart class methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:27:31' prior: 50878929!
+invalidRemovalErrorMessage
+
+	^'Cannot remove more items than the amount are in the cart.'! !
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:30:04' prior: 50878765!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+	self assertCanRemoveQuantity: aQuantity of: anItem.
+	
+	1 to: aQuantity
+	do: [self remove: anItem].! !
+!Cart methodsFor: 'nil' stamp: 'PB 11/24/2019 20:30:41'!
+remove: anItem
+
+	items remove: anItem.! !
+
+----SNAPSHOT----(24 November 2019 20:35:51) TusLibros.image priorSource: 17484280!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:35:56'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:35:56'!
+FAILURE!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:35:56'!
+FAILURE!
+!Cart methodsFor: 'removing' stamp: 'PB 11/24/2019 20:37:39' prior: 50878941!
+remove: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+	self assertCanRemoveQuantity: aQuantity of: anItem.
+	
+	aQuantity timesRepeat: [self remove: anItem].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:37:45'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:37:45'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:37:45'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:37:46'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:37:46'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:37:46'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:37:46'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:37:46'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:37:46'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:37:46'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:37:46'!
+FAILURE!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:37:46'!
+FAILURE!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:37:59'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:38:15' prior: 50878912!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 1.! !
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:38:16'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:38:52' prior: 50879046!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	cart remove: 1 of: testObjectsFactory itemSellByTheStore.
+	
+	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 1.! !
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:38:53'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PB 11/24/2019 20:38:58' prior: 50879060!
+test11CanRemoveValidItemInValidQuantities
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+	cart add: 3 of: testObjectsFactory itemSellByTheStore.
+	cart remove: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 1.! !
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 20:38:59'!
+PASSED!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - checkout' stamp: 'PB 11/24/2019 20:40:17'!
+test20CanNotRemoveItemsFromCartWhenSessionIsExpired
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 2 of: self validBook toCartIdentifiedAs: cartId.
+	self advanceTime: (systemFacade sessionDuration + 1 minutes) .
+	self should: [
+		systemFacade
+			checkOutCartIdentifiedAs: cartId
+			withCreditCardNumbered: testObjectsFactory notExpiredCreditCardNumber
+			ownedBy: testObjectsFactory notExpiredCreditCardOwner
+			expiringOn: testObjectsFactory notExpiredMonthOfYear ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade sessionHasExpiredErrorDescription.
+			self assert: (systemFacade listPurchasesOf: self validUser authenticatingWith: self validUserPassword) isEmpty ]
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - list books' stamp: 'PB 11/24/2019 20:41:18'!
+test21ListingSystemBooksWorksOk
+
+	| books |
+	
+	books _ systemFacade booksUsing: self validUser authenticatedWith: self validUserPassword.
+		
+	self assert: books equals: (Set with: testObjectsFactory itemSellByTheStore with: testObjectsFactory anotherItemSellByTheStore).! !
+
+!methodRemoval: TusLibrosSystemFacadeTest #test20ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:41:18'!
+test20ListingSystemBooksWorksOk
+
+	| books |
+	
+	books _ systemFacade booksUsing: self validUser authenticatedWith: self validUserPassword.
+		
+	self assert: books equals: (Set with: testObjectsFactory itemSellByTheStore with: testObjectsFactory anotherItemSellByTheStore).!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:42:14' prior: 50879161!
+test20CanNotRemoveItemsFromCartWhenSessionIsExpired
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 2 of: self validBook toCartIdentifiedAs: cartId.
+	self advanceTime: (systemFacade sessionDuration + 1 minutes) .
+	self should: [
+		systemFacade
+			remove: 1 of: self validBook fromCartIdentifiedAs: cartId.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade sessionHasExpiredErrorDescription.
+			self assert: (systemFacade listPurchasesOf: self validUser authenticatingWith: self validUserPassword) isEmpty ]
+
+
+	! !
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'PB 11/24/2019 20:43:14'!
+remove: anAmount of: aBook fromCartIdentifiedAs: aCartId.
+
+	self withCartSessionIdentifiedAs: aCartId do: [ :cartSession | cartSession removeFromCart: anAmount of: aBook ]! !
+!CartSession methodsFor: 'cart' stamp: 'PB 11/24/2019 20:43:51'!
+removeFromCart: anAmount of: aBook 
+
+	^cart remove: anAmount of: aBook! !
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:44:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:44:19'!
+PASSED!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:45:18'!
+test21CanRemoveItemsFromaCreatedCart
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 2 of: self validBook toCartIdentifiedAs: cartId.
+	self advanceTime: (systemFacade sessionDuration + 1 minutes) .
+	self should: [
+		systemFacade
+			remove: 1 of: self validBook fromCartIdentifiedAs: cartId.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade sessionHasExpiredErrorDescription.
+			self assert: (systemFacade listPurchasesOf: self validUser authenticatingWith: self validUserPassword) isEmpty ]
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:46:07' prior: 50879336!
+test21CanRemoveItemsFromaCreatedCart
+
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade remove: 1 of: self validBook fromCartIdentifiedAs: cartId.
+	self assert: ((systemFacade listCartIdentifiedAs: cartId) occurrencesOf: self validBook) equals: 0.
+		
+
+
+	! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromaCreatedCart stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromaCreatedCart stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:46:08'!
+PASSED!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:46:20'!
+test21CanRemoveItemsFromACreatedCart
+
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade remove: 1 of: self validBook fromCartIdentifiedAs: cartId.
+	self assert: ((systemFacade listCartIdentifiedAs: cartId) occurrencesOf: self validBook) equals: 0.
+		
+
+
+	! !
+
+!methodRemoval: TusLibrosSystemFacadeTest #test21CanRemoveItemsFromaCreatedCart stamp: 'PB 11/24/2019 20:46:20'!
+test21CanRemoveItemsFromaCreatedCart
+
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade remove: 1 of: self validBook fromCartIdentifiedAs: cartId.
+	self assert: ((systemFacade listCartIdentifiedAs: cartId) occurrencesOf: self validBook) equals: 0.
+		
+
+
+	!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:47:05'!
+test22CannotRemoveItemFromNotCreatedCart
+
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade remove: 1 of: self validBook fromCartIdentifiedAs: cartId.
+	self assert: ((systemFacade listCartIdentifiedAs: cartId) occurrencesOf: self validBook) equals: 0.
+		
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:47:19' prior: 50879495!
+test22CannotRemoveItemFromNotCreatedCart
+
+
+	self
+		should: [systemFacade add: 1 of: self validBook toCartIdentifiedAs: self invalidCartId]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidCartIdErrorDescription ]
+		
+		
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:47:41' prior: 50879512!
+test22CannotRemoveItemFromNotCreatedCart
+
+
+	self
+		should: [systemFacade remove: 1 of: self validBook fromCartIdentifiedAs: self invalidCartId]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidCartIdErrorDescription ]
+		
+		
+
+
+	! !
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 20:47:45'!
+PASSED!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:48:28'!
+test22CannotRemoveItemNotSoldByTheStore
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	self
+		should: [systemFacade add: 1 of: self invalidBook toCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidItemErrorMessage.
+			self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty ]
+		
+		
+		
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:48:38' prior: 50879629!
+test22CannotRemoveItemNotSoldByTheStore
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	self
+		should: [systemFacade remove: 1 of: self invalidBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidItemErrorMessage.
+			self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty ]
+		
+		
+		
+
+
+	! !
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 20:48:39'!
+PASSED!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:48:50'!
+test23CannotRemoveItemNotSoldByTheStore
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	self
+		should: [systemFacade remove: 1 of: self invalidBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidItemErrorMessage.
+			self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty ]
+		
+		
+		
+
+
+	! !
+
+!methodRemoval: TusLibrosSystemFacadeTest #test22CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 20:48:50'!
+test22CannotRemoveItemNotSoldByTheStore
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	self
+		should: [systemFacade remove: 1 of: self invalidBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidItemErrorMessage.
+			self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty ]
+		
+		
+		
+
+
+	!
+!TusLibrosSystemFacade methodsFor: 'error messages' stamp: 'PB 11/24/2019 20:51:14'!
+invalidRemovalErrorMessage
+
+	^Cart invalidRemovalErrorMessage ! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:51:58'!
+test24CannotRemoveMoreItemsThanContainedInCart
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	self
+		should: [systemFacade remove: 1 of: self invalidBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidItemErrorMessage.
+			self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty ]
+		
+		
+		
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:52:17' prior: 50879803!
+test24CannotRemoveMoreItemsThanContainedInCart
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 1 of: self invalidBook toCartIdentifiedAs: cartId.
+	self
+		should: [systemFacade remove: 2 of: self invalidBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidItemErrorMessage.
+			self assert: (systemFacade listCartIdentifiedAs: cartId) isEmpty ]
+		
+		
+		
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:52:58' prior: 50879822!
+test24CannotRemoveMoreItemsThanContainedInCart
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 1 of: self invalidBook toCartIdentifiedAs: cartId.
+	self
+		should: [systemFacade remove: 2 of: self invalidBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidRemovalErrorMessage.
+			"self assert: (systemFacade listCartIdentifiedAs: cartId) equals:" ]
+		
+		
+		
+
+
+	! !
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 20:52:59'!
+ERROR!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:53:08' prior: 50879844!
+test24CannotRemoveMoreItemsThanContainedInCart
+
+	| cartId |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	self
+		should: [systemFacade remove: 2 of: self validBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidRemovalErrorMessage.
+			"self assert: (systemFacade listCartIdentifiedAs: cartId) equals:" ]
+		
+		
+		
+
+
+	! !
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:53:09'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 20:53:10'!
+PASSED!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:54:48' prior: 50879870!
+test24CannotRemoveMoreItemsThanContainedInCart
+
+	| cartId cartContent|
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	cartContent := systemFacade listCartIdentifiedAs: cartId.
+
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	self
+		should: [systemFacade remove: 2 of: self validBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidRemovalErrorMessage.
+			self assert: (cartContent occurrencesOf: self validBook) equals: 1.]
+		
+		
+		
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:55:00' prior: 50879989!
+test24CannotRemoveMoreItemsThanContainedInCart
+
+	| cartId cartContent|
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	self
+		should: [systemFacade remove: 2 of: self validBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidRemovalErrorMessage.
+			cartContent := systemFacade listCartIdentifiedAs: cartId.
+			self assert: (cartContent occurrencesOf: self validBook) equals: 1.]
+		
+		
+		
+
+
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - remove from cart' stamp: 'PB 11/24/2019 20:55:04' prior: 50880013!
+test24CannotRemoveMoreItemsThanContainedInCart
+
+	| cartId cartContent|
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	self
+		should: [systemFacade remove: 2 of: self validBook fromCartIdentifiedAs: cartId ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: systemFacade invalidRemovalErrorMessage.
+			cartContent := systemFacade listCartIdentifiedAs: cartId.
+			self assert: (cartContent occurrencesOf: self validBook) equals: 1.]
+		
+		
+		
+
+
+	! !
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 20:55:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 20:55:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 20:55:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 20:55:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 20:55:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 20:55:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 20:55:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 20:55:37'!
+PASSED!
+
+----SNAPSHOT----(24 November 2019 20:57:34) TusLibros.image priorSource: 17513705!
