@@ -254,6 +254,18 @@
           });
       }
 
+      const removeFromCart = value => {
+        console.log(value);
+        getLocalAsJson(`removeFromCart?book=${value}&cart=${props.cart}`)
+          .then(function (response) {
+            amount--;
+            return response.json();
+          })
+          .catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+          });
+      }
+
 
       return (
         <div>
@@ -279,7 +291,7 @@
                       </Icon>
                     </IconButton>
                     <IconButton
-                      onClick={() => console.log("resto")}
+                      onClick={() => removeFromCart(book)}
                     >
                       <Icon 
                       className={classes.iconHover} 
