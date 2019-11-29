@@ -242,7 +242,7 @@
     }
 
     function BookListElement(props) {
-      const { key, book, cart } = props
+      const { router, key, book, cart } = props
       const classes = useStyles();
       const [count, setCount] = React.useState(0);
 
@@ -255,6 +255,10 @@
           .catch(function (error) {
             console.log('Looks like there was a problem: \n', error);
           });
+      }
+
+      const bookDetail = book => {
+          router.navigate("/bookDetails", { book: book })
       }
 
       const removeFromCart = value => {
@@ -272,7 +276,10 @@
         <ListItem 
           key={key}
         >
-          <ListItemText primary={book} />
+          <ListItemText 
+            primary={book}
+            onClick={ () => bookDetail(book) }
+          />
           <IconButton
             onClick={() => addToCart(book)}
           >
@@ -312,6 +319,7 @@
               books.map((book, ix) => {
                 return (
                   <BookListElement 
+                    router={router}
                     key={ix} 
                     book={book}
                     cart={cart}
@@ -323,6 +331,14 @@
           
         </div>
       )
+    }
+
+    function BookDetails(props) {
+      const { book } = props
+      const classes = useStyles();
+
+      return (<div>anda</div>)
+      
     }
     
     // Fetch Hook
@@ -492,7 +508,13 @@
             router={router}
             selectedSubstring={this.state.selectedSubstring}
           />)
+        } else if (this.state.path === "/bookDetails") {
+          content = (<BookDetails
+            router={router}
+            book={this.state.book}
+          />)
         }
+
         return (
           <div>
             <MyToolBar
