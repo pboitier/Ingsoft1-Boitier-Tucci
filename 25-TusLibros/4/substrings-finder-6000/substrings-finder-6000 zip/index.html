@@ -28,8 +28,9 @@
   <script>window.MaterialUI || document.write('<script src="https://unpkg.com/@material-ui/core@4.6.1/umd/material-ui.development.js">\x3C/script>')</script>
   <script>window.Babel || document.write('<script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js">\x3C/script>')</script>
   <!-- end fallback -->
-
+  
   <script type="text/babel" type="module">
+    
     const {
       AppBar,
       Button,
@@ -117,7 +118,7 @@
         }
       })
     }
-
+    
     function MyToolBar(props) {
       const classes = useStyles();
       const {title, router} = props;
@@ -239,14 +240,16 @@
         </div>
       )
     }
-    function SubstringsView(props) {
-      const { router, cart, username, password, books } = props
+
+    function BookListElement(props) {
+      const { key, book, cart } = props
       const classes = useStyles();
-      var amount = 0;
+      const [count, setCount] = React.useState(0);
+
       const addToCart = value => {
         getLocalAsJson(`addToCart?book=${value}&cart=${props.cart}`)
           .then(function (response) {
-            amount++;
+            setCount(count + 1);
             return response.json();
           })
           .catch(function (error) {
@@ -255,17 +258,49 @@
       }
 
       const removeFromCart = value => {
-        console.log(value);
         getLocalAsJson(`removeFromCart?book=${value}&cart=${props.cart}`)
           .then(function (response) {
-            amount--;
+            setCount(count - 1);
             return response.json();
           })
           .catch(function (error) {
             console.log('Looks like there was a problem: \n', error);
           });
       }
+      
+      return (
+        <ListItem 
+          key={key}
+        >
+          <ListItemText primary={book} />
+          <IconButton
+            onClick={() => addToCart(book)}
+          >
+            <Icon 
+            className={classes.iconHover} 
+            color="primary" 
+            style={{ fontSize: 40 }}>
+              add_circle
+            </Icon>
+          </IconButton>
+          <IconButton
+            onClick={() => removeFromCart(book)}
+          >
+            <Icon 
+            className={classes.iconHover} 
+            color="primary" 
+            style={{ fontSize: 40 }}>
+              remove_circle
+            </Icon>
+          </IconButton>
+          <div id={book}>{count}</div>
+        </ListItem>
+      )
+    }
 
+    function SubstringsView(props) {
+      const { router, cart, username, password, books } = props
+      const classes = useStyles();
 
       return (
         <div>
@@ -276,36 +311,16 @@
             {
               books.map((book, ix) => {
                 return (
-                  <ListItem
-                    key={ix}
-                  >
-                    <ListItemText primary={book} />
-                    <IconButton
-                      onClick={() => addToCart(book)}
-                    >
-                      <Icon 
-                      className={classes.iconHover} 
-                      color="primary" 
-                      style={{ fontSize: 40 }}>
-                        add_circle
-                      </Icon>
-                    </IconButton>
-                    <IconButton
-                      onClick={() => removeFromCart(book)}
-                    >
-                      <Icon 
-                      className={classes.iconHover} 
-                      color="primary" 
-                      style={{ fontSize: 40 }}>
-                        remove_circle
-                      </Icon>
-                    </IconButton>
-                    <div id={book}>{amount}</div>
-                  </ListItem>
+                  <BookListElement 
+                    key={ix} 
+                    book={book}
+                    cart={cart}
+                  />
                 )
               })
             }
           </List>
+          
         </div>
       )
     }
