@@ -138,7 +138,7 @@
             color="inherit"
             onClick={() => router.navigate("/cartDetails", {cart: cart}) }
           >
-          <Icon>shop</Icon>
+          <Icon>shopping_cart</Icon>
         </IconButton>
         )
       } else {
@@ -147,10 +147,56 @@
         )
       }
     }
+
+    function LogOut(props) {
+      const { router, cart } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => {loggedIn = false; router.navigate("/")} }
+          >
+          <Icon>exit_to_app</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+
+    function Catalog(props) {
+      const { router, cart, books } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => router.navigate("/list", { books: books, cart: cart}) }
+          >
+          <Icon>list_alt</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+
+
     
     function MyToolBar(props) {
       const classes = useStyles();
-      const {title, router, cart} = props;
+      const {title, router, cart, books} = props;
     
       let menuButton = (
         <IconButton
@@ -167,21 +213,7 @@
           <Icon>home</Icon>
         </IconButton>
       )
-    
-      if (router.current() === "/details") {
-        menuButton = (
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            onClick={()=>router.navigate("/list", {
-            selectedSubstring: ""})}
-          >
-            <Icon>keyboard_arrow_left</Icon>
-          </IconButton>
-        )
-      }
-    
+        
       return (
         <div className={classes.rootToolBar}>
           <AppBar position="static">
@@ -190,16 +222,24 @@
               <Typography variant="h6" className={classes.title}>
                 {title}
               </Typography>
-                <ShoppingCart
+              <ShoppingCart
                   cart={cart}
                   router={router}
                 />
+              <Catalog
+                cart={cart}
+                books={books}
+                router={router}
+              />
+              <LogOut
+                router={router}
+              />
             </Toolbar>
           </AppBar>
         </div>
       )
     }
-    function StringInputView(props) {
+    function HomePageView(props) {
       const { router } = props
       const classes = useStyles();
       const [values, setValues] = React.useState({
@@ -277,13 +317,22 @@
     function PlusAndMinusBook(props) {
       const { book, cart } = props
       const classes = useStyles();
-      const [count, setCount] = React.useState(0)
+      const [count, setCount] = React.useState()
+      
+      
+      getLocalAsJson(`numberOfBook?isbn=${book.ISBN}&cart=${cart}`)
+        .then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          setCount(json);
+        }).catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+        });      
 
       const addToCart = value => {
-        getLocalAsJson(`addToCart?book=${value}&cart=${props.cart}`)
+        getLocalAsJson(`addToCart?isbn=${value.ISBN}&cart=${props.cart}`)
           .then(function (response) {
             setCount(count + 1);
-            return response.json();
           })
           .catch(function (error) {
             console.log('Looks like there was a problem: \n', error);
@@ -291,7 +340,7 @@
       }
 
       const removeFromCart = value => {
-        getLocalAsJson(`removeFromCart?book=${value}&cart=${props.cart}`)
+        getLocalAsJson(`removeFromCart?isbn=${value.ISBN}&cart=${props.cart}`)
           .then(function (response) {
             setCount(count - 1);
             return response.json();
@@ -324,8 +373,12 @@
               remove_circle
             </Icon>
           </IconButton>
-          <Tooltip title="Amount">
-            <Fab color="primary" className={classes.absolute}>
+          <Tooltip title="Amount" aria-label="amount">
+            <Fab 
+              color="primary"
+              className={classes.absolute}
+              size="small"
+            >
               {count}
             </Fab>
           </Tooltip>
@@ -337,7 +390,7 @@
     function BookListElement(props) {
       const { router, key, book, cart } = props
       const classes = useStyles();
-      const [count, setCount] = React.useState(0);
+      
 
       const bookDetail = book => {
           router.navigate("/bookDetails", { book: book, cart: cart })
@@ -345,28 +398,31 @@
 
       return (
         <ListItem  
-          key={key}
+          key={props.key}
+          button={true}
         >
           <ListItemText 
-            primary={book}
+            primary={book.title}
+            secondary={"ISBN: " + book.ISBN}
             onClick={ () => bookDetail(book) }
           />
-          <PlusAndMinusBook
-            book={book}
-            cart={cart}
-          />
+          <div>
+            <PlusAndMinusBook
+              book={book}
+              cart={cart}
+            />
+          </div>
         </ListItem>
       )
     }
 
-    function SubstringsView(props) {
-      const { router, cart, username, password, books } = props
+    function CatalogView(props) {
+      const { router, books, cart } = props
       const classes = useStyles();
-
       return (
         <div>
           <Typography component="h1" gutterBottom>
-            Libros de la editorial:
+            Our book catalog:
           </Typography>
           <List component="nav" className={classes.rootList} aria-label="Books">
             {
@@ -396,13 +452,13 @@
        <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-              {book}
+              {book.title}
             </Typography>
             <Typography variant="h5" component="h2">
-              ISBN: futura isbn
+              ISBN: {book.ISBN}
             </Typography>
             <Typography variant="h5" component="h2">
-              Autor: futuro autor
+              Author: {book.author}
             </Typography>
           </CardContent>
           <CardActions>
@@ -418,7 +474,42 @@
     }
 
     function CartDetails(props) {
-      return (<div>hola!</div>)
+      const { router, cart } = props
+      const classes = useStyles();
+      const [books, setBooks] = React.useState([])
+
+
+      getLocalAsJson(`typesOfBookInCart?cart=${cart}`)
+        .then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          setBooks(json);
+        }).catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+        });   
+
+      return (
+        <div>
+          <Typography component="h1" gutterBottom>
+            Books inside your cart:
+          </Typography>
+          <List component="nav" className={classes.rootList} aria-label="Books">
+            {
+              books.map((book, ix) => {
+                return (
+                  <BookListElement 
+                    router={router}
+                    key={ix} 
+                    book={book}
+                    cart={cart}
+                  />
+                )
+              })
+            }
+          </List>
+          
+        </div>
+      )
     }
     
     // Fetch Hook
@@ -572,16 +663,14 @@
         }
     
         if (this.state.path === "/") {
-          content = (<StringInputView
+          content = (<HomePageView
             router={router}
           />)
         } else if (this.state.path === "/list") {
-          content = (<SubstringsView
+          content = (<CatalogView
             router={router}
-            cart={this.state.cart}
-            username={this.state.username}
-            password={this.state.password}
             books={this.state.books}
+            cart={this.state.cart}
           />)
         } else if (this.state.path === "/details") {
           content = (<SubstringDetailsView
@@ -609,6 +698,7 @@
               title={title}
               router={router}
               cart={this.state.cart}
+              books={this.state.books}
             />
             <Container maxWidth="sm">
               <div style={{ marginTop: 24, }}>

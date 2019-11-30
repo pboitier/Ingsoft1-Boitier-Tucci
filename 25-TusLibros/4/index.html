@@ -48,12 +48,18 @@
       ListItem,
       ListItemIcon,
       ListItemText,
+      Card,
+      CardContent,
+      CardActions,
       makeStyles,
       OutlinedInput,
       TextField,
       ThemeProvider,
       Toolbar,
       Typography,
+      Tooltip,
+      Fab,
+      ShoppingCartIcon
     } = MaterialUI;
     const theme = createMuiTheme({
       palette: {
@@ -118,10 +124,79 @@
         }
       })
     }
+    let loggedIn = false;
+
+    function ShoppingCart(props) {
+      const { router, cart } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => router.navigate("/cartDetails", {cart: cart}) }
+          >
+          <Icon>shopping_cart</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+
+    function LogOut(props) {
+      const { router, cart } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => {loggedIn = false; router.navigate("/")} }
+          >
+          <Icon>exit_to_app</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+
+    function Catalog(props) {
+      const { router, cart, books } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => router.navigate("/list", { books: books, cart: cart}) }
+          >
+          <Icon>list_alt</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+
+
     
     function MyToolBar(props) {
       const classes = useStyles();
-      const {title, router} = props;
+      const {title, router, cart, books} = props;
     
       let menuButton = (
         <IconButton
@@ -138,21 +213,7 @@
           <Icon>home</Icon>
         </IconButton>
       )
-    
-      if (router.current() === "/details") {
-        menuButton = (
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            onClick={()=>router.navigate("/list", {
-            selectedSubstring: "",})}
-          >
-            <Icon>keyboard_arrow_left</Icon>
-          </IconButton>
-        )
-      }
-    
+        
       return (
         <div className={classes.rootToolBar}>
           <AppBar position="static">
@@ -161,13 +222,24 @@
               <Typography variant="h6" className={classes.title}>
                 {title}
               </Typography>
-              {/*<Button color="inherit">Login</Button>*/}
+              <ShoppingCart
+                  cart={cart}
+                  router={router}
+                />
+              <Catalog
+                cart={cart}
+                books={books}
+                router={router}
+              />
+              <LogOut
+                router={router}
+              />
             </Toolbar>
           </AppBar>
         </div>
       )
     }
-    function StringInputView(props) {
+    function HomePageView(props) {
       const { router } = props
       const classes = useStyles();
       const [values, setValues] = React.useState({
@@ -188,6 +260,7 @@
                 return response.json();
               })
               .then(function (books) {
+                  loggedIn = true;
                   router.navigate("/list", { cart: json, books: books, username: value.username, password: value.password})
               })
               .catch(function (error) {
@@ -241,16 +314,25 @@
       )
     }
 
-    function BookListElement(props) {
-      const { key, book, cart } = props
+    function PlusAndMinusBook(props) {
+      const { book, cart } = props
       const classes = useStyles();
-      const [count, setCount] = React.useState(0);
+      const [count, setCount] = React.useState()
+      
+      
+      getLocalAsJson(`numberOfBook?isbn=${book.ISBN}&cart=${cart}`)
+        .then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          setCount(json);
+        }).catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+        });      
 
       const addToCart = value => {
-        getLocalAsJson(`addToCart?book=${value}&cart=${props.cart}`)
+        getLocalAsJson(`addToCart?isbn=${value.ISBN}&cart=${props.cart}`)
           .then(function (response) {
             setCount(count + 1);
-            return response.json();
           })
           .catch(function (error) {
             console.log('Looks like there was a problem: \n', error);
@@ -258,7 +340,7 @@
       }
 
       const removeFromCart = value => {
-        getLocalAsJson(`removeFromCart?book=${value}&cart=${props.cart}`)
+        getLocalAsJson(`removeFromCart?isbn=${value.ISBN}&cart=${props.cart}`)
           .then(function (response) {
             setCount(count - 1);
             return response.json();
@@ -267,22 +349,20 @@
             console.log('Looks like there was a problem: \n', error);
           });
       }
-      
+
       return (
-        <ListItem 
-          key={key}
-        >
-          <ListItemText primary={book} />
+        <div>
           <IconButton
             onClick={() => addToCart(book)}
           >
             <Icon 
-            className={classes.iconHover} 
-            color="primary" 
-            style={{ fontSize: 40 }}>
-              add_circle
+              className={classes.iconHover} 
+              color="primary" 
+              style={{ fontSize: 40 }}>
+                add_circle
             </Icon>
           </IconButton>
+
           <IconButton
             onClick={() => removeFromCart(book)}
           >
@@ -293,25 +373,132 @@
               remove_circle
             </Icon>
           </IconButton>
-          <div id={book}>{count}</div>
+          <Tooltip title="Amount" aria-label="amount">
+            <Fab 
+              color="primary"
+              className={classes.absolute}
+              size="small"
+            >
+              {count}
+            </Fab>
+          </Tooltip>
+        </div>
+      )
+    }
+
+
+    function BookListElement(props) {
+      const { router, key, book, cart } = props
+      const classes = useStyles();
+      
+
+      const bookDetail = book => {
+          router.navigate("/bookDetails", { book: book, cart: cart })
+      }
+
+      return (
+        <ListItem  
+          key={props.key}
+          button={true}
+        >
+          <ListItemText 
+            primary={book.title}
+            secondary={"ISBN: " + book.ISBN}
+            onClick={ () => bookDetail(book) }
+          />
+          <div>
+            <PlusAndMinusBook
+              book={book}
+              cart={cart}
+            />
+          </div>
         </ListItem>
       )
     }
 
-    function SubstringsView(props) {
-      const { router, cart, username, password, books } = props
+    function CatalogView(props) {
+      const { router, books, cart } = props
       const classes = useStyles();
-
       return (
         <div>
           <Typography component="h1" gutterBottom>
-            Libros de la editorial:
+            Our book catalog:
           </Typography>
           <List component="nav" className={classes.rootList} aria-label="Books">
             {
               books.map((book, ix) => {
                 return (
                   <BookListElement 
+                    router={router}
+                    key={ix} 
+                    book={book}
+                    cart={cart}
+                  />
+                )
+              })
+            }
+          </List>
+          
+        </div>
+      )
+    }
+
+    function BookDetails(props) {
+      const { book, cart, } = props
+      const classes = useStyles();
+
+      return (
+        
+       <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              {book.title}
+            </Typography>
+            <Typography variant="h5" component="h2">
+              ISBN: {book.ISBN}
+            </Typography>
+            <Typography variant="h5" component="h2">
+              Author: {book.author}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <PlusAndMinusBook
+              book={book}
+              cart={cart}
+            />
+          </CardActions>
+        </Card>
+
+      )
+      
+    }
+
+    function CartDetails(props) {
+      const { router, cart } = props
+      const classes = useStyles();
+      const [books, setBooks] = React.useState([])
+
+
+      getLocalAsJson(`typesOfBookInCart?cart=${cart}`)
+        .then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          setBooks(json);
+        }).catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+        });   
+
+      return (
+        <div>
+          <Typography component="h1" gutterBottom>
+            Books inside your cart:
+          </Typography>
+          <List component="nav" className={classes.rootList} aria-label="Books">
+            {
+              books.map((book, ix) => {
+                return (
+                  <BookListElement 
+                    router={router}
                     key={ix} 
                     book={book}
                     cart={cart}
@@ -476,28 +663,42 @@
         }
     
         if (this.state.path === "/") {
-          content = (<StringInputView
+          content = (<HomePageView
             router={router}
           />)
         } else if (this.state.path === "/list") {
-          content = (<SubstringsView
+          content = (<CatalogView
             router={router}
-            cart={this.state.cart}
-            username={this.state.username}
-            password={this.state.password}
             books={this.state.books}
+            cart={this.state.cart}
           />)
         } else if (this.state.path === "/details") {
           content = (<SubstringDetailsView
             router={router}
             selectedSubstring={this.state.selectedSubstring}
           />)
+        } else if (this.state.path === "/bookDetails") {
+          content = (<BookDetails
+            router={router}
+            book={this.state.book}
+            cart={this.state.cart}
+          />)
         }
+
+        else if (this.state.path === "/cartDetails") {
+          content = (<CartDetails
+            router={router}
+            cart={this.state.cart}
+          />)
+        }
+
         return (
           <div>
             <MyToolBar
               title={title}
               router={router}
+              cart={this.state.cart}
+              books={this.state.books}
             />
             <Container maxWidth="sm">
               <div style={{ marginTop: 24, }}>
