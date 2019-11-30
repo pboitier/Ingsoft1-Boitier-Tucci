@@ -147,10 +147,56 @@
         )
       }
     }
+
+    function LogOut(props) {
+      const { router, cart } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => {loggedIn = false; router.navigate("/")} }
+          >
+          <Icon>exit_to_app</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+
+    function Catalog(props) {
+      const { router, cart, books } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => router.navigate("/list", { books: books, cart: cart}) }
+          >
+          <Icon>list_alt</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+
+
     
     function MyToolBar(props) {
       const classes = useStyles();
-      const {title, router, cart} = props;
+      const {title, router, cart, books} = props;
     
       let menuButton = (
         <IconButton
@@ -167,21 +213,7 @@
           <Icon>home</Icon>
         </IconButton>
       )
-    
-      if (router.current() === "/details") {
-        menuButton = (
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            onClick={()=>router.navigate("/list", {
-            selectedSubstring: ""})}
-          >
-            <Icon>keyboard_arrow_left</Icon>
-          </IconButton>
-        )
-      }
-    
+        
       return (
         <div className={classes.rootToolBar}>
           <AppBar position="static">
@@ -190,17 +222,24 @@
               <Typography variant="h6" className={classes.title}>
                 {title}
               </Typography>
-                <ShoppingCart
+              <ShoppingCart
                   cart={cart}
                   router={router}
                 />
+              <Catalog
+                cart={cart}
+                books={books}
+                router={router}
+              />
+              <LogOut
+                router={router}
+              />
             </Toolbar>
           </AppBar>
-          <div>{cart}</div>
         </div>
       )
     }
-    function StringInputView(props) {
+    function HomePageView(props) {
       const { router } = props
       const classes = useStyles();
       const [values, setValues] = React.useState({
@@ -377,8 +416,8 @@
       )
     }
 
-    function SubstringsView(props) {
-      const { router, cart, username, password, books } = props
+    function CatalogView(props) {
+      const { router, books, cart } = props
       const classes = useStyles();
       return (
         <div>
@@ -624,16 +663,14 @@
         }
     
         if (this.state.path === "/") {
-          content = (<StringInputView
+          content = (<HomePageView
             router={router}
           />)
         } else if (this.state.path === "/list") {
-          content = (<SubstringsView
+          content = (<CatalogView
             router={router}
-            cart={this.state.cart}
-            username={this.state.username}
-            password={this.state.password}
             books={this.state.books}
+            cart={this.state.cart}
           />)
         } else if (this.state.path === "/details") {
           content = (<SubstringDetailsView
@@ -661,6 +698,7 @@
               title={title}
               router={router}
               cart={this.state.cart}
+              books={this.state.books}
             />
             <Container maxWidth="sm">
               <div style={{ marginTop: 24, }}>
