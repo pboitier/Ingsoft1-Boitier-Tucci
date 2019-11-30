@@ -62454,3 +62454,2364 @@ initializeWith: aPortNumber
 ! !
 
 ----SNAPSHOT----(24 November 2019 21:03:46) TusLibros.image priorSource: 17555346!
+
+!classDefinition: #Book category: #'TusLibros-Model' stamp: 'PB 11/24/2019 21:12:55'!
+Object subclass: #Book
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PB 11/24/2019 21:12:42' prior: 50868885!
+itemSellByTheStore
+
+	^ Book withTitle: 'validBook' ISBN: '111' author: 'Jose Perez' ! !
+!Book class methodsFor: 'nil' stamp: 'PB 11/24/2019 21:13:48'!
+withTitle: aTitle ISBN: anISBN author: anAuthor
+
+	^self new initializeWithTitle: aTitle ISBN: anISBN author: anAuthor.! !
+
+!classDefinition: #Book category: #'TusLibros-Model' stamp: 'PB 11/24/2019 21:14:20'!
+Object subclass: #Book
+	instanceVariableNames: 'title'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:14:33'!
+initializeWithTitle: aTitle ISBN: anISBN author: anAuthor.
+
+	"title := aTitle.
+	ISBN := anISBN.
+	author := anAuthor."! !
+
+Object subclass: #Book
+	instanceVariableNames: 'title ISBN author'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #Book category: #'TusLibros-Model' stamp: 'PB 11/24/2019 21:14:40'!
+Object subclass: #Book
+	instanceVariableNames: 'title ISBN author'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!Book methodsFor: 'as yet unclassified' stamp: 'PB 11/24/2019 21:14:45' prior: 50880378!
+initializeWithTitle: aTitle ISBN: anISBN author: anAuthor.
+
+	title := aTitle.
+	ISBN := anISBN.
+	author := anAuthor.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:15:17'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 21:15:17'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 21:15:17'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 21:15:17'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:16:24'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:16:24'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:16:24'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:16:24'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:16:24'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:16:24'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:16:24'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:16:24'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:16:24'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:16:24'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:16:24'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:16:38'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:16:38'!
+ERROR!
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PB 11/24/2019 21:19:56' prior: 50880360!
+itemSellByTheStore
+
+	^ Book withTitle: 'validBook' ISBN: '111' author: 'Jose Perez' ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:21:29'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:21:29'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:21:29'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:21:29'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:21:29'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:21:29'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:21:29'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:21:29'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:21:29'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:21:29'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:21:29'!
+ERROR!
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 21:22:41' prior: 50867317!
+assertIsValidItem: anItem
+
+	(catalog includesKey: (anItem ISBN)) ifFalse: [ self signalInvalidItem ]! !
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:22:57'!
+ISBN
+
+	^ISBN! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:23:01'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:23:01'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:23:01'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:23:01'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:23:01'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:23:02'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:23:02'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:23:02'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:23:02'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:23:02'!
+ERROR!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:23:02'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:23:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:23:10'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:23:10'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:23:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:23:10'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:23:10'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:23:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:23:10'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:23:10'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:23:10'!
+ERROR!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:23:10'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:23:31'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:23:31'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:23:49'!
+ERROR!
+!StoreTestObjectsFactory methodsFor: 'cart' stamp: 'PB 11/24/2019 21:31:45' prior: 50868898!
+defaultCatalog
+
+	^ Dictionary new
+		at: self itemSellByTheStore ISBN put: self itemSellByTheStorePrice;
+		at: self anotherItemSellByTheStore put: self anotherItemSellByTheStorePrice;
+		yourself ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:31:49'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:31:49'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:31:49'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:31:49'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:31:49'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:31:50'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:31:50'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:31:50'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:31:50'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:31:50'!
+ERROR!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:31:50'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:31:58'!
+ERROR!
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PB 11/24/2019 21:33:05' prior: 50868880!
+itemNotSellByTheStore
+
+	^Book withTitle: 'invalidBook' ISBN: '-1' author: 'invalidAuthor' ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:33:10'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:33:10'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:33:10'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:33:10'!
+ERROR!
+!Cart methodsFor: 'testing' stamp: 'PB 11/24/2019 21:33:36' prior: 50867362!
+includes: anItem
+
+	^items includes: anItem ISBN! !
+!Cart methodsFor: 'testing' stamp: 'PB 11/24/2019 21:33:38' prior: 50880814!
+includes: anItem
+
+	^items includes: anItem ISBN.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:33:40'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:33:40'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:33:40'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:33:40'!
+ERROR!
+!Cart methodsFor: 'testing' stamp: 'PB 11/24/2019 21:33:52' prior: 50880818!
+includes: anItem
+
+	^items includes: (anItem ISBN).! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:33:54'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:33:54'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:33:54'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:33:54'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:34:06'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:34:06'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:36:24'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:36:24'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:37:03'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:37:11'!
+FAILURE!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:37:11'!
+FAILURE!
+!Cart methodsFor: 'testing' stamp: 'PB 11/24/2019 21:38:10' prior: 50880857!
+includes: anItem
+
+	^items includes: anItem.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:38:13'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:38:13'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:38:13'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:38:14'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:38:50'!
+FAILURE!
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:40:58'!
+= anotherBook
+
+	^(ISBN = (anotherBook ISBN)) and: (author = (anotherBook author)) and: (title = (anotherBook title)).! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:41:04'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:41:04'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:41:04'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:41:04'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:41:20'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:41:20'!
+FAILURE!
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:43:37'!
+hash
+
+	^ISBN.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:43:41'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:43:41'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:43:41'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:43:41'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:43:41'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:43:41'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:43:41'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:43:41'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:43:41'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:43:41'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:43:41'!
+ERROR!
+
+!methodRemoval: Book #hash stamp: 'PB 11/24/2019 21:43:56'!
+hash
+
+	^ISBN.!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:43:58'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:43:58'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:43:58'!
+ERROR!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/24/2019 21:43:58'!
+ERROR!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/24/2019 21:43:58'!
+ERROR!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/24/2019 21:43:58'!
+ERROR!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/24/2019 21:43:58'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/24/2019 21:43:58'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/24/2019 21:43:58'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/24/2019 21:43:59'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/24/2019 21:43:59'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/24/2019 21:43:59'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/24/2019 21:43:59'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/24/2019 21:43:59'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/24/2019 21:43:59'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/24/2019 21:43:59'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:44:02'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:44:02'!
+FAILURE!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:44:02'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:44:02'!
+ERROR!
+!StoreTestObjectsFactory methodsFor: 'cart' stamp: 'PB 11/24/2019 21:46:36' prior: 50880725!
+defaultCatalog
+
+	^ Dictionary new
+		at: self itemSellByTheStore put: self itemSellByTheStorePrice;
+		at: self anotherItemSellByTheStore put: self anotherItemSellByTheStorePrice;
+		yourself ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:46:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:46:40'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:46:40'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:46:40'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:46:40'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:46:40'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:46:40'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:46:40'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:46:40'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:46:40'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:46:40'!
+ERROR!
+!Cart methodsFor: 'assertions' stamp: 'PB 11/24/2019 21:47:18' prior: 50880635!
+assertIsValidItem: anItem
+
+	(catalog includesKey: (anItem)) ifFalse: [ self signalInvalidItem ]! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:47:23'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:47:23'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:47:23'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:47:23'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:47:23'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:47:23'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:47:23'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:47:23'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:47:23'!
+ERROR!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:47:23'!
+ERROR!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:47:23'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:47:35'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:47:35'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:47:55'!
+ERROR!
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:48:09'!
+hash
+
+	^ISBN.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:48:11'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:48:11'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:48:11'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:48:11'!
+ERROR!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:48:11'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:48:12'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:48:12'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:48:12'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:48:12'!
+ERROR!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:48:12'!
+ERROR!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:48:12'!
+ERROR!
+
+!methodRemoval: Book #hash stamp: 'PB 11/24/2019 21:48:24'!
+hash
+
+	^ISBN.!
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:48:41'!
+author
+
+	^author.! !
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:48:48'!
+title
+
+	^title.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:48:56'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:48:56'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:48:56'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:48:56'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:48:57'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:48:57'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:48:57'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:48:57'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:48:57'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:48:57'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:48:57'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:49:13'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:49:24'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:49:36'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:49:46'!
+ERROR!
+!Book methodsFor: 'nil' stamp: 'PB 11/24/2019 21:51:19'!
+hash
+
+	^ISBN.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/24/2019 21:51:22'!
+ERROR!
+
+!methodRemoval: Book #hash stamp: 'PB 11/24/2019 21:51:26'!
+hash
+
+	^ISBN.!
+
+----SNAPSHOT----(24 November 2019 21:51:32) TusLibros.image priorSource: 17558373!
+
+----SNAPSHOT----(24 November 2019 21:53:06) TusLibros.image priorSource: 17593806!
+
+----STARTUP---- (28 November 2019 14:45:25) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+
+----End fileIn of \Users\Baires\Documents\Pedro\Inge1\CuisUniversity\MarsRover-WithHeading.st----!
+
+----STARTUP---- (30 November 2019 11:27:01) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+
+!classDefinition: #MarsRoverTest category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:13'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverTest category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:13'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:26'!
+test01
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #North.
+	
+	marsRover process: ''.
+	
+	self assert: (marsRover isAt: 1@2 heading: #North)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:31'!
+test02
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #North.
+	
+	marsRover process: 'f'.
+	
+	self assert: (marsRover isAt: 1@3 heading: #North)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:34'!
+test03
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #North.
+	
+	marsRover process: 'b'.
+	
+	self assert: (marsRover isAt: 1@1 heading: #North)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:38'!
+test04
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #North.
+	
+	marsRover process: 'r'.
+	
+	self assert: (marsRover isAt: 1@2 heading: #East)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:45'!
+test05
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #North.
+	
+	marsRover process: 'l'.
+	
+	self assert: (marsRover isAt: 1@2 heading: #West)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:50'!
+test06
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #North.
+	
+	self 
+		should: [ marsRover process: 'x' ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: marsRover invalidCommandErrorDescription.
+			self assert: (marsRover isAt: 1@2 heading: #North) ]! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:54'!
+test07
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #North.
+	
+	marsRover process: 'ff'.
+	
+	self assert: (marsRover isAt: 1@4 heading: #North)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:23:59'!
+test08
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #East.
+	
+	marsRover process: 'f'.
+	
+	self assert: (marsRover isAt: 2@2 heading: #East)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:24:06'!
+test09
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #East.
+	
+	marsRover process: 'b'.
+	
+	self assert: (marsRover isAt: 0@2 heading: #East)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:24:12'!
+test10
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #East.
+	
+	marsRover process: 'r'.
+	
+	self assert: (marsRover isAt: 1@2 heading: #South)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:24:20'!
+test11
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #East.
+	
+	marsRover process: 'l'.
+	
+	self assert: (marsRover isAt: 1@2 heading: #North)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:24:25'!
+test12
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #South.
+	
+	marsRover process: 'ffbr'.
+	
+	self assert: (marsRover isAt: 1@1 heading: #West)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:24:29'!
+test13
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #South.
+	
+	marsRover process: 'l'.
+	
+	self assert: (marsRover isAt: 1@2 heading: #East)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:24:33'!
+test14
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #West.
+	
+	marsRover process: 'ffbr'.
+	
+	self assert: (marsRover isAt: 0@2 heading: #North)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/1/2018 14:24:37'!
+test15
+
+	| marsRover |
+	
+	marsRover := MarsRover at: 1@2 heading: #West.
+	
+	marsRover process: 'l'.
+	
+	self assert: (marsRover isAt: 1@2 heading: #South)! !
+!MarsRoverTest methodsFor: 'tests' stamp: 'HAW 7/2/2018 16:27:43'!
+test16
+
+	self 
+		should: [MarsRover at: 1@2 heading: #X ]
+		raise: Error
+		withExceptionDo: [:anError |
+			self assert: MarsRover invalidCardinalPointErrorDescription equals: anError messageText ]! !
+
+!classDefinition: #MarsRover category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:14'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position head'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRover category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:14'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position head'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRover methodsFor: 'exceptions' stamp: 'HAW 6/30/2018 19:48:45'!
+invalidCommandErrorDescription
+	
+	^'Invalid command'! !
+!MarsRover methodsFor: 'exceptions' stamp: 'HAW 6/30/2018 19:50:26'!
+signalInvalidCommand
+	
+	self error: self invalidCommandErrorDescription ! !
+!MarsRover methodsFor: 'initialization' stamp: 'HAW 8/22/2019 12:02:37'!
+initializeAt: aPosition heading: aHeading
+
+	position := aPosition.
+	head := aHeading ! !
+!MarsRover methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:14:20'!
+headEast
+	
+	head := MarsRoverHeadingEast new! !
+!MarsRover methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:16:30'!
+headNorth
+	
+	head := MarsRoverHeadingNorth new! !
+!MarsRover methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:16:05'!
+headSouth
+	
+	head := MarsRoverHeadingSouth new! !
+!MarsRover methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:14:38'!
+headWest
+	
+	head := MarsRoverHeadingWest new! !
+!MarsRover methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:07:11'!
+rotateLeft
+	
+	head rotateLeft: self! !
+!MarsRover methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:14:00'!
+rotateRight
+	
+	head rotateRight: self! !
+!MarsRover methodsFor: 'testing' stamp: 'HAW 8/22/2019 12:00:30'!
+isAt: aPosition heading: aCardinalPoint
+
+	^position = aPosition and: [ head isHeading: aCardinalPoint ]! !
+!MarsRover methodsFor: 'testing' stamp: 'HAW 7/6/2018 18:16:51'!
+isBackwardCommand: aCommand
+
+	^aCommand = $b! !
+!MarsRover methodsFor: 'testing' stamp: 'HAW 7/6/2018 18:16:19'!
+isForwardCommand: aCommand
+
+	^aCommand = $f ! !
+!MarsRover methodsFor: 'testing' stamp: 'HAW 7/6/2018 18:17:51'!
+isRotateLeftCommand: aCommand
+
+	^aCommand = $l! !
+!MarsRover methodsFor: 'testing' stamp: 'HAW 7/6/2018 18:17:21'!
+isRotateRightCommand: aCommand
+
+	^aCommand = $r! !
+!MarsRover methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:05:20'!
+moveBackward
+	
+	head moveBackward: self! !
+!MarsRover methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:15:01'!
+moveEast
+	
+	position := position + (1@0)! !
+!MarsRover methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:05:55'!
+moveForward
+	
+	head moveForward: self! !
+!MarsRover methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:13:12'!
+moveNorth
+	
+	position := position + (0@1)! !
+!MarsRover methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:13:34'!
+moveSouth
+	
+	position := position + (0@-1)! !
+!MarsRover methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:15:32'!
+moveWest
+	
+	position := position + (-1@0)! !
+!MarsRover methodsFor: 'command processing' stamp: 'HAW 6/30/2018 19:48:26'!
+process: aSequenceOfCommands
+
+	aSequenceOfCommands do: [:aCommand | self processCommand: aCommand ]
+! !
+!MarsRover methodsFor: 'command processing' stamp: 'HAW 8/22/2019 12:08:50'!
+processCommand: aCommand
+
+	(self isForwardCommand: aCommand) ifTrue: [ ^ self moveForward ].
+	(self isBackwardCommand: aCommand) ifTrue: [ ^ self moveBackward ].
+	(self isRotateRightCommand: aCommand) ifTrue: [ ^ self rotateRight ].
+	(self isRotateLeftCommand: aCommand) ifTrue: [ ^ self rotateLeft ].
+
+	self signalInvalidCommand.! !
+
+!classDefinition: 'MarsRover class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:14'!
+MarsRover class
+	instanceVariableNames: 'headings'!
+
+!classDefinition: 'MarsRover class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:14'!
+MarsRover class
+	instanceVariableNames: 'headings'!
+!MarsRover class methodsFor: 'instance creation' stamp: 'HAW 8/22/2019 12:01:48'!
+at: aPosition heading: aCardinalPoint
+	
+	^self new initializeAt: aPosition heading: (MarsRoverHeading heading: aCardinalPoint)! !
+!MarsRover class methodsFor: 'instance creation' stamp: 'HAW 7/2/2018 16:26:14'!
+invalidCardinalPointErrorDescription
+	
+	^'Invalid cardinal point'! !
+
+!classDefinition: #MarsRoverHeading category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:14'!
+Object subclass: #MarsRoverHeading
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverHeading category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:14'!
+Object subclass: #MarsRoverHeading
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverHeading methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:06:17'!
+rotateLeft: aMarsRover
+
+	self subclassResponsibility ! !
+!MarsRoverHeading methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:08:23'!
+rotateRight: aMarsRover
+
+	self subclassResponsibility ! !
+!MarsRoverHeading methodsFor: 'testing' stamp: 'HAW 7/2/2018 19:07:42'!
+isHeading: aCardinalPoint
+
+	^self class isFor: aCardinalPoint! !
+!MarsRoverHeading methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:05:20'!
+moveBackward: aMarsRover
+
+	self subclassResponsibility ! !
+!MarsRoverHeading methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:05:54'!
+moveForward: aMarsRover
+
+	self subclassResponsibility ! !
+
+!classDefinition: 'MarsRoverHeading class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading class
+	instanceVariableNames: ''!
+
+!classDefinition: 'MarsRoverHeading class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading class
+	instanceVariableNames: ''!
+!MarsRoverHeading class methodsFor: 'cardinal point' stamp: 'HAW 7/2/2018 19:07:01'!
+cardinalPoint
+
+	self subclassResponsibility ! !
+!MarsRoverHeading class methodsFor: 'instance creation' stamp: 'HAW 8/22/2019 12:02:00'!
+heading: aCardinalPoint
+
+	^self subclasses 
+		detect: [ :aMarsRoverPositionClass | aMarsRoverPositionClass isFor: aCardinalPoint ]
+		ifFound: [ :aMarsRoverPositionClass | aMarsRoverPositionClass new ]
+		ifNone: [ self error: MarsRover invalidCardinalPointErrorDescription ]! !
+!MarsRoverHeading class methodsFor: 'testing' stamp: 'HAW 7/2/2018 17:01:33'!
+isFor: aCardinalPoint
+
+	^self cardinalPoint = aCardinalPoint ! !
+
+!classDefinition: #MarsRoverHeadingEast category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingEast
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverHeadingEast category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingEast
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverHeadingEast methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:09:19'!
+moveBackward: aMarsRover
+	
+	^aMarsRover moveWest! !
+!MarsRoverHeadingEast methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:09:28'!
+moveForward: aMarsRover
+	
+	^aMarsRover moveEast! !
+!MarsRoverHeadingEast methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:09:42'!
+rotateLeft: aMarsRover
+	
+	^aMarsRover headNorth! !
+!MarsRoverHeadingEast methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:09:54'!
+rotateRight: aMarsRover
+	
+	^aMarsRover headSouth! !
+
+!classDefinition: 'MarsRoverHeadingEast class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingEast class
+	instanceVariableNames: ''!
+
+!classDefinition: 'MarsRoverHeadingEast class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingEast class
+	instanceVariableNames: ''!
+!MarsRoverHeadingEast class methodsFor: 'as yet unclassified' stamp: 'HAW 7/2/2018 17:01:53'!
+cardinalPoint
+
+	^#East! !
+
+!classDefinition: #MarsRoverHeadingNorth category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingNorth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverHeadingNorth category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingNorth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverHeadingNorth methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:10:12'!
+moveBackward: aMarsRover
+	
+	^aMarsRover moveSouth! !
+!MarsRoverHeadingNorth methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:10:23'!
+moveForward: aMarsRover
+	
+	^aMarsRover moveNorth! !
+!MarsRoverHeadingNorth methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:10:40'!
+rotateLeft: aMarsRover
+	
+	^aMarsRover headWest! !
+!MarsRoverHeadingNorth methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:10:51'!
+rotateRight: aMarsRover
+	
+	^aMarsRover headEast! !
+
+!classDefinition: 'MarsRoverHeadingNorth class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingNorth class
+	instanceVariableNames: ''!
+
+!classDefinition: 'MarsRoverHeadingNorth class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingNorth class
+	instanceVariableNames: ''!
+!MarsRoverHeadingNorth class methodsFor: 'as yet unclassified' stamp: 'HAW 7/2/2018 17:03:11'!
+cardinalPoint
+
+	^#North! !
+
+!classDefinition: #MarsRoverHeadingSouth category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingSouth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverHeadingSouth category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingSouth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverHeadingSouth methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:11:15'!
+moveBackward: aMarsRover
+	
+	^aMarsRover moveNorth! !
+!MarsRoverHeadingSouth methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:11:25'!
+moveForward: aMarsRover
+	
+	^aMarsRover moveSouth! !
+!MarsRoverHeadingSouth methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:11:55'!
+rotateLeft: aMarsRover
+	
+	^aMarsRover headEast! !
+!MarsRoverHeadingSouth methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:11:50'!
+rotateRight: aMarsRover
+	
+	^aMarsRover headWest! !
+
+!classDefinition: 'MarsRoverHeadingSouth class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingSouth class
+	instanceVariableNames: ''!
+
+!classDefinition: 'MarsRoverHeadingSouth class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingSouth class
+	instanceVariableNames: ''!
+!MarsRoverHeadingSouth class methodsFor: 'as yet unclassified' stamp: 'HAW 7/2/2018 17:03:17'!
+cardinalPoint
+
+	^#South! !
+
+!classDefinition: #MarsRoverHeadingWest category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingWest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverHeadingWest category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeading subclass: #MarsRoverHeadingWest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverHeadingWest methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:12:07'!
+moveBackward: aMarsRover
+
+	^aMarsRover moveEast! !
+!MarsRoverHeadingWest methodsFor: 'moving' stamp: 'HAW 8/22/2019 12:12:15'!
+moveForward: aMarsRover
+	
+	^aMarsRover moveWest! !
+!MarsRoverHeadingWest methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:12:26'!
+rotateLeft: aMarsRover
+	
+	^aMarsRover headSouth! !
+!MarsRoverHeadingWest methodsFor: 'heading' stamp: 'HAW 8/22/2019 12:12:41'!
+rotateRight: aMarsRover
+	
+	^aMarsRover headNorth! !
+
+!classDefinition: 'MarsRoverHeadingWest class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingWest class
+	instanceVariableNames: ''!
+
+!classDefinition: 'MarsRoverHeadingWest class' category: #'MarsRover-WithHeading' stamp: 'PB 11/30/2019 11:27:15'!
+MarsRoverHeadingWest class
+	instanceVariableNames: ''!
+!MarsRoverHeadingWest class methodsFor: 'as yet unclassified' stamp: 'HAW 7/2/2018 17:03:23'!
+cardinalPoint
+
+	^#West! !
+
+!classRemoval: #MarsRoverHeadingWest stamp: 'PB 11/30/2019 11:27:38'!
+MarsRoverHeading subclass: #MarsRoverHeadingWest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeadingSouth stamp: 'PB 11/30/2019 11:27:38'!
+MarsRoverHeading subclass: #MarsRoverHeadingSouth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeadingNorth stamp: 'PB 11/30/2019 11:27:38'!
+MarsRoverHeading subclass: #MarsRoverHeadingNorth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeadingEast stamp: 'PB 11/30/2019 11:27:39'!
+MarsRoverHeading subclass: #MarsRoverHeadingEast
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeading stamp: 'PB 11/30/2019 11:27:39'!
+Object subclass: #MarsRoverHeading
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRover stamp: 'PB 11/30/2019 11:27:40'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position head'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverTest stamp: 'PB 11/30/2019 11:27:40'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 11:36:08'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 11:36:08'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 11:36:08'!
+FAILURE!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 11:36:08'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 11:36:08'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 11:36:08'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 11:36:08'!
+FAILURE!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:36:20'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 11:36:25'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 11:36:25'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:36:25'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 11:36:25'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 11:36:25'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 11:36:25'!
+FAILURE!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 11:36:25'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 11:36:25'!
+ERROR!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 11:36:25'!
+FAILURE!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 11:36:25'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 11:36:25'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:36:34'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:36:34'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:38:30'!
+ERROR!
+!Book methodsFor: 'nil' stamp: 'PB 11/30/2019 11:41:33'!
+hash
+
+	^ISBN.! !
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PB 11/30/2019 11:42:35' prior: 50880594!
+itemSellByTheStore
+
+	^ Book withTitle: 'validBook' ISBN: 111 author: 'Jose Perez' ! !
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PB 11/30/2019 11:42:41' prior: 50880773!
+itemNotSellByTheStore
+
+	^Book withTitle: 'invalidBook' ISBN: -1 author: 'invalidAuthor' ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 11:43:13'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 11:43:13'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:43:13'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 11:43:14'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 11:43:17'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 11:43:19'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 11:43:19'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:43:19'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 11:43:20'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 11:43:36'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 11:43:36'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:43:36'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 11:43:36'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 11:43:36'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 11:43:37'!
+PASSED!
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PB 11/30/2019 11:44:33' prior: 50868871!
+anotherItemSellByTheStore
+
+	^Book withTitle: 'anotherValidBook' ISBN: 222 author: 'Juan Gonzalez'.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 11:44:35'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 11:44:35'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 11:44:35'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 11:44:36'!
+PASSED!
+
+----SNAPSHOT----(30 November 2019 11:49:01) TusLibros.image priorSource: 17593890!
+
+Object subclass: #BookToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #BookToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 11:53:14'!
+Object subclass: #BookToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!BookToDictionaryAdapter class methodsFor: 'nil' stamp: 'PB 11/30/2019 11:56:28'!
+adaptBook: aBook
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'title' put: aBook title.
+	dictionary at: 'author' put: aBook author.
+	! !
+!BookToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 11:56:46' prior: 50883341!
+adaptBook: aBook
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'author' put: aBook author.
+	dictionary at: 'ISBN' put: aBook ISBN.
+	dictionary at: 'title' put: aBook title.
+	
+	! !
+!BookToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 11:56:55' prior: 50883350!
+adaptBook: aBook
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'author' put: aBook author.
+	dictionary at: 'ISBN' put: aBook ISBN.
+	dictionary at: 'title' put: aBook title.
+	
+	^dictionary.
+	! !
+!BookToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 11:57:25' prior: 50883360!
+adaptBook: aBook
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'title' put: aBook title.
+	dictionary at: 'ISBN' put: aBook ISBN.
+	dictionary at: 'author' put: aBook author.
+	
+	
+	
+	^dictionary.
+	! !
+!BookToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 11:57:30' prior: 50883371!
+adaptBook: aBook
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'title' put: aBook title.
+	dictionary at: 'ISBN' put: aBook ISBN.
+	dictionary at: 'author' put: aBook author.
+
+	^dictionary.
+	! !
+
+----SNAPSHOT----(30 November 2019 12:01:26) TusLibros.image priorSource: 17653567!
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'PB 11/30/2019 12:03:44' prior: 50876791!
+booksUsing: aUser authenticatedWith: aPassword
+
+	^self if: aUser authenticatesWith: aPassword do: [ ^ self listBooks.].! !
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'PB 11/30/2019 12:10:06' prior: 50883395!
+booksUsing: aUser authenticatedWith: aPassword
+
+	^self if: aUser authenticatesWith: aPassword do: [ ^ self catalog.].! !
+!TusLibrosSystemFacade methodsFor: 'nil' stamp: 'PB 11/30/2019 12:10:20'!
+catalog
+
+	^catalog copy.! !
+
+----STARTUP---- (30 November 2019 12:15:20) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+!TusLibrosSystemFacade methodsFor: 'nil' stamp: 'PB 11/30/2019 12:16:22'!
+listBooks
+
+	|bookList|
+	
+	! !
+!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 12:16:55' prior: 50883417!
+listBooks
+
+	|bookList|
+	
+	^(catalog keys) asSet.! !
+!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 12:19:00' prior: 50883422!
+listBooks
+
+	|bookList|
+	bookList := Set new.
+	catalog keysDo:[:book | bookList add: (BookToDictionaryAdapter adaptBook: book).].
+	
+	^(catalog keys) asSet.! !
+!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 12:19:23' prior: 50883427!
+listBooks
+
+	|bookList|
+	bookList := Set new.
+	catalog keysDo:[:book | bookList add: (BookToDictionaryAdapter adaptBook: book).].
+	
+	^bookList.! !
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'PB 11/30/2019 12:19:48' prior: 50876791!
+booksUsing: aUser authenticatedWith: aPassword
+
+	^self if: aUser authenticatesWith: aPassword do: [ | books |
+		^self listBooks.
+	]! !
+
+----SNAPSHOT----(30 November 2019 12:21:26) TusLibros.image priorSource: 17655698!
