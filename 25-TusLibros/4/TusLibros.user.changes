@@ -69071,3 +69071,3027 @@ initializeWith: aPortNumber
 ! !
 
 ----SNAPSHOT----(30 November 2019 16:09:11) TusLibros.image priorSource: 17815255!
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'PB 11/30/2019 16:38:00' prior: 50867985!
+checkOutCartIdentifiedAs: aCartId withCreditCardNumbered: aCreditCartNumber ownedBy: anOwner expiringOn: anExpirationMonthOfYear
+
+	^self
+		withCartSessionIdentifiedAs: aCartId
+		do: [ :cartSession | cartSession
+			checkOutCartWithCreditCardNumbered: aCreditCartNumber
+			ownedBy: anOwner
+			expiringOn: anExpirationMonthOfYear ]
+! !
+
+Object subclass: #TicketToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TicketToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 16:38:47'!
+Object subclass: #TicketToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TicketToDictionaryAdapter class methodsFor: 'nil' stamp: 'PB 11/30/2019 16:39:12'!
+adapt: aTicket
+
+	! !
+!TicketToDictionaryAdapter methodsFor: 'nil' stamp: 'PB 11/30/2019 16:54:21'!
+adapt: aTicket
+
+	! !
+!TicketToDictionaryAdapter methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 16:56:52' prior: 50888691!
+adapt: aTicket
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'itemLines'! !
+
+!classDefinition: #LineItemToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 17:00:51'!
+Object subclass: #LineItemToDictionaryAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TicketToDictionaryAdapter methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:00:43' prior: 50888696!
+adapt: aTicket
+
+	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.! !
+!LineItemToDictionaryAdapter methodsFor: 'nil' stamp: 'PB 11/30/2019 17:01:22'!
+adapt: adaptee
+
+	! !
+!LineItemToDictionaryAdapter methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:01:35' prior: 50888723!
+adapt: adaptee
+
+	|dictionary|
+	
+	! !
+!TicketToDictionaryAdapter methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:01:47' prior: 50888711!
+adapt: aTicket
+
+	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary.! !
+!LineItemToDictionaryAdapter methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:02:36' prior: 50888728!
+adapt: adaptee
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'item' put: adaptee item.! !
+!LineItem methodsFor: 'accessing' stamp: 'PB 11/30/2019 17:03:15'!
+quantity
+
+	^quantity.! !
+!LineItemToDictionaryAdapter methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:03:51' prior: 50888747!
+adapt: adaptee
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'item' put: adaptee item.
+	dictionary at: 'quantity' put: adaptee quantity.
+	dictionary at: 'total' put: adaptee total.
+	! !
+!LineItemToDictionaryAdapter class methodsFor: 'nil' stamp: 'PB 11/30/2019 17:04:02'!
+adapt: adaptee
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'item' put: adaptee item.
+	dictionary at: 'quantity' put: adaptee quantity.
+	dictionary at: 'total' put: adaptee total.
+	! !
+
+!methodRemoval: LineItemToDictionaryAdapter #adapt: stamp: 'PB 11/30/2019 17:04:05'!
+adapt: adaptee
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'item' put: adaptee item.
+	dictionary at: 'quantity' put: adaptee quantity.
+	dictionary at: 'total' put: adaptee total.
+	!
+
+Object subclass: #ToDictionaryAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #ToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 17:04:18'!
+Object subclass: #ToDictionaryAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!ToDictionaryAdapter methodsFor: 'nil' stamp: 'PB 11/30/2019 17:04:29'!
+adapt: adaptee
+
+	self subclassResponsibility.! !
+
+ToDictionaryAdapter subclass: #TicketToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TicketToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 17:04:47'!
+ToDictionaryAdapter subclass: #TicketToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+ToDictionaryAdapter subclass: #LineItemToDictionaryAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #LineItemToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 17:04:54'!
+ToDictionaryAdapter subclass: #LineItemToDictionaryAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!ToDictionaryAdapter class methodsFor: 'nil' stamp: 'PB 11/30/2019 17:05:03'!
+adapt: adaptee
+
+	self subclassResponsibility.! !
+
+!methodRemoval: ToDictionaryAdapter #adapt: stamp: 'PB 11/30/2019 17:05:06'!
+adapt: adaptee
+
+	self subclassResponsibility.!
+!TicketToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:05:31' prior: 50888687!
+adapt: aTicket
+
+	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary.! !
+!BookToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:06:17'!
+adapt: aBook
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'title' put: aBook title.
+	dictionary at: 'ISBN' put: aBook ISBN.
+	dictionary at: 'author' put: aBook author.
+
+	^dictionary.
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:06:17' prior: 50886060!
+test25ListingSystemBooksWorksOk
+
+	|books|
+	
+	books _ systemFacade booksUsing: self validUser authenticatedWith: self validUserPassword.
+	self assert: books equals: (Set with: (BookToDictionaryAdapter adapt: (testObjectsFactory itemSellByTheStore)) with: (BookToDictionaryAdapter adapt: testObjectsFactory anotherItemSellByTheStore)).! !
+!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:06:17' prior: 50883436!
+listBooks
+
+	|bookList|
+	bookList := Set new.
+	catalog keysDo:[:book | bookList add: (BookToDictionaryAdapter adapt: book).].
+	
+	^bookList.! !
+
+!methodRemoval: BookToDictionaryAdapter class #adaptBook: stamp: 'PB 11/30/2019 17:06:17'!
+adaptBook: aBook
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'title' put: aBook title.
+	dictionary at: 'ISBN' put: aBook ISBN.
+	dictionary at: 'author' put: aBook author.
+
+	^dictionary.
+	!
+
+ToDictionaryAdapter subclass: #BookToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #BookToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 17:06:37'!
+ToDictionaryAdapter subclass: #BookToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:07:10'!
+PASSED!
+
+!methodRemoval: TicketToDictionaryAdapter #adapt: stamp: 'PB 11/30/2019 17:07:30'!
+adapt: aTicket
+
+	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary.!
+
+----SNAPSHOT----(30 November 2019 17:08:31) TusLibros.image priorSource: 17824175!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - list book types' stamp: 'PB 11/30/2019 17:12:26'!
+test35
+
+	|cartId ticket dictionary|
+	
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	ticket := systemFacade
+		checkOutCartIdentifiedAs: cartId
+		withCreditCardNumbered: testObjectsFactory notExpiredCreditCardNumber
+		ownedBy: testObjectsFactory notExpiredCreditCardOwner
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+
+	TicketToDictionaryAdapter adapt: ticket.! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - list book types' stamp: 'PB 11/30/2019 17:12:33' prior: 50889107!
+test35
+
+	|cartId ticket dictionary|
+	
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	ticket := systemFacade
+		checkOutCartIdentifiedAs: cartId
+		withCreditCardNumbered: testObjectsFactory notExpiredCreditCardNumber
+		ownedBy: testObjectsFactory notExpiredCreditCardOwner
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+
+	dictionary := TicketToDictionaryAdapter adapt: ticket.! !
+!LineItemToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:12:46' prior: 50888768!
+adapt: adaptee
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'item' put: adaptee item.
+	dictionary at: 'quantity' put: adaptee quantity.
+	dictionary at: 'total' put: adaptee total.
+	^dictionary.! !
+
+ToDictionaryAdapter subclass: #SetToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #SetToDictionaryAdapter category: #'TusLibros-Model' stamp: 'PB 11/30/2019 17:22:54'!
+ToDictionaryAdapter subclass: #SetToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!BookListToDictionaryAdapter class methodsFor: 'no messages' stamp: 'PB 11/30/2019 17:25:26'!
+adapt: adaptee
+
+	! !
+!BookListToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:26:06' prior: 50889170!
+adapt: adaptee
+
+	| adaptedBookList |
+
+  	adaptedBookList _ Set new.  
+  
+  	adaptee do: [:aBook | adaptedBookList add: (BookToDictionaryAdapter adapt: aBook)].
+  
+  	^adaptedBookList.! !
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'PB 11/30/2019 17:30:12' prior: 50887555!
+listBookTypesInCartIdentifiedAs: aCartId
+
+	^ self withCartSessionIdentifiedAs: aCartId do: [ :cartSession | BookListToDictionaryAdapter adapt: (cartSession cartContent asSet)]! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:31:52'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:31:52'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35 stamp: 'PB 11/30/2019 17:31:53'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:31:53'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:34:11'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35 stamp: 'PB 11/30/2019 17:34:11'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:34:11'!
+FAILURE!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - list book types' stamp: 'PB 11/30/2019 17:35:19' prior: 50887929!
+test33ListBookTypesOfCartReturnsTheRightItems
+
+	| cartId cartContent |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 1 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade add: 2 of: self anotherValidBook toCartIdentifiedAs: cartId.
+	cartContent := systemFacade listBookTypesInCartIdentifiedAs: cartId.
+
+	self assert: (cartContent occurrencesOf: (BookToDictionaryAdapter adapt: self validBook)) equals: 1.
+	self assert: (cartContent occurrencesOf: (BookToDictionaryAdapter adapt: self anotherValidBook)) equals: 1
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35 stamp: 'PB 11/30/2019 17:35:20'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35 stamp: 'PB 11/30/2019 17:35:25'!
+PASSED!
+
+----SNAPSHOT----(30 November 2019 17:35:43) TusLibros.image priorSource: 17838481!
+
+StringServerController listeningOn: 8082.!
+
+StringServerController allInstances!
+
+StringServerController allInstances!
+
+(self at:1) stopListening. (self at:1) destroy.!
+
+(self at:2) stopListening. (self at:2) destroy.!
+
+(self at:3) stopListening. (self at:3) destroy.!
+
+(self at:4) stopListening. (self at:4) destroy.!
+
+(self at:5) stopListening. (self at:5) destroy.!
+
+(self at:6) stopListening. (self at:6) destroy.!
+
+(self at:7) stopListening. (self at:7) destroy.!
+
+(self at:8) stopListening. (self at:8) destroy.!
+
+StringServerController allInstances!
+
+(self at:1) stopListening. (self at:1) destroy.!
+
+StringServerController allInstances!
+
+(self at:1) stopListening. (self at:1) destroy.!
+
+(self at:1) stopListening. (self at:1) destroy.!
+
+StringServerController allInstances!
+
+(self at:2) stopListening. (self at:2) destroy.!
+
+(self at:2) stopListening. (self at:2) destroy.!
+
+StringServerController allInstances do: [:instancia | instancia stopListening. instancia destroy]
+!
+
+StringServerController allInstances !
+
+StringServerController allInstances do: [:instancia | instancia stopListening]!
+
+StringServerController listeningOn: 8082!
+
+(StringServerController allInstances) do: [:instancia | instancia stopListening. instancia destroy]
+!
+
+StringServerController allInstances!
+
+TusLibrosController allInstances!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy]!
+
+TusLibrosController allInstances!
+
+server := TusLibrosController listeningOn: 8082!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 17:59:40' prior: 50888519!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	"webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := tusLibros checkout: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:02:40' prior: 50889916!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	"webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: aCreditCartNumber 
+					ownedBy: anOwner expiringOn: anExpirationMonthOfYear.
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+! !
+!TusLibrosController methodsFor: 'nil' stamp: 'PB 11/30/2019 18:04:38'!
+validCreditCard
+
+	CreditCard ! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:05:24' prior: 50890228!
+validCreditCard
+
+	CreditCard expiringOn: (Date tomorrow).! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:05:28' prior: 50890233!
+validCreditCard
+
+	^CreditCard expiringOn: (Date tomorrow).! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:07:26' prior: 50890071!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: 1234123412341234 
+					ownedBy: 'Juan' expiringOn: (Date tomorrow).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:08:04' prior: 50890245!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: 1234123412341234 
+					ownedBy: 'Juan' expiringOn: (Date tomorrow)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:15:42' prior: 50890403!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Date tomorrow)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:19:53'!
+notExpiredCreditCard
+
+	^CreditCard expiringOn: (Date tomorrow).! !
+
+!methodRemoval: TusLibrosController #validCreditCard stamp: 'PB 11/30/2019 18:19:53'!
+validCreditCard
+
+	^CreditCard expiringOn: (Date tomorrow).!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:23:43' prior: 50890566!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (clock today) monthIndex year: (clock today) yearNumber + 1)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:24:40' prior: 50890734!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+----SNAPSHOT----(30 November 2019 18:25:04) TusLibros.image priorSource: 17862851!
+
+server := TusLibrosController listeningOn: 8082!
+!CartSession methodsFor: 'cart' stamp: 'PB 11/30/2019 18:27:07' prior: 50867471!
+checkOutCartWithCreditCardNumbered: aCreditCartNumber ownedBy: anOwner expiringOn: anExpirationMonthOfYear
+
+	^((Cashier
+		toCheckout: cart
+		ownedBy: owner
+		charging: (CreditCard expiringOn: anExpirationMonthOfYear)
+		throught: systemFacade merchantProcessor
+		on: self today
+		registeringOn: systemFacade salesBook) checkOut) ! !
+
+|server clock tusLibros ticket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: 'ISBN de prueba el tunel' toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+ticket inspect.!
+
+|server clock tusLibros ticket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+ticket inspect.
+!
+
+----SNAPSHOT----(30 November 2019 18:48:52) TusLibros.image priorSource: 17901028!
+
+|server clock tusLibros ticket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+ticket inspect.!
+
+----SNAPSHOT----(30 November 2019 18:53:06) TusLibros.image priorSource: 17903065!
+!TusLibrosController methodsFor: 'nil' stamp: 'PB 11/30/2019 18:53:44'!
+merchantProcessor
+
+	^MerchantProcessor new.! !
+
+|server clock tusLibros ticket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+ticket inspect.!
+
+|server clock tusLibros ticket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+ticket inspect.!
+!MerchantProcessor methodsFor: 'debit' stamp: 'PB 11/30/2019 18:58:51' prior: 50867756!
+debit: anAmount from: aCreditCard
+
+	"self subclassResponsibility" ! !
+
+|server clock tusLibros ticket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+ticket inspect.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 18:59:55' prior: 50890895!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+----SNAPSHOT----(30 November 2019 19:00:06) TusLibros.image priorSource: 17903910!
+
+server := TusLibrosController listeningOn: 8082.!
+
+|server clock tusLibros ticket adaptedTicket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+adaptedTicket := (TicketToDictionaryAdapter adapt: ticket) .
+
+adaptedTicket inspect.
+!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:04:47' prior: 50891234!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1)).
+		ticketAsJSON := WebUtils jsonEncode: (ticket at:'lineItems' asArray).
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+adaptedTicket := (TicketToDictionaryAdapter adapt: ticket) .
+
+adaptedTicket inspect.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:06:29' prior: 50891430!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1)).
+		ticketAsJSON := WebUtils jsonEncode: ((ticket at:'lineItems') asArray).
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+----SNAPSHOT----(30 November 2019 19:06:33) TusLibros.image priorSource: 17911899!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy]!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy]!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:10:48' prior: 50891622!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1)).
+		ticketAsJSON := WebUtils jsonEncode: ((ticket at:'total')).
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!LineItemToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:12:54' prior: 50889146!
+adapt: adaptee
+
+	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'item' put: (BookToDictionaryAdapter adapt: (adaptee item)).
+	dictionary at: 'quantity' put: adaptee quantity.
+	dictionary at: 'total' put: adaptee total.
+	^dictionary.! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:13:50' prior: 50891795!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+server := TusLibrosController listeningOn: 8082.!
+!TicketToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:15:06' prior: 50888840!
+adapt: aTicket
+
+	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Array new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary.! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TicketToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:17:52' prior: 50892140!
+adapt: aTicket
+
+	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	lineItems := lineItems asArray
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary.! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+|server clock tusLibros ticket adaptedTicket|
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+tusLibros createCartFor: 'usuario1' authenticatedWith: '123456'.
+
+tusLibros add: 1 of: (tusLibros getBookByISBN: 'ISBN de prueba el tunel') toCartIdentifiedAs: (1).
+
+ticket := tusLibros checkOutCartIdentifiedAs: (1) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber + 1).
+					
+adaptedTicket := (TicketToDictionaryAdapter adapt: ticket) .
+
+adaptedTicket inspect.!
+!TicketToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 19:21:32' prior: 50892158!
+adapt: aTicket
+
+	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	lineItems := lineItems asArray.
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary.! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+----SNAPSHOT----(30 November 2019 19:22:38) TusLibros.image priorSource: 17924242!
+
+----SNAPSHOT----(30 November 2019 19:22:48) TusLibros.image priorSource: 17938280!
