@@ -64815,3 +64815,52 @@ booksUsing: aUser authenticatedWith: aPassword
 	]! !
 
 ----SNAPSHOT----(30 November 2019 12:21:26) TusLibros.image priorSource: 17655698!
+
+----STARTUP---- (30 November 2019 12:31:02) as /home/stucci/Desktop/linux64/TusLibros.image!
+
+
+StringServerController allInstances!
+
+(self at: 1) stopListening!
+
+(self at: 2) stopListening!
+
+(self at:3) stopListening!
+
+(self at:4) stopListening!
+
+(self at:5) stopListening!
+
+(self at:6) stopListening!
+
+(self at:7) stopListening!
+
+(self at:8) stopListening!
+
+server _ TusLibrosController listeningOn: 8082.!
+
+StringServerController allInstances!
+
+(self at:1) stopListening. (self at:1) destroy.!
+
+(self at:2) stopListening. (self at:2) destroy.!
+
+(self at:3) stopListening. (self at:3) destroy.!
+
+(self at:4) stopListening. (self at:4) destroy.!
+
+(self at:5) stopListening. (self at:5) destroy.!
+
+(self at:6) stopListening. (self at:6) destroy.!
+
+(self at:7) stopListening. (self at:7) destroy.!
+
+(self at:8) stopListening. (self at:8) destroy.!
+
+TusLibrosController allInstances!
+
+self do: [:instancia | instancia stopListening. instancia destroy]!
+
+server _ TusLibrosController listeningOn: 8082.!
+
+----SNAPSHOT----(30 November 2019 12:41:09) TusLibros.image priorSource: 17657606!
