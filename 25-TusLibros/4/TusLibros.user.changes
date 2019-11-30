@@ -68837,3 +68837,237 @@ initializeWith: aPortNumber
 ! !
 
 ----SNAPSHOT----(30 November 2019 15:50:36) TusLibros.image priorSource: 17788841!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 16:08:12' prior: 50888246!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 11/30/2019 16:08:37' prior: 50888381!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: Date today.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/books' action:[:request | | booksAsJson username password books |
+    
+	    [username := (request fields at:'username').
+	    password := (request fields at:'password').
+	    books := tusLibros booksUsing: username authenticatedWith: password.
+	    booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    "request send200Response: (substringsAsJson)"
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+
+		webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+! !
+
+----SNAPSHOT----(30 November 2019 16:09:11) TusLibros.image priorSource: 17815255!
