@@ -48,12 +48,18 @@
       ListItem,
       ListItemIcon,
       ListItemText,
+      Card,
+      CardContent,
+      CardActions,
       makeStyles,
       OutlinedInput,
       TextField,
       ThemeProvider,
       Toolbar,
       Typography,
+      Tooltip,
+      Fab,
+      ShoppingCartIcon
     } = MaterialUI;
     const theme = createMuiTheme({
       palette: {
@@ -118,10 +124,33 @@
         }
       })
     }
+    let loggedIn = false;
+
+    function ShoppingCart(props) {
+      const { router, cart } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => router.navigate("/cartDetails", {cart: cart}) }
+          >
+          <Icon>shop</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
     
     function MyToolBar(props) {
       const classes = useStyles();
-      const {title, router} = props;
+      const {title, router, cart} = props;
     
       let menuButton = (
         <IconButton
@@ -146,7 +175,7 @@
             className={classes.menuButton}
             color="inherit"
             onClick={()=>router.navigate("/list", {
-            selectedSubstring: "",})}
+            selectedSubstring: ""})}
           >
             <Icon>keyboard_arrow_left</Icon>
           </IconButton>
@@ -161,7 +190,10 @@
               <Typography variant="h6" className={classes.title}>
                 {title}
               </Typography>
-              {/*<Button color="inherit">Login</Button>*/}
+                <ShoppingCart
+                  cart={cart}
+                  router={router}
+                />
             </Toolbar>
           </AppBar>
         </div>
@@ -188,6 +220,7 @@
                 return response.json();
               })
               .then(function (books) {
+                  loggedIn = true;
                   router.navigate("/list", { cart: json, books: books, username: value.username, password: value.password})
               })
               .catch(function (error) {
@@ -241,10 +274,10 @@
       )
     }
 
-    function BookListElement(props) {
-      const { router, key, book, cart } = props
+    function PlusAndMinusBook(props) {
+      const { book, cart } = props
       const classes = useStyles();
-      const [count, setCount] = React.useState(0);
+      const [count, setCount] = React.useState(0)
 
       const addToCart = value => {
         getLocalAsJson(`addToCart?book=${value}&cart=${props.cart}`)
@@ -257,10 +290,6 @@
           });
       }
 
-      const bookDetail = book => {
-          router.navigate("/bookDetails", { book: book })
-      }
-
       const removeFromCart = value => {
         getLocalAsJson(`removeFromCart?book=${value}&cart=${props.cart}`)
           .then(function (response) {
@@ -271,25 +300,20 @@
             console.log('Looks like there was a problem: \n', error);
           });
       }
-      
+
       return (
-        <ListItem 
-          key={key}
-        >
-          <ListItemText 
-            primary={book}
-            onClick={ () => bookDetail(book) }
-          />
+        <div>
           <IconButton
             onClick={() => addToCart(book)}
           >
             <Icon 
-            className={classes.iconHover} 
-            color="primary" 
-            style={{ fontSize: 40 }}>
-              add_circle
+              className={classes.iconHover} 
+              color="primary" 
+              style={{ fontSize: 40 }}>
+                add_circle
             </Icon>
           </IconButton>
+
           <IconButton
             onClick={() => removeFromCart(book)}
           >
@@ -300,7 +324,37 @@
               remove_circle
             </Icon>
           </IconButton>
-          <div id={book}>{count}</div>
+          <Tooltip title="Amount">
+            <Fab color="primary" className={classes.absolute}>
+              {count}
+            </Fab>
+          </Tooltip>
+        </div>
+      )
+    }
+
+
+    function BookListElement(props) {
+      const { router, key, book, cart } = props
+      const classes = useStyles();
+      const [count, setCount] = React.useState(0);
+
+      const bookDetail = book => {
+          router.navigate("/bookDetails", { book: book, cart: cart })
+      }
+
+      return (
+        <ListItem  
+          key={key}
+        >
+          <ListItemText 
+            primary={book}
+            onClick={ () => bookDetail(book) }
+          />
+          <PlusAndMinusBook
+            book={book}
+            cart={cart}
+          />
         </ListItem>
       )
     }
@@ -334,11 +388,37 @@
     }
 
     function BookDetails(props) {
-      const { book } = props
+      const { book, cart, } = props
       const classes = useStyles();
 
-      return (<div>anda</div>)
+      return (
+        
+       <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              {book}
+            </Typography>
+            <Typography variant="h5" component="h2">
+              ISBN: futura isbn
+            </Typography>
+            <Typography variant="h5" component="h2">
+              Autor: futuro autor
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <PlusAndMinusBook
+              book={book}
+              cart={cart}
+            />
+          </CardActions>
+        </Card>
+
+      )
       
+    }
+
+    function CartDetails(props) {
+      return (<div>hola!</div>)
     }
     
     // Fetch Hook
@@ -512,6 +592,14 @@
           content = (<BookDetails
             router={router}
             book={this.state.book}
+            cart={this.state.cart}
+          />)
+        }
+
+        else if (this.state.path === "/cartDetails") {
+          content = (<CartDetails
+            router={router}
+            cart={this.state.cart}
           />)
         }
 
@@ -520,6 +608,7 @@
             <MyToolBar
               title={title}
               router={router}
+              cart={this.state.cart}
             />
             <Container maxWidth="sm">
               <div style={{ marginTop: 24, }}>
