@@ -488,7 +488,9 @@
             console.log('Looks like there was a problem: \n', error);
         });   
 
-      return (
+
+      if(books.length > 0){
+        return (
         <div>
           <Typography component="h1" gutterBottom>
             Books inside your cart:
@@ -509,7 +511,18 @@
           </List>
           
         </div>
-      )
+        )
+      }else {
+        return (
+          <Typography variant="h1" gutterBottom>
+            Books inside your cart:
+          </Typography>
+          <Typography variant="h4" gutterBottom>
+            Your cart is empty.
+          </Typography>
+        )
+      }
+      
     }
     
     // Fetch Hook
