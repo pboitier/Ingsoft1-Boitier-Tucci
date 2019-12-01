@@ -66,6 +66,12 @@
       TableHead,
       TableRow,
       Paper,
+      ErrorIcon,
+      Snackbar,
+      SnackbarContent,
+      CheckCircleIcon,
+      PropTypes,
+      CloseIcon
     } = MaterialUI;
     const theme = createMuiTheme({
       palette: {
@@ -84,6 +90,12 @@
         },
       },
     });
+
+    const variantIcon = {
+      success: CheckCircleIcon,
+      error: ErrorIcon,
+    };
+
     const useStyles = makeStyles(theme => ({
       root: {
         margin: theme.spacing(6, 0, 3),
@@ -119,7 +131,24 @@
         ...theme.typography.button,
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(1),
-      }
+      },
+      error: {
+        backgroundColor: theme.palette.error.dark,
+      },
+      icon: {
+        fontSize: 20,
+      },
+      iconVariant: {
+        opacity: 0.9,
+        marginRight: theme.spacing(1),
+      },
+      message: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      margin: {
+        margin: theme.spacing(1),
+      },
     }));
 
     const getLocalAsJson = (path) => {
@@ -136,6 +165,60 @@
       })
     }
     let loggedIn = false;
+
+    function ErrorMessage(props) {
+        const classes = useStyles();
+        const {open, message} = props
+        const iconClasses = `${classes.icon} ${classes.iconVariant}`
+        const handleClose = (event, reason) => {
+  
+          if (reason === 'clickaway') {
+            return;
+          }
+          
+        };
+
+        return (
+          <div>
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              open={open}
+              /*autoHideDuration={3000}
+              onClose={handleClose}*/
+            >
+              
+              <SnackbarContent
+                className={classes.error}
+                aria-describedby="client-snackbar"
+                message={
+                  <span id="client-snackbar" className={classes.message}>
+                    <Icon className={iconClasses} />
+                    {message}
+                  </span>
+                }
+                /*action={[
+                  <IconButton key="close" aria-label="close" color="inherit" onClick={handleClose}>
+                    <Icon className={classes.icon}>close</Icon>
+                  </IconButton>,
+                ]}*/
+              />
+            </Snackbar>
+          </div>
+        );        
+      }
+
+
+
+
+
+
+
+
+
+
 
     function ShoppingCart(props) {
       const { router, cart } = props
@@ -257,9 +340,12 @@
         username: '',
         password: ''
       });
+      const [open, setOpen] = React.useState(false);
       const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
+        setOpen(false);
       };
+
       const handleSend = value => {
         getLocalAsJson(`createCart?username=${value.username}&password=${value.password}`) /**/
           .then(function (response) {
@@ -275,27 +361,30 @@
                   router.navigate("/list", { cart: json, books: books, username: value.username, password: value.password})
               })
               .catch(function (error) {
+                  setOpen(true);
                   console.log('Looks like there was a problem: \n', error);
               });
             
           })
           .catch(function (error) {
+            setOpen(true);
             console.log('Looks like there was a problem: \n', error);
           });
       }
-    
+
       return (
         <div>
           <FormControl fullWidth className={classes.textField} variant="outlined">  
           <Typography component="h1" gutterBottom>
             Create a Cart!
-              </Typography> 
+          </Typography> 
             <TextField
               id="outlined-username-input"
               label="Username"
               className={classes.textField}
               type="text"
               value={values.username}
+              error={open}
               onChange={handleChange('username')}
               margin="normal"
               required
@@ -308,13 +397,17 @@
               className={classes.textField}
               type="password"
               value={values.password}
+              error={open}
               onChange={handleChange('password')}
               margin="normal"
               required
               variant="outlined"
             />
           </FormControl>
-    
+          <ErrorMessage
+            open={open}
+            message={"Wrong credentials"}
+          />
           <Button
             variant="contained"
             color="primary"
@@ -324,6 +417,8 @@
         </div>
       )
     }
+      
+    
 
     function PlusAndMinusBook(props) {
       const { book, cart } = props
@@ -488,6 +583,7 @@
       const { router, cart } = props
       const classes = useStyles();
       const [books, setBooks] = React.useState([])
+      const [open, setOpen] = React.useState(false)
 
 
       getLocalAsJson(`typesOfBookInCart?cart=${cart}`)
@@ -508,6 +604,7 @@
             router.navigate("/checkoutTicket", { ticket: ticket })
           })
           .catch(function (error) {
+            setOpen(true);
             console.log('Looks like there was a problem: \n', error);
           });
       }
@@ -534,6 +631,10 @@
             }
           </List>
           <Box mt={5} />
+          <ErrorMessage
+            message={"There was a problem with your checkout, sorry"}
+            open={open}
+          />
           <Button
             variant="contained"
             color="primary"
