@@ -59,7 +59,13 @@
       Typography,
       Tooltip,
       Fab,
-      ShoppingCartIcon
+      Box,
+      Table,
+      TableBody,
+      TableCell,
+      TableHead,
+      TableRow,
+      Paper,
     } = MaterialUI;
     const theme = createMuiTheme({
       palette: {
@@ -108,6 +114,11 @@
       },
       textFieldDetails: {
         margin: theme.spacing(2),
+      },
+      rootDiv: {
+        ...theme.typography.button,
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(1),
       }
     }));
 
@@ -488,10 +499,25 @@
             console.log('Looks like there was a problem: \n', error);
         });   
 
-      return (
+
+      const checkoutCart = cart => {
+        getLocalAsJson(`checkoutCart?cart=${cart}`)
+          .then(function (response) {
+            return response.json();
+          }).then(function (ticket) {
+            router.navigate("/checkoutTicket", { ticket: ticket })
+          })
+          .catch(function (error) {
+            console.log('Looks like there was a problem: \n', error);
+          });
+      }
+
+
+      if(books.length > 0){
+        return (
         <div>
-          <Typography component="h1" gutterBottom>
-            Books inside your cart:
+          <Typography variant="h4" gutterBottom>
+            Books inside your cart
           </Typography>
           <List component="nav" className={classes.rootList} aria-label="Books">
             {
@@ -507,9 +533,77 @@
               })
             }
           </List>
+          <Box mt={5} />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => checkoutCart(cart)}>
+            Checkout Cart!
+          </Button>
           
         </div>
-      )
+        )
+      }else {
+        return (
+          <div>
+            <Typography variant="h4" gutterBottom>
+              Books inside your cart
+            </Typography>
+            <div className={classes.rootDiv}>
+              {"Your cart is empty"}
+            </div>
+          </div>
+        )
+      }
+      
+    }
+
+    function CheckoutTicket(props) {
+      const { router, ticket } = props
+      const classes = useStyles();
+      console.log(ticket)
+      
+      return (
+        <div>
+          <Typography variant="h4" gutterBottom>
+            Checkout Ticket
+          </Typography>
+          <Paper className={classes.root}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Book</TableCell>
+                  <TableCell align="right">ISBN</TableCell>
+                  <TableCell align="right">Author</TableCell>
+                  <TableCell align="right">Quantity</TableCell>
+                  <TableCell align="right">Total</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {ticket.lineItems.map(ticketItem => (
+                  <TableRow key={ticketItem.item.isbn}>
+                    <TableCell component="th" scope="row">
+                      {ticketItem.item.title}
+                    </TableCell>
+                    <TableCell align="left">{ticketItem.item.ISBN}</TableCell>
+                    <TableCell align="left">{ticketItem.item.author}</TableCell>
+                    <TableCell align="left">{ticketItem.quantity}</TableCell>
+                    <TableCell align="left">{ticketItem.total}</TableCell>
+                  </TableRow>
+                ))}
+                <TableRow key={ticket.total}>
+                    <TableCell component="th" scope="row"></TableCell>
+                    <TableCell align="left"></TableCell>
+                    <TableCell align="left"></TableCell>
+                    <TableCell align="left">Total:</TableCell>
+                    <TableCell align="left">{ticket.total}</TableCell>
+                  </TableRow>
+              </TableBody>
+            </Table>
+          </Paper>
+          
+        </div>
+        )
     }
     
     // Fetch Hook
@@ -689,6 +783,13 @@
           content = (<CartDetails
             router={router}
             cart={this.state.cart}
+          />)
+        }
+
+        else if (this.state.path === "/checkoutTicket") {
+          content = (<CheckoutTicket
+            router={router}
+            ticket={this.state.ticket}
           />)
         }
 
