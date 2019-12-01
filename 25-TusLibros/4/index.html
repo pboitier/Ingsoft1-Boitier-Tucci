@@ -211,15 +211,6 @@
       }
 
 
-
-
-
-
-
-
-
-
-
     function ShoppingCart(props) {
       const { router, cart } = props
       const classes = useStyles();
@@ -241,6 +232,29 @@
         )
       }
     }
+
+     function PurchaseHistoryIcon(props) {
+      const { router, username } = props
+      const classes = useStyles();
+
+      if(loggedIn){
+        return (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => router.navigate("/purchaseHistory", {username: username}) }
+          >
+          <Icon>menu_book</Icon>
+        </IconButton>
+        )
+      } else {
+        return(   
+          <div></div>
+        )
+      }
+    }
+    
 
     function LogOut(props) {
       const { router, cart } = props
@@ -290,7 +304,7 @@
     
     function MyToolBar(props) {
       const classes = useStyles();
-      const {title, router, cart, books} = props;
+      const {title, router, cart, books, username} = props;
     
       let menuButton = (
         <IconButton
@@ -301,8 +315,7 @@
             cart: "",
             books: [],
             username: "",
-            password: "",
-            selectedSubstring: ""})}
+            password: ""})}
           >
           <Icon>home</Icon>
         </IconButton>
@@ -325,9 +338,13 @@
                 books={books}
                 router={router}
               />
+              <PurchaseHistoryIcon
+                router={router}
+                username={username}
+              />
               <LogOut
                 router={router}
-              />
+              />              
             </Toolbar>
           </AppBar>
         </div>
@@ -659,17 +676,12 @@
       
     }
 
-    function CheckoutTicket(props) {
-      const { router, ticket } = props
+    function PurchasesView(props) {
+      const { purchases, emptyMessage } = props
       const classes = useStyles();
-      console.log(ticket)
-      
-      return (
-        <div>
-          <Typography variant="h4" gutterBottom>
-            Checkout Ticket
-          </Typography>
-          <Paper className={classes.root}>
+
+      if (purchases.lineItems.length > 0) {
+        return (<Paper className={classes.root}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -681,7 +693,7 @@
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ticket.lineItems.map(ticketItem => (
+                {purchases.lineItems.map(ticketItem => (
                   <TableRow key={ticketItem.item.isbn}>
                     <TableCell component="th" scope="row">
                       {ticketItem.item.title}
@@ -692,146 +704,94 @@
                     <TableCell align="left">{ticketItem.total}</TableCell>
                   </TableRow>
                 ))}
-                <TableRow key={ticket.total}>
+                <TableRow key={purchases.total}>
                     <TableCell component="th" scope="row"></TableCell>
                     <TableCell align="left"></TableCell>
                     <TableCell align="left"></TableCell>
                     <TableCell align="left">Total:</TableCell>
-                    <TableCell align="left">{ticket.total}</TableCell>
+                    <TableCell align="left">{purchases.total}</TableCell>
                   </TableRow>
               </TableBody>
             </Table>
-          </Paper>
+          </Paper>)
+      }else {
+        return(
+          <div className={classes.rootDiv}>
+            {emptyMessage}
+          </div>
+        )
+      }       
+    }
+
+
+    function CheckoutTicket(props) {
+      const { router, ticket } = props
+      const classes = useStyles();
+      
+      return (
+        <div>
+          <Typography variant="h4" gutterBottom>
+            Checkout Ticket
+          </Typography>
+          <PurchasesView
+            purchases={ticket}
+          />
           
         </div>
         )
     }
-    
-    // Fetch Hook
-    const useFetchDetails = (substring) => {
-      const [details, setDetails] = React.useState([])
-      const [loading, setLoading] = React.useState(false)
-      const [error, setError] = React.useState(null)
+
+    const useFetchDetails = (username) => {
+      const [purchases, setPurchases] = React.useState([])
+      const [total, setTotal] = React.useState(0)
     
       React.useEffect(() => {
-        setLoading(true)
-        setError(null)
-    
+            
         let details = {}
     
-        getLocalAsJson(`firstletter?word=${substring}`)
+        getLocalAsJson(`purchaseHistory?username=${username}`)
           .then(function (response) {
             return response.json()
           })
           .then(function (json) {
-            details["firstLetter"] = json
-    
-            setLoading(false)
-            if (details) {
-              setDetails(details)
-            } else {
-              setDetails([])
-            }
-          })
-          .then(function () {
-            setLoading(true)
-            setError(null)
-    
-            return getLocalAsJson(`touppercase?word=${substring}`)
-          })
-          .then(function (response) {
-            return response.json()
-          })
-          .then(function (json) {
-            details["uppercase"] = json
-    
-            setLoading(false)
-            if (details) {
-              setDetails(details)
-            } else {
-              setDetails([])
-            }
-          })
-          .then(function () {
-            setLoading(true)
-            setError(null)
-    
-            return getLocalAsJson(`vowels?word=${substring}`)
-          })
-          .then(function (response) {
-            return response.json()
-          })
-          .then(function (json) {
-            details["vowels"] = json
-    
-            setLoading(false)
-            if (details) {
-              setDetails(details)
-            } else {
-              setDetails([])
-            }
+            
+            details["purchases"] = json.lineItems
+            details["total"] = json.total
+
+            setPurchases(details["purchases"])
+            setTotal(details["total"])                 
           })
           .catch(err => {
-            setError(err)
-            setLoading(false)
+            console.log("Error: " + err)
           })
-      }, [substring])
-    
-      return { details, loading, error }
-    }
-    
-    // Component
-    function SubstringDetailsView(props) {
-      const { router, selectedSubstring } = props
+      }, [username])
+
+      return { purchases, total }
+    }  
+
+
+    function PurchaseHistory(props) {
+      const { username } = props
       const classes = useStyles();
-    
-      const { details, loading, error } = useFetchDetails(selectedSubstring)
-    
-      if (loading) return <div>Loading...</div>
-      if (error) return <div>{error}</div>
-    
+      const { purchases, total } = useFetchDetails(username)
+      const title = (<Typography variant="h4" gutterBottom>
+                      {"Your purchase history"}
+                    </Typography>)
+
+      let purchaseHistory = {lineItems: purchases, total: total}
+      
       return (
         <div>
-          <Typography variant="h4" component="h4" gutterBottom>
-            Detalles de <b>{selectedSubstring}</b>
-          </Typography>
-    
-          <TextField
-            id="outlined-read-only-input"
-            label="Primera letra"
-            defaultValue={details["firstLetter"]}
-            className={classes.textFieldDetails}
-            margin="normal"
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-read-only-input"
-            label="En mayúsculas"
-            defaultValue={details["uppercase"]}
-            className={classes.textFieldDetails}
-            margin="normal"
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-read-only-input"
-            label="Vocales"
-            defaultValue={details["vowels"]}
-            className={classes.textFieldDetails}
-            margin="normal"
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="outlined"
+          {title}
+          <PurchasesView
+            purchases={purchaseHistory}
+            emptyMessage={"You didn't make any purchase yet. You should!"}
           />
         </div>
-      )
-    }
+      )     
+      
+    }    
+    
     
     class App extends React.Component {
       constructor(props) {
@@ -842,7 +802,6 @@
           books: [],
           username: "",
           password: "",
-          selectedSubstring: ""
         };
       }
     
@@ -894,6 +853,13 @@
           />)
         }
 
+        else if (this.state.path === "/purchaseHistory") {
+          content = (<PurchaseHistory
+            router={router}
+            username={this.state.username}
+          />)
+        }
+
         return (
           <div>
             <MyToolBar
@@ -901,6 +867,7 @@
               router={router}
               cart={this.state.cart}
               books={this.state.books}
+              username={this.state.username}
             />
             <Container maxWidth="sm">
               <div style={{ marginTop: 24, }}>
