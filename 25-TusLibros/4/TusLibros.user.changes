@@ -84769,3 +84769,40 @@ server := TusLibrosController listeningOn: 8082.
 !
 
 ----SNAPSHOT----(4 December 2019 18:58:12) TusLibros.image priorSource: 18457231!
+
+!classRemoval: #TicketToDictionaryAdapter stamp: 'PB 12/4/2019 19:00:02'!
+ToDictionaryAdapter subclass: #TicketToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+
+!classRemoval: #LineItemToDictionaryAdapter stamp: 'PB 12/4/2019 19:00:02'!
+ToDictionaryAdapter subclass: #LineItemToDictionaryAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+
+!classRemoval: #BookToDictionaryAdapter stamp: 'PB 12/4/2019 19:00:02'!
+ToDictionaryAdapter subclass: #BookToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+
+!classRemoval: #BookListToDictionaryAdapter stamp: 'PB 12/4/2019 19:00:02'!
+ToDictionaryAdapter subclass: #BookListToDictionaryAdapter
+	instanceVariableNames: 'adaptee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+
+!classRemoval: #ToDictionaryAdapter stamp: 'PB 12/4/2019 19:00:03'!
+Object subclass: #ToDictionaryAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+
+----SNAPSHOT----(4 December 2019 19:00:31) TusLibros.image priorSource: 18457466!
