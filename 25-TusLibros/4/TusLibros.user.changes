@@ -82312,3 +82312,915 @@ server := TusLibrosController listeningOn: 8082.!
 (TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
 
 ----SNAPSHOT----(3 December 2019 23:29:18) TusLibros.image priorSource: 18354050!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:32:18' prior: 50905116!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear]
+	adaptingWith: TicketToDictionaryAdapter.	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+	adaptingWith: TicketToDictionaryAdapter.! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:32:24' prior: 50905234!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear]
+	adaptingWith: TicketToDictionaryAdapter.	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+	adaptingWith: TicketToDictionaryAdapter.! !
+
+Object subclass: #GenericServerAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+
+!classDefinition: #GenericServerAdapter category: #'TusLibros-Server' stamp: 'PB 12/3/2019 23:33:34'!
+Object subclass: #GenericServerAdapter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+
+!classDefinition: #GenericServerAdapter category: #'TusLibros-Server' stamp: 'PB 12/3/2019 23:35:40'!
+Object subclass: #GenericServerAdapter
+	instanceVariableNames: 'adapterDictionary'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Server'!
+!GenericServerAdapter methodsFor: 'nil' stamp: 'PB 12/3/2019 23:35:38'!
+initialize
+
+	adapterDictionary := Dictionary new.! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:36:45' prior: 50905403!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [].! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:38:03' prior: 50905408!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^dictionary.].! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:41:32' prior: 50905415!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^dictionary.].
+										
+	adapterDictionary at: Set put: []! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:43:32' prior: 50905429!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	adaptedSet do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^adaptedSet asArray.]! !
+!GenericServerAdapter methodsFor: 'nil' stamp: 'PB 12/3/2019 23:45:58'!
+adapt: adaptee
+
+	(adapterDictionary includesKey: (adaptee class)) ifFalse: [^adaptee].
+	^(adapterDictionary at: (adaptee class)) value at: adaptee.! !
+
+----SNAPSHOT----(3 December 2019 23:46:01) TusLibros.image priorSource: 18354535!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:47:20' prior: 50904407!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure adaptingWith: anAdapter
+
+	webServer addService: aServiceName action:[:request | |parameters result adapter substringsAsJson username password cart |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		adapter := GenericServerAdapter new.
+		result := (adapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+
+----SNAPSHOT----(3 December 2019 23:47:33) TusLibros.image priorSource: 18362294!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+|server clock tusLibros adapter|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	
+	adapter adapt: (tusLibros books)
+!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:52:14' prior: 50905465!
+adapt: adaptee
+
+	(adapterDictionary includesKey: (adaptee class)) ifFalse: [^adaptee].
+	^(adapterDictionary at: (adaptee class)) value: adaptee.! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	
+	result := (adapter adapt: (tusLibros books))!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:53:38' prior: 50905445!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	adaptedSet do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	
+	result := (adapter adapt: (tusLibros books))
+!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:57:37' prior: 50905573!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	
+	result := (adapter adapt: (tusLibros books))
+!
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	
+	result := (adapter adapt: (tusLibros books))
+!
+
+----SNAPSHOT----(4 December 2019 00:00:23) TusLibros.image priorSource: 18363699!
+
+----SNAPSHOT----(4 December 2019 00:10:32) TusLibros.image priorSource: 18368535!
+
+----SNAPSHOT----(4 December 2019 00:12:14) TusLibros.image priorSource: 18368618!
+
+----SNAPSHOT----(4 December 2019 00:14:13) TusLibros.image priorSource: 18368701!
+
+----QUIT----(4 December 2019 00:14:21) TusLibros.image priorSource: 18368784!
+
+----STARTUP---- (4 December 2019 15:45:34) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	
+	result := (adapter adapt: (tusLibros books))!
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez'))!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:06:48' prior: 50905612!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^dictionary copy.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez'))!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:07:23' prior: 50905722!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^(dictionary copy).].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez'))!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:11:54' prior: 50905763!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											(dictionary copy).].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez'))!
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez'))
+	result inspect.!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:12:54' prior: 50905804!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											^(dictionary copy).].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:13:37' prior: 50905542!
+adapt: adaptee
+
+	(adapterDictionary includesKey: (adaptee class)) ifFalse: [^adaptee].
+	^((adapterDictionary at: (adaptee class)) value: adaptee).! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez'))
+	result inspect.!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:16:25' prior: 50905864!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											(dictionary copy).].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:16:36' prior: 50905913!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											(dictionary copy).].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez'))
+	result inspect.!
+
+----End fileIn of \Users\Baires\Documents\Pedro\Inge1\CuisUniversity\DesignPatterns-Adapter.st----!
+
+----STARTUP---- (4 December 2019 16:29:00) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:34:03' prior: 50905612!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	^(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	
+	result := (adapter adapt: (tusLibros books))
+!
+
+|adapter result|
+	adapter := GenericServerAdapter new.
+	
+	result := (adapter adapt: (Book withTitle: 'anotherValidBook' ISBN: '222' author: 'Juan Gonzalez')).
+	result inspect.
+!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:36:15' prior: 50906213!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).]! !
+
+|server clock tusLibros adapter result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (tusLibros books)).
+	result inspect.
+!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+|adapter result|
+
+adapter := GenericServerAdapter new.
+
+result := adapter adapt: 'OK'.
+result inspect.!
+
+----SNAPSHOT----(4 December 2019 16:40:00) TusLibros.image priorSource: 18368867!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:41:00' prior: 50904331!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure
+
+	webServer addService: aServiceName action:[:request | |parameters result adapter |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		(result = tusLibros) ifTrue: [result := 'OK'].
+		adapter := GenericServerAdapter new.
+		result := (adapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+
+----SNAPSHOT----(4 December 2019 16:41:10) TusLibros.image priorSource: 18388878!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:42:38' prior: 50905309!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books].
+	"adaptingWith: BookListToDictionaryAdapter."
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear]
+	adaptingWith: TicketToDictionaryAdapter.	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+	adaptingWith: TicketToDictionaryAdapter.! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:44:03' prior: 50906350!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books].
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)].
+	"adaptingWith: BookListToDictionaryAdapter."
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear]
+	adaptingWith: TicketToDictionaryAdapter.	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+	adaptingWith: TicketToDictionaryAdapter.! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:45:13' prior: 50906430!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books].
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)].
+					
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear]
+	adaptingWith: TicketToDictionaryAdapter.	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+	adaptingWith: TicketToDictionaryAdapter.! !
+
+----SNAPSHOT----(4 December 2019 16:45:24) TusLibros.image priorSource: 18390276!
+
+----SNAPSHOT----(4 December 2019 16:45:45) TusLibros.image priorSource: 18397746!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+----SNAPSHOT----(4 December 2019 16:45:56) TusLibros.image priorSource: 18397829!
