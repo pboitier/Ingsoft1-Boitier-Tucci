@@ -80253,3 +80253,2062 @@ server := TusLibrosController listeningOn: 8082.!
 server := TusLibrosController listeningOn: 8082.!
 
 ----SNAPSHOT----(3 December 2019 21:41:20) TusLibros.image priorSource: 18233630!
+
+----STARTUP---- (3 December 2019 22:33:33) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:35:24' prior: 50902272!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure
+
+	webServer addService: aServiceName action:[:request | |parameters result |
+		
+		[parameters := OrderedCollection new.
+		1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		
+		(result = tusLibros) ifTrue: [result := 'OK'].	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:38:02' prior: 50900247!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure adaptingWith: anAdapter
+
+	webServer addService: aServiceName action:[:request | |parameters result substringsAsJson username password cart |
+		
+		[parameters := OrderedCollection new.
+		1 to:(aListOfParameters size) do: [:index | parameters at: index put: (request fields at:(aListOfParameters at: index))].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		result := (anAdapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:40:06' prior: 50902308!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	"webServer addService: '/createCart' action:[:request | |substringsAsJson username password cart |
+		
+		[username := (request fields at:'username').
+		password := (request fields at:'password').
+		cart := tusLibros createCartFor: username authenticatedWith: password.
+		substringsAsJson:= WebUtils jsonEncode: (cart asString).
+		request send200Response: (substringsAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+	
+	
+	"self addService: '/books'
+	withParameters: (OrderedCollection with: )"
+	"
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]]."
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	"webServer addService: '/addToCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros add: 1 of: book toCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+
+		"webServer addService: '/removeFromCart' action:[:request | | booksAsJson isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		tusLibros remove: 1 of: book fromCartIdentifiedAs: (cartId asInteger).
+		booksAsJson _ 'OK'.
+		request send200Response: (booksAsJson asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+	
+	"webServer addService: '/numberOfBook' action:[:request | | numberOfBook numberOfBooksAsJSON isbn book cartId |
+		
+		[isbn := (request fields at:'isbn').
+		book := (tusLibros getBookByISBN: isbn).
+		cartId _ (request fields at:'cart').
+		numberOfBook := tusLibros numberOfBook: book inCartIdentifiedAs: (cartId asInteger).
+		numberOfBooksAsJSON := WebUtils jsonEncode: (numberOfBook).
+		request send200Response: (numberOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+	
+	
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := BookListToDictionaryAdapter adapt: (tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger)).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:45:08' prior: 50902597!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new )
+	ofCollaboration: [tusLibros books]
+	adaptingWIth: BookListToDictionaryAdapter.
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := BookListToDictionaryAdapter adapt: (tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger)).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:45:32' prior: 50902799!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books.]
+	adaptingWIth: BookListToDictionaryAdapter.
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := BookListToDictionaryAdapter adapt: (tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger)).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:46:10' prior: 50902927!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books.]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := BookListToDictionaryAdapter adapt: (tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger)).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!BookListToDictionaryAdapter class methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:46:48' prior: 50889175!
+adapt: adaptee
+
+	| adaptedBookList |
+
+  	adaptedBookList _ Set new.  
+  
+  	adaptee do: [:aBook | adaptedBookList add: (BookToDictionaryAdapter adapt: aBook)].
+  
+  	^adaptedBookList asArray.! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:47:01' prior: 50903055!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books.]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	"webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]]."
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+		webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := BookListToDictionaryAdapter adapt: (tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger)).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:52:33' prior: 50902560!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure adaptingWith: anAdapter
+
+	webServer addService: aServiceName action:[:request | |parameters result substringsAsJson username password cart |
+		
+		[parameters := OrderedCollection new.
+		1 to:(aListOfParameters size) do: [:index | parameters at: index put: (request fields at:(aListOfParameters at: index))].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		result := (anAdapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 22:54:02' prior: 50903194!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+		
+		"webServer addService: '/typesOfBookInCart' action:[:request | | typesOfBook  typesOfBooksAsJSON cartId |
+		
+		[cartId _ (request fields at:'cart').
+		typesOfBook := BookListToDictionaryAdapter adapt: (tusLibros listBookTypesInCartIdentifiedAs: (cartId asInteger)).
+		typesOfBooksAsJSON := WebUtils jsonEncode: (typesOfBook asArray).
+		request send200Response: (typesOfBooksAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+	
+	
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:00:45' prior: 50903327!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure adaptingWith: anAdapter
+
+	webServer addService: aServiceName action:[:request | |parameters result substringsAsJson username password cart |
+		
+		[parameters := OrderedCollection new.
+		1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		result := (anAdapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+
+server := TusLibrosController listeningOn: 8082.
+!
+
+----SNAPSHOT----(3 December 2019 23:01:59) TusLibros.image priorSource: 18267732!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:02:18' prior: 50903364!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+			
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:05:16' prior: 50903547!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: ((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear)]
+	adaptingWith: TicketToDictionaryAdapter.	
+		
+	"webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:07:47' prior: 50903657!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter.	
+		
+	"webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+	
+	
+		webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+! !
+
+----SNAPSHOT----(3 December 2019 23:07:53) TusLibros.image priorSource: 18300560!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:11:42' prior: 50903785!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter.	
+		
+	"webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.
+	
+		"webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:12:27' prior: 50903915!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	"self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter."	
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.
+	
+		"webServer addService: '/purchaseHistory' action:[:request | | ticket ticketAsJSON username|
+		
+		[username := (request fields at:'username').
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros purchaseHistoryOfUser: username).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:13:40' prior: 50904049!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]].
+	
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	"self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter."	
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:15:25' prior: 50902525!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure
+
+	webServer addService: aServiceName action:[:request | |parameters result |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		
+		(result = tusLibros) ifTrue: [result := 'OK'].	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:16:04' prior: 50904295!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure
+
+	webServer addService: aServiceName action:[:request | |parameters result |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		
+		(result = tusLibros) ifTrue: [result := 'OK'].	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:16:20' prior: 50903503!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure adaptingWith: anAdapter
+
+	webServer addService: aServiceName action:[:request | |parameters result substringsAsJson username password cart |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		result := (anAdapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:16:28' prior: 50904369!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure adaptingWith: anAdapter
+
+	webServer addService: aServiceName action:[:request | |parameters result substringsAsJson username password cart |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		result := (anAdapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+
+----SNAPSHOT----(3 December 2019 23:16:34) TusLibros.image priorSource: 18312197!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:18:09' prior: 50904183!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	"webServer addService: '/books' action:[:request | | booksAsJson books |
+    
+	    [
+		books := (BookListToDictionaryAdapter adapt: (tusLibros books)).
+	     booksAsJson:= WebUtils jsonEncode: (books asArray).
+	    
+	    request send200Response: (booksAsJson asUtf8) 
+	         contentType: 'application/json; charset=utf-8' do: [:resp | 
+	          resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+	     ] 
+	    on: Error 
+	    do: [ :anError |
+	      request send404Response: (anError messageText) ]]."
+	
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	"self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter."	
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+
+----SNAPSHOT----(3 December 2019 23:18:13) TusLibros.image priorSource: 18329446!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:19:09' prior: 50904450!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	"self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter."	
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+
+----SNAPSHOT----(3 December 2019 23:19:33) TusLibros.image priorSource: 18333287!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:21:48' prior: 50904574!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter.	
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+!TusLibrosController methodsFor: 'nil' stamp: 'PB 12/3/2019 23:23:27'!
+creditCardNumber
+
+^'1111222233334444'! !
+!TusLibrosController methodsFor: 'nil' stamp: 'PB 12/3/2019 23:23:37'!
+creditCardName
+
+	^'Juan'! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:23:40' prior: 50904777!
+creditCardNumber
+
+	^'1111222233334444'! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:24:20' prior: 50904677!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: (self creditCardNumber)
+					ownedBy: (self creditCardName) 
+					expiringOn: (((self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cart asInteger)) expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter.	
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+!TusLibrosController methodsFor: 'nil' stamp: 'PB 12/3/2019 23:24:42'!
+creditCardOfUser: username
+
+	! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:25:29' prior: 50904791!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	"self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: (self creditCardNumber)
+					ownedBy: (self creditCardName) 
+					expiringOn: cc expirationMonthOfYear))]
+	adaptingWith: TicketToDictionaryAdapter.	"
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:25:57' prior: 50904891!
+creditCardOfUser: cartId
+
+	^(self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger))! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:26:08'!
+creditCardOfOwnerOfCart: cartId
+
+	^(self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger))! !
+
+!methodRemoval: TusLibrosController #creditCardOfUser: stamp: 'PB 12/3/2019 23:26:08'!
+creditCardOfUser: cartId
+
+	^(self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger))!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:26:58' prior: 50904896!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: (self creditCardNumber)
+					ownedBy: (self creditCardName) 
+					expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear]
+	adaptingWith: TicketToDictionaryAdapter.	
+		
+	webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/3/2019 23:27:06' prior: 50905016!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books]
+	adaptingWith: BookListToDictionaryAdapter.
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)]
+	adaptingWith: BookListToDictionaryAdapter.
+			
+			
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+					withCreditCardNumbered: (self creditCardNumber)
+					ownedBy: (self creditCardName) 
+					expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear]
+	adaptingWith: TicketToDictionaryAdapter.	
+		
+	"webServer addService: '/checkoutCart' action:[:request | | ticket ticketAsJSON cartId creditCard|
+		
+		[cartId _ (request fields at:'cart').
+		creditCard := (self userCreditCards) at: (tusLibros getOwnerOfCartIdentifiedAs: (cartId asInteger)).
+		ticket := TicketToDictionaryAdapter adapt:(tusLibros checkOutCartIdentifiedAs: (cartId asInteger) 
+					withCreditCardNumbered: '1111222233334444' 
+					ownedBy: 'Juan' expiringOn: (creditCard expirationMonthOfYear)).
+		ticketAsJSON := WebUtils jsonEncode: ticket.
+		
+		request send200Response: (ticketAsJSON asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]]."
+			
+		self addService: '/purchaseHistory'
+		withParameters: (OrderedCollection with: 'username')
+		ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username]
+		adaptingWith: TicketToDictionaryAdapter.! !
+
+----SNAPSHOT----(3 December 2019 23:27:12) TusLibros.image priorSource: 18336738!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+----SNAPSHOT----(3 December 2019 23:29:18) TusLibros.image priorSource: 18354050!
