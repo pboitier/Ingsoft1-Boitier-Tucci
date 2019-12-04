@@ -305,27 +305,11 @@
     function MyToolBar(props) {
       const classes = useStyles();
       const {title, router, cart, books, username} = props;
-    
-      let menuButton = (
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          onClick={()=>router.navigate("/", {
-            cart: "",
-            books: [],
-            username: "",
-            password: ""})}
-          >
-          <Icon>home</Icon>
-        </IconButton>
-      )
-        
+            
       return (
         <div className={classes.rootToolBar}>
           <AppBar position="static">
             <Toolbar>
-              {menuButton}
               <Typography variant="h6" className={classes.title}>
                 {title}
               </Typography>
@@ -368,21 +352,10 @@
           .then(function (response) {
             return response.json();
           })
-          .then(function (json) { 
-            getLocalAsJson(`books?username=${value.username}&password=${value.password}`) 
-              .then(function (response) {
-                return response.json();
-              })
-              .then(function (books) {
-                  loggedIn = true;
-                  router.navigate("/list", { cart: json, books: books, username: value.username, password: value.password})
-              })
-              .catch(function (error) {
-                  setOpen(true);
-                  console.log('Looks like there was a problem: \n', error);
-              });
-            
-          })
+          .then(function (cart) {
+              loggedIn = true;
+              router.navigate("/list", { cart: cart, username: value.username })    
+          })            
           .catch(function (error) {
             setOpen(true);
             console.log('Looks like there was a problem: \n', error);
@@ -440,21 +413,28 @@
     function PlusAndMinusBook(props) {
       const { book, cart } = props
       const classes = useStyles();
-      const [count, setCount] = React.useState()
-      
-      
-      getLocalAsJson(`numberOfBook?isbn=${book.ISBN}&cart=${cart}`)
+      const [count, setCount] = React.useState(0);      
+    
+      // Lo queria pasar a una función pero no sabía como meter el setCount adentro
+      // y guardar el valor en una variable y despues hacer React.useState(total) no andaba
+      React.useEffect(() => {
+        getLocalAsJson(`numberOfBook?isbn=${book.ISBN}&cart=${cart}`)
         .then(function (response) {
           return response.json();
         }).then(function (json) {
           setCount(json);
+
         }).catch(function (error) {
             console.log('Looks like there was a problem: \n', error);
-        });      
+        });
+
+      }, [count]);
+
+
 
       const addToCart = value => {
         getLocalAsJson(`addToCart?isbn=${value.ISBN}&cart=${props.cart}`)
-          .then(function (response) {
+          .then(response => {
             setCount(count + 1);
           })
           .catch(function (error) {
@@ -464,11 +444,10 @@
 
       const removeFromCart = value => {
         getLocalAsJson(`removeFromCart?isbn=${value.ISBN}&cart=${props.cart}`)
-          .then(function (response) {
+          .then(response => {
             setCount(count - 1);
-            return response.json();
           })
-          .catch(function (error) {
+          .catch(error => {
             console.log('Looks like there was a problem: \n', error);
           });
       }
@@ -540,8 +519,15 @@
     }
 
     function CatalogView(props) {
-      const { router, books, cart } = props
+      const { router, cart, username } = props
       const classes = useStyles();
+      const [books, setBooks] = React.useState([])
+
+      getLocalAsJson(`books`) 
+        .then(response => { return response.json() })
+        .then(json => { setBooks(json) })
+        .catch(error => console.log("There was an error: " + error));
+
       return (
         <div>
           <Typography component="h1" gutterBottom>
@@ -601,6 +587,9 @@
       const classes = useStyles();
       const [books, setBooks] = React.useState([])
       const [open, setOpen] = React.useState(false)
+      const title = (<Typography variant="h4" gutterBottom>
+                        Books inside your cart
+                     </Typography>)
 
 
       getLocalAsJson(`typesOfBookInCart?cart=${cart}`)
@@ -630,9 +619,7 @@
       if(books.length > 0){
         return (
         <div>
-          <Typography variant="h4" gutterBottom>
-            Books inside your cart
-          </Typography>
+          {title}
           <List component="nav" className={classes.rootList} aria-label="Books">
             {
               books.map((book, ix) => {
@@ -664,9 +651,7 @@
       }else {
         return (
           <div>
-            <Typography variant="h4" gutterBottom>
-              Books inside your cart
-            </Typography>
+          {title}
             <div className={classes.rootDiv}>
               {"Your cart is empty"}
             </div>
@@ -741,6 +726,8 @@
         )
     }
 
+
+    
     const useFetchDetails = (username) => {
       const [purchases, setPurchases] = React.useState([])
       const [total, setTotal] = React.useState(0)
@@ -806,30 +793,24 @@
       }
     
       render() {
-        let title = "Book chop"
+        let title = "Book shop"
         let content = "Where am I?"
         const router = {
           current: () => this.state.path,
           navigate: (path, state) => {
-            // http://es6-features.org/#SpreadOperator
             this.setState({ ...state, path: path })
           }
         }
     
         if (this.state.path === "/") {
           content = (<HomePageView
-            router={router}
+            router={router}            
           />)
         } else if (this.state.path === "/list") {
           content = (<CatalogView
             router={router}
-            books={this.state.books}
             cart={this.state.cart}
-          />)
-        } else if (this.state.path === "/details") {
-          content = (<SubstringDetailsView
-            router={router}
-            selectedSubstring={this.state.selectedSubstring}
+            username={this.state.username}
           />)
         } else if (this.state.path === "/bookDetails") {
           content = (<BookDetails
@@ -837,23 +818,17 @@
             book={this.state.book}
             cart={this.state.cart}
           />)
-        }
-
-        else if (this.state.path === "/cartDetails") {
+        } else if (this.state.path === "/cartDetails") {
           content = (<CartDetails
             router={router}
             cart={this.state.cart}
           />)
-        }
-
-        else if (this.state.path === "/checkoutTicket") {
+        } else if (this.state.path === "/checkoutTicket") {
           content = (<CheckoutTicket
             router={router}
             ticket={this.state.ticket}
           />)
-        }
-
-        else if (this.state.path === "/purchaseHistory") {
+        } else if (this.state.path === "/purchaseHistory") {
           content = (<PurchaseHistory
             router={router}
             username={this.state.username}
