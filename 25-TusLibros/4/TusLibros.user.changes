@@ -83224,3 +83224,1548 @@ initializeWith: aPortNumber
 (TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
 
 ----SNAPSHOT----(4 December 2019 16:45:56) TusLibros.image priorSource: 18397829!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:49:23' prior: 50906257!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).]
+									
+									
+	"adapterDictionary at: Ticket put:"! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:49:43' prior: 50906592!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).]
+									
+									
+	"adapterDictionary at: Ticket put:	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	lineItems := lineItems asArray.
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary."! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:49:59' prior: 50906615!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).]
+									
+	"adapterDictionary at: LineItem put:"
+									
+	"adapterDictionary at: Ticket put:	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	lineItems := lineItems asArray.
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary."! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:50:28' prior: 50906648!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).]
+									
+	"adapterDictionary at: LineItem put: 	|dictionary|
+	
+	dictionary := Dictionary new.
+	dictionary at: 'item' put: (BookToDictionaryAdapter adapt: (adaptee item)).
+	dictionary at: 'quantity' put: adaptee quantity.
+	dictionary at: 'total' put: adaptee total.
+	^dictionary."
+									
+	"adapterDictionary at: Ticket put:	|dictionary lineItems|
+	
+	dictionary := Dictionary new.
+	lineItems := Set new.
+	(aTicket lineItemsDo: [:lineItem| lineItems add: (LineItemToDictionaryAdapter adapt: lineItem) ]).
+	lineItems := lineItems asArray.
+	dictionary at: 'lineItems' put: lineItems.
+	
+	dictionary at: 'total' put: aTicket total.
+	
+	^dictionary."! !
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:53:56' prior: 50906682!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).].
+									
+	adapterDictionary at: LineItem put: [:lineItem| |dictionary|
+												dictionary := Dictionary new.
+												dictionary at: 'item' put: (self adapt: (lineItem item)).
+												dictionary at: 'quantity' put: lineItem quantity.
+												dictionary at: 'total' put: lineItem total.
+												dictionary.].
+									
+	adapterDictionary at: Ticket put: [:ticket| |dictionary lineItems|
+											dictionary := Dictionary new.
+											lineItems := Set new.
+											(ticket lineItemsDo: [:lineItem| lineItems add: (self adapt: lineItem) ]).
+											lineItems := lineItems asArray.
+											dictionary at: 'lineItems' put: lineItems.
+											dictionary at: 'total' put: ticket total.
+											^dictionary.].! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 16:54:46' prior: 50906509!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books].
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)].
+					
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: cart) expirationMonthOfYear].
+	"adaptingWith: TicketToDictionaryAdapter."	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username].
+	"adaptingWith: TicketToDictionaryAdapter."! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+|server clock tusLibros adapter ticket result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: (tusLibros validUser) authenticatedWith: (tusLibros validUserPassword).
+	tusLibros add: 1 of: (tusLibros validBook) toCartIdentifiedAs: 1. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((self creditCardOfOwnerOfCart: 1) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+!
+
+|server clock tusLibros adapter ticket result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456').
+	tusLibros add: 1 of: (tusLibros validBook) toCartIdentifiedAs: 1. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((self creditCardOfOwnerOfCart: 1) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+
+!
+
+|server clock tusLibros adapter ticket result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456').
+	tusLibros add: 1 of: (server validBook) toCartIdentifiedAs: 1. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((self creditCardOfOwnerOfCart: 1) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+
+!
+
+|server clock tusLibros adapter ticket result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456').
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: 1. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((self creditCardOfOwnerOfCart: 1) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+
+!
+
+|server clock tusLibros adapter ticket result|
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456').
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: 1. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((server creditCardOfOwnerOfCart: 1) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+
+!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+|server clock tusLibros adapter ticket result|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456').
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: 1. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((server creditCardOfOwnerOfCart: 1) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+!
+
+|server clock tusLibros adapter ticket result|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456').
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: 1. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((server creditCardOfOwnerOfCart: 1) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.!
+
+|server clock tusLibros adapter ticket result|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456').!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: 1 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((server creditCardOfOwnerOfCart: cartId) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	cartId inspect.
+	!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: '1'. !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((server creditCardOfOwnerOfCart: cartId) expirationMonthOfYear).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. !
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: (server creditCardNumber)
+				ownedBy: (server creditCardName)
+				expiringOn: ((server creditCardOfOwnerOfCart: cartId) expirationMonthOfYear).!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.!
+!GenericServerAdapter methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 17:35:26' prior: 50906723!
+initialize
+
+	adapterDictionary := Dictionary new.
+	adapterDictionary at: Book put: [:adaptee| |dictionary|
+											dictionary := Dictionary new.
+											dictionary at: 'title' put: adaptee title.
+											dictionary at: 'ISBN' put: adaptee ISBN.
+											dictionary at: 'author' put: adaptee author.
+											dictionary.].
+										
+	adapterDictionary at: Set put: [:set | | adaptedSet |
+
+									  	adaptedSet _ Set new.  
+									  	set do: [:anElement | adaptedSet add: (self adapt: anElement)].
+									  	(adaptedSet asArray).].
+									
+	adapterDictionary at: LineItem put: [:lineItem| |dictionary|
+												dictionary := Dictionary new.
+												dictionary at: 'item' put: (self adapt: (lineItem item)).
+												dictionary at: 'quantity' put: lineItem quantity.
+												dictionary at: 'total' put: lineItem total.
+												dictionary.].
+									
+	adapterDictionary at: Ticket put: [:ticket| |dictionary lineItems|
+											dictionary := Dictionary new.
+											lineItems := Set new.
+											(ticket lineItemsDo: [:lineItem| lineItems add: (self adapt: lineItem) ]).
+											lineItems := lineItems asArray.
+											dictionary at: 'lineItems' put: lineItems.
+											dictionary at: 'total' put: ticket total.
+											dictionary.].! !
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+!
+
+server := TusLibrosController listeningOn: 8082.!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.!
+
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+----SNAPSHOT----(4 December 2019 17:39:59) TusLibros.image priorSource: 18398012!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.
+!
+
+----SNAPSHOT----(4 December 2019 17:43:31) TusLibros.image priorSource: 18422748!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result inspect.
+!
+
+----SNAPSHOT----(4 December 2019 17:54:36) TusLibros.image priorSource: 18424008!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.
+!
+
+----SNAPSHOT----(4 December 2019 17:58:05) TusLibros.image priorSource: 18425017!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 18:02:12' prior: 50906770!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books].
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger).].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)].
+					
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: (cart asInteger)) expirationMonthOfYear].
+	"adaptingWith: TicketToDictionaryAdapter."	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username].
+	"adaptingWith: TicketToDictionaryAdapter."! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+----SNAPSHOT----(4 December 2019 18:06:20) TusLibros.image priorSource: 18425252!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+!
+
+|server clock tusLibros adapter ticket result cartId|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result := WebUtils jsonEncode: (result).
+	result inspect.
+!
+
+----SNAPSHOT----(4 December 2019 18:08:50) TusLibros.image priorSource: 18427803!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:09:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35PurchaseHistoryIsCorrect stamp: 'PB 12/4/2019 18:09:03'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test35PurchaseHistoryIsCorrect stamp: 'PB 12/4/2019 18:09:03'!
+FAILURE!
+
+----SNAPSHOT----(4 December 2019 18:16:57) TusLibros.image priorSource: 18428955!
+
+----SNAPSHOT----(4 December 2019 18:22:57) TusLibros.image priorSource: 18433358!
+!LineItem methodsFor: 'nil' stamp: 'PB 12/4/2019 18:26:37'!
+hash
+
+	! !
+!LineItem methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 18:27:46' prior: 50907698!
+hash
+
+	|hash|
+	
+	hash := Dictionary new.
+	hash at: 'item' put: item.
+	hash at: 'quantity' put: quantity.
+	hash at: 'total' put: total.
+	
+	^hash hash.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35PurchaseHistoryIsCorrect stamp: 'PB 12/4/2019 18:27:49'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35PurchaseHistoryIsCorrect stamp: 'PB 12/4/2019 18:28:20'!
+PASSED!
+
+----SNAPSHOT----(4 December 2019 18:28:27) TusLibros.image priorSource: 18433441!
+
+----SNAPSHOT----(4 December 2019 18:30:17) TusLibros.image priorSource: 18445772!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+!
+
+server := TusLibrosController listeningOn: 8082.!
+
+----SNAPSHOT----(4 December 2019 18:34:14) TusLibros.image priorSource: 18445855!
+
+----SNAPSHOT----(4 December 2019 18:36:28) TusLibros.image priorSource: 18446090!
+
+|server clock tusLibros adapter ticket result result2 cartId adapter2|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result := WebUtils jsonEncode: (result).
+	adapter2 := TicketToDictionaryAdapter new.
+	result2 := (adapter2 adapt: ticket).
+	result inspect.
+	result2 inspect.
+	
+
+	!
+
+|server clock tusLibros adapter ticket result result2 cartId adapter2|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result := WebUtils jsonEncode: (result).
+	result2 := TicketToDictionaryAdapter adapt: ticket .
+	result inspect.
+	result2 inspect.
+	
+
+	
+!
+
+|server clock tusLibros adapter ticket result result2 cartId adapter2|
+
+
+server := TusLibrosController listeningOn: 8082.
+
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: server validUsersAndPasswords
+		acceptingItemsOf: server defaultCatalog
+		registeringOn: server createSalesBook
+		debitingThrought: server merchantProcessor
+		measuringTimeWith: clock.
+
+	cartId := (tusLibros createCartFor: ('usuario1') authenticatedWith: ('123456')).
+	tusLibros add: 1 of: ( Book withTitle: 'Harry Potter' ISBN: 'ISBN de prueba HP' author: 'Superman') toCartIdentifiedAs: cartId. 
+	ticket := tusLibros checkOutCartIdentifiedAs: cartId 
+				withCreditCardNumbered: ('1111222233334444')
+				ownedBy: ('Juan')
+				expiringOn: (Month month: (DateAndTime now) monthIndex year: (DateAndTime now) yearNumber).
+
+	adapter := GenericServerAdapter new.
+	result := (adapter adapt: (ticket)).
+	result2 := TicketToDictionaryAdapter adapt: ticket .
+	result inspect.
+	result2 inspect.
+	
+!
+
+----SNAPSHOT----(4 December 2019 18:43:06) TusLibros.image priorSource: 18446173!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 18:45:29' prior: 50906307!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure
+
+	webServer addService: aServiceName action:[:request | |parameters result adapter |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		"(result = tusLibros) ifTrue: [result := 'OK']."
+		adapter := GenericServerAdapter new.
+		result := (adapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 18:54:08' prior: 50908199!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure
+
+	webServer addService: aServiceName action:[:request | |parameters result adapter |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		"(result = tusLibros) ifTrue: [result := 'OK']."
+		adapter := GenericServerAdapter new.
+		result := (adapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 18:54:57' prior: 50907443!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString. 'OK'].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books].
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger). 'OK'].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger). 'OK'].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)].
+					
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: (cart asInteger)) expirationMonthOfYear].
+	"adaptingWith: TicketToDictionaryAdapter."	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username].
+	"adaptingWith: TicketToDictionaryAdapter."! !
+
+----SNAPSHOT----(4 December 2019 18:55:05) TusLibros.image priorSource: 18449421!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+!
+
+server := TusLibrosController listeningOn: 8082.!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/4/2019 18:55:43' prior: 50908286!
+initializeWith: aPortNumber
+
+	| clock |
+		
+	clock := ManualClock now: DateAndTime now.
+	tusLibros := TusLibrosSystemFacade
+		authenticatingWith: self validUsersAndPasswords
+		acceptingItemsOf: self defaultCatalog
+		registeringOn: self createSalesBook
+		debitingThrought: self merchantProcessor
+		measuringTimeWith: clock.
+
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: aPortNumber.
+	
+	self addService: '/createCart' 
+	withParameters: (OrderedCollection with: 'username' with: 'password') 
+	ofCollaboration: [:username :password | (tusLibros createCartFor: username authenticatedWith: password) asString.].
+	
+	self addService: '/books'
+	withParameters: (OrderedCollection new)
+	ofCollaboration: [tusLibros books].
+	
+	self addService: '/addToCart' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros add: 1 of: (tusLibros getBookByISBN: isbn) toCartIdentifiedAs: (cart asInteger). 'OK'].
+	
+	self addService: '/removeFromCart'  
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros remove: 1 of: (tusLibros getBookByISBN: isbn) fromCartIdentifiedAs: (cart asInteger). 'OK'].
+	
+	self addService: '/numberOfBook' 
+	withParameters: (OrderedCollection with: 'isbn' with: 'cart') 
+	ofCollaboration: [:isbn :cart | tusLibros numberOfBook: (tusLibros getBookByISBN: isbn) inCartIdentifiedAs: (cart asInteger).].
+		
+	self addService: '/typesOfBookInCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros listBookTypesInCartIdentifiedAs: (cart asInteger)].
+					
+	self addService: '/checkoutCart'
+	withParameters: (OrderedCollection with: 'cart')
+	ofCollaboration: [:cart | tusLibros checkOutCartIdentifiedAs: (cart asInteger) 
+						withCreditCardNumbered: (self creditCardNumber)
+						ownedBy: (self creditCardName) 
+						expiringOn: (self creditCardOfOwnerOfCart: (cart asInteger)) expirationMonthOfYear].
+	"adaptingWith: TicketToDictionaryAdapter."	
+			
+	self addService: '/purchaseHistory'
+	withParameters: (OrderedCollection with: 'username')
+	ofCollaboration: [:username | tusLibros purchaseHistoryOfUser: username].
+	"adaptingWith: TicketToDictionaryAdapter."! !
+
+----SNAPSHOT----(4 December 2019 18:55:47) TusLibros.image priorSource: 18454644!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.
+!
+
+----SNAPSHOT----(4 December 2019 18:58:12) TusLibros.image priorSource: 18457231!
