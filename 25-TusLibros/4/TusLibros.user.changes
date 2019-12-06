@@ -84806,3 +84806,226 @@ Object subclass: #ToDictionaryAdapter
 	category: 'TusLibros-Server'!
 
 ----SNAPSHOT----(4 December 2019 19:00:31) TusLibros.image priorSource: 18457466!
+
+----STARTUP---- (5 December 2019 21:40:21) as C:\Users\Baires\Documents\Pedro\Inge1\CuisUniversity\TusLibros.image!
+
+
+!methodRemoval: TusLibrosController #addService:withParameters:ofCollaboration:adaptingWith: stamp: 'PB 12/5/2019 21:40:36'!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure adaptingWith: anAdapter
+
+	webServer addService: aServiceName action:[:request | |parameters result adapter substringsAsJson username password cart |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		"evaluo el closure con uno o dos parametros"
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		adapter := GenericServerAdapter new.
+		result := (adapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		"request send200Response: (substringsAsJson)"
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		!
+
+----SNAPSHOT----(5 December 2019 21:40:56) TusLibros.image priorSource: 18458729!
+!TusLibrosController methodsFor: 'as yet unclassified' stamp: 'PB 12/5/2019 21:41:29' prior: 50908245!
+addService: aServiceName withParameters: aListOfParameters ofCollaboration: aClosure
+
+	webServer addService: aServiceName action:[:request | |parameters result adapter |
+		
+		[parameters := OrderedCollection new.
+		((aListOfParameters size) > 0) ifTrue: [1 to:(aListOfParameters size) do: [:index | parameters add: (request fields at:(aListOfParameters at: index))]].
+		
+		((aListOfParameters size) = 0) ifTrue: [result := aClosure value.].
+		((aListOfParameters size) = 1) ifTrue: [result := (aClosure value: (parameters at: 1))].
+		((aListOfParameters size) = 2) ifTrue: [result := (aClosure value: (parameters at: 1) value:(parameters at: 2) ).].
+		adapter := GenericServerAdapter new.
+		result := (adapter adapt: result).	
+		result := WebUtils jsonEncode: (result).
+		request send200Response: (result asUtf8) 
+				 contentType: 'application/json; charset=utf-8' do: [:resp | 
+					resp headerAt: 'Access-Control-Allow-Origin' put: '*'.]
+		 ] 
+		on: Error 
+		do: [ :anError |
+			request send404Response: (anError messageText) ]].	
+			
+
+		! !
+
+----SNAPSHOT----(5 December 2019 21:41:34) TusLibros.image priorSource: 18460258!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].!
+
+server := TusLibrosController listeningOn: 8082.!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test09CannotRemoveValidItemNotInCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test10CannotRemoveInvalidItem stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CartTest #test11CanRemoveValidItemInValidQuantities stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CanCheckoutACart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20CanNotRemoveItemsFromCartWhenSessionIsExpired stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21CanRemoveItemsFromACreatedCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test22CannotRemoveItemFromNotCreatedCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test23CannotRemoveItemNotSoldByTheStore stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test24CannotRemoveMoreItemsThanContainedInCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test25ListingSystemBooksWorksOk stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test26CanAskForNumberOfBookToACreatedCart stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test27CanAskForNumberOfBookToCartWithBooks stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test28CanAskForNumberOfInvalidBookToCartWithBooks stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test29CanNotAskForNumberOfBookInCartWhenSessionIsExpired stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test30CanGetBookByISBN stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test31ListBookTypesOfCartOfAnEmptyCartReturnsAnEmptySet stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test32CanNotListCartOfInvalidCartId stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test33ListBookTypesOfCartReturnsTheRightItems stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test34CanNotListBookTypesInCartWhenSessionIsExpired stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test35PurchaseHistoryIsCorrect stamp: 'PB 12/5/2019 21:43:10'!
+PASSED!
+
+(TusLibrosController allInstances) do: [:instancia | instancia stopListening. instancia destroy].
+!
+
+----QUIT----(5 December 2019 21:43:52) TusLibros.image priorSource: 18461492!
