@@ -1,0 +1,3 @@
+Para utilizar el sistema se deben importar los 3 archivos .st a una imagen con el paquete webServer instalado.
+El servidor se prende utilizando la colaboración TusLibrosController listeningOn: 8082 y luego solo resta abrir index.html.
+Para testear el front hay que usar el usuario: usuario1 con password: 123456 o cualquiera de los usuarios que aparecen en TusLibros-Server -> ValidUsersAndPasswords.
